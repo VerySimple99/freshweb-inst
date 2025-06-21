@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // ## **5. 기본값 (Default Parameters)**
+      //     함수의 인자가 없을 때 기본값을 설정할 수 있어요!
+      const greet = (name = "친구") => `안녕, ${name}!`;
+      console.log(greet()); // "안녕, 친구!"
+      console.log(greet("React")); // "안녕, React!"
+    </script>
+  </body>
+</html>

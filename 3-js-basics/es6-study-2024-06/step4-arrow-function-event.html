@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<!--
+        chatgpt Presence 님에게 다음과 같이 의뢰하였습니다
+        아래 html 에서 javascript 부분을 초보자도 잘 이해할수 있도록 쉽고 재미있게 주석을 달아주시면 감사하겠습니다     
+-->
+    <!-- 버튼을 두 개 만들었어요! 이 버튼들을 눌렀을 때 어떤 일이 일어날까요? -->
+    <button id="joyBtn1">Joy1</button>
+    <button id="joyBtn2">Joy2</button>
+
+    <script>
+        // 🎈 첫 번째 버튼 (Joy1) 클릭 시 "즐거워"라는 경고창이 뜹니다!
+        document.getElementById("joyBtn1").addEventListener("click", function() {
+            alert("즐거워");  // 버튼을 누르면 즐거운 메시지가 팡~! 🎉
+        });
+
+        // 🎈 두 번째 버튼 (Joy2) 클릭 시 "즐거워즐거워" 경고창이 뜹니다!
+        // 이번에는 `querySelector`를 사용해서 버튼을 선택했어요.
+        document.querySelector("#joyBtn2").addEventListener("click", () => {
+            alert("즐거워즐거워");  // 두 배로 즐거운 메시지! 🥳
+        });
+
+        // 💡 [함수 선언 방식 1] 일반적인 함수 표현식
+        // 두 숫자를 받아서 더한 값을 반환하는 함수입니다!
+        const calcSum1 = function(x, y) {
+            return x + y;
+        };
+
+        console.log(calcSum1(4, 9)); // 콘솔 창에 4 + 9 결과(13)를 출력해요! 🧮
+
+        // 💡 [함수 선언 방식 2] 화살표 함수 (Arrow Function)
+        // 위의 함수와 똑같은 기능을 하지만, 더 짧게 쓸 수 있어요!
+        const calcSum2 = (x, y) => x + y; 
+        // 화살표 함수를 사용하면 `return`을 생략할 수도 있어요! 🚀
+        
+        console.log(calcSum2(2, 5)); // 콘솔 창에 2 + 5 결과(7)를 출력! 🎯
+
+    </script>
+</body>
+</html>

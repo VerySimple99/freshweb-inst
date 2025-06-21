@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Flexbox 레이아웃 학습</title>
+    <link rel="stylesheet" href="../resources/css/style4.css">
+</head>
+<body>
+    <h1>Flexbox 레이아웃 마스터하기</h1>
+
+    <!-- 기본 플렉스 컨테이너 -->
+    <section class="flex-basic">
+        <h2>기본 Flexbox</h2>
+        <div class="flex-container">
+            <div class="flex-item">아이템 1</div>
+            <div class="flex-item">아이템 2</div>
+            <div class="flex-item">아이템 3</div>
+        </div>
+    </section>
+
+    <!-- flex-direction 예제 -->
+    <section class="flex-direction-demo">
+        <h2>Flex Direction</h2>
+
+        <h3>가로 방향 (row)</h3>
+        <div class="flex-container row">
+            <div class="flex-item">1</div>
+            <div class="flex-item">2</div>
+            <div class="flex-item">3</div>
+        </div>
+
+        <h3>세로 방향 (column)</h3>
+        <div class="flex-container column">
+            <div class="flex-item">1</div>
+            <div class="flex-item">2</div>
+            <div class="flex-item">3</div>
+        </div>
+    </section>
+
+    <!-- justify-content 예제 -->
+    <section class="justify-demo">
+        <h2>Justify Content (주축 정렬)</h2>
+
+        <h3>flex-start (시작점 정렬)</h3>
+        <div class="flex-container justify-start">
+            <div class="flex-item">A</div>
+            <div class="flex-item">B</div>
+            <div class="flex-item">C</div>
+        </div>
+
+        <h3>center (가운데 정렬)</h3>
+        <div class="flex-container justify-center">
+            <div class="flex-item">A</div>
+            <div class="flex-item">B</div>
+            <div class="flex-item">C</div>
+        </div>
+
+        <h3>space-between (양 끝 정렬)</h3>
+        <div class="flex-container justify-between">
+            <div class="flex-item">A</div>
+            <div class="flex-item">B</div>
+            <div class="flex-item">C</div>
+        </div>
+
+        <h3>space-around (균등 분배)</h3>
+        <div class="flex-container justify-around">
+            <div class="flex-item">A</div>
+            <div class="flex-item">B</div>
+            <div class="flex-item">C</div>
+        </div>
+    </section>
+
+    <!-- 실용적인 레이아웃 예제 -->
+    <section class="practical-demo">
+        <h2>실용적인 레이아웃 예제</h2>
+
+        <!-- 헤더 -->
+        <header class="header">
+            <div class="logo">로고</div>
+            <nav class="nav">
+                <a href="#">홈</a>
+                <a href="#">소개</a>
+                <a href="#">서비스</a>
+                <a href="#">연락처</a>
+            </nav>
+        </header>
+
+        <!-- 카드 레이아웃 -->
+        <div class="card-container">
+            <div class="card">
+                <h3>카드 1</h3>
+                <p>첫 번째 카드 내용입니다.</p>
+                <button>더 보기</button>
+            </div>
+            <div class="card">
+                <h3>카드 2</h3>
+                <p>두 번째 카드 내용입니다.</p>
+                <button>더 보기</button>
+            </div>
+            <div class="card">
+                <h3>카드 3</h3>
+                <p>세 번째 카드 내용입니다.</p>
+                <button>더 보기</button>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

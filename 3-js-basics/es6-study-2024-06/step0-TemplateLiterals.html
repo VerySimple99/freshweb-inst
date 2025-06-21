@@ -1,0 +1,26 @@
+<!-- html 템플릿구성 : 느낌표 후 엔터를 눌러주면 됨 -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!--
+    🎯 💡 정리: React에서 ES6 문법이 왜 중요한가?
+        컴포넌트 작성이 쉬워짐 (구조 분해 할당, 화살표 함수 활용)
+        상태(state)와 props 다루기 편리함 (spread 연산자, map(), filter())
+        비동기 처리(API 호출) 간편해짐 (async/await)
+        코드가 더 짧고 직관적으로 변함!
+    -->
+    <div id="info1">Simply Trust!!</div>
+    <div id="info2">Let Go!!</div>
+    <script>        
+        let info1 = document.getElementById("info1").innerHTML;
+        let info2 = document.querySelector("#info2").innerHTML;
+        //템플릿 리터럴 (Template Literals) : 문자열을 더 쉽게 다룰 수 있어요! ${} 사용
+        console.log(`좋아하는 문구 첫번째 ${info1} 두번째 ${info2}`);
+    </script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script> 
+      /*
+        자바스크립트 세가지 비동기 방식
+      1. callback     이전부터 사용          함수 안에 또 다른 함수를 매개변수로 넘겨서 실행순서를 제어 
+      2. promise      ECMA 2015 부터 도입    Promise 객체와 콜백 함수를 사용해서 실행 순서를 제어
+      3. async,await  ECMA 2017 부터 도입    async 함수와 await 예약어를 사용해서 실행순서를 제어
+      방식	특징	단점
+      Callback	간단한 작업에는 적합	콜백 지옥 발생 가능
+      Promise	then() 체이닝으로 가독성 개선	코드가 여전히 길어질 수 있음
+      Async/Await	동기 코드처럼 읽히고 가독성 최고	await을 사용하지 않으면 동작하지 않음
+
+
+
+        자바스크립트는 싱글 스레드이기 때문에 만약 시간이 오래 걸리는 작업(예: 네트워크 요청, 파일 읽기, 타이머 실행 등)이 메인 스레드에서 바로 실행되면, 다른 코드 실행이 모두 멈춰버리는 문제가 발생합니다. 이를 방지하기 위해 비동기 처리 모델을 사용합니다
+        비동기 작업을 처리한다는 것은 오래 걸리는 작업이 메인 스레드(JavaScript 실행 스레드)를 차단하지 않도록 백그라운드에서 실행하고, 완료되면 결과를 받아와 처리하는 것을 의미합니다.
+        자바스크립트는 **Call Stack(콜 스택)**이라는 실행 공간을 이용해 코드를 한 줄씩 처리합니다.
+        하지만 setTimeout(), fetch(), addEventListener() 같은 비동기 함수가 실행되면, 이는 곧바로 실행되지 않고 Web APIs에게 처리를 맡깁니다
+      */
+     //setTimeout()이 실행되지만, 이는 Web APIs로 넘겨지고 바로 다음 코드로 진행됨.
+     //아래는 callback 스타일 
+     console.log("1. 시작");
+      setTimeout(() => {
+        console.log("2. 3초 후 실행");
+      }, 3000);
+
+      console.log("3. 끝");
+    </script>
+  </body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /*
+      비동기 처리는 시간이 걸리는 작업을 기다리는 동안,
+      다른 일을 하면서 효율적으로 처리할 수 있도록 도와주는 기술이에요!
+      
+      앞선 callback 함수 방식은 복잡한 업무에서는 콜백함수가 중첩되는 콜백지옥이 될 수 있음
+      ECAM 2015에서 Promise 가 나옴
+      Promise 프로미스라는 이름에서 알 수 있듯이 
+      처리에 성공했을 때 실행할 콜백 함수 resolve()와 
+      처리에 실패했을 때 실행할 콜백 함수 reject() 를 
+      미리 약속하는 것을 말함  
+
+      ## **Promise: 비동기 작업을 위한 약속**
+
+      **Promise(약속)** 는 "미래에 결과를 받을게!" 라는 개념이에요.
+       Promise는 비동기 작업(예: 네트워크 요청, 타이머, 파일 읽기 등)이 완료될 때까지 기다리는 객체임.
+
+      Promise는 **3가지 상태**를 가집니다.
+
+      1. **대기 (pending)**: 아직 결과를 모름
+      2. **성공 (fulfilled)**: 작업이 완료됨 (`resolve`)
+      3. **실패 (rejected)**: 작업이 실패함 (`reject`)
+      */
+      //resolve()를 호출하지 않으면 Promise는 끝나지 않고 계속 대기 상태(Pending)로 남아 있습니다.
+      // resolve 함수는 setTimeout 내부에서 호출됩니다.
+      // 즉, setTimeout이 3초 후에 실행되면서 resolve()를 호출되면면 Promise를 완료(fulfilled) 상태로 만듭니다.
+      const boilWater = () => {
+        return new Promise((resolve, reject) => {
+          console.log("물을 끓이는 중... 🔥");
+          setTimeout(() => {
+            resolve("물이 다 끓었어요! 💨");
+          }, 3000);
+        });
+      };
+
+      boilWater().then((result) => console.log(`${result} 후속 작업.. 라면을 넣는다`));
+      console.log("다른 재료를 준비한다. 🥬🍖");
+
+      /*
+        물을 끓이는 중... 🔥
+        다른 재료를 준비한다. 🥬🍖
+        (3초 후) 물이 다 끓었어요! 💨
+        👉 **`boilWater()` 가 완료될 때까지 기다리지 않고, 다른 작업을 먼저 진행!**
+        👉 `.then()` 을 사용해 비동기 작업의 결과를 받아서 처리!
+      */
+    </script>
+  </body>
+</html>

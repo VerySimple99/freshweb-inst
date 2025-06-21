@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>고급 테이블 기능</title>
+    <style>
+  table {
+    width: 100%;
+    border-collapse: collapse; /* 테이블 테두리 겹치게 설정 */
+  }
+  th, td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: center;  /* 텍스트 중앙 정렬 */
+  /*  vertical-align: middle; 셀 내용 세로 중간 정렬 */
+  }
+  th {
+    background-color: #f2f2f2; /* 제목 셀 배경색 */
+  }
+</style>
+</head>
+<body>
+    <h1>테이블</h1>
+    <!-- 구조화된 테이블 (thead, tbody, tfoot 사용) -->
+    <h2>구조화된 테이블 - 월별 매출 현황</h2>
+    <table border="1">
+        <thead>
+            <!-- thead: 테이블 헤더 그룹 -->
+            <tr>
+                <th>월</th>
+                <th>목표 (만원)</th>
+                <th>실제 (만원)</th>
+                <th>달성률 (%)</th>
+            </tr>
+        </thead>
+        
+        <tbody>
+            <!-- tbody: 테이블 본문 그룹 -->
+            <tr>
+                <td>1월</td>
+                <td>500</td>
+                <td>520</td>
+                <td>104%</td>
+            </tr>
+            <tr>
+                <td>2월</td>
+                <td>600</td>
+                <td>580</td>
+                <td>97%</td>
+            </tr>
+            <tr>
+                <td>3월</td>
+                <td>700</td>
+                <td>750</td>
+                <td>107%</td>
+            </tr>
+        </tbody>
+        
+        <tfoot>
+            <!-- tfoot: 테이블 푸터 그룹 (합계나 요약 정보) -->
+            <tr>
+                <th>합계</th>
+                <td>1,800</td>
+                <td>1,850</td>
+                <td>103%</td>
+            </tr>
+        </tfoot>
+    </table>
+    
+    <!-- 셀 병합이 있는 테이블 -->
+    <h2>시간표 (셀 병합 예제)</h2>
+    <table >
+        <thead>
+            <tr>
+                <th>시간</th>
+                <th>월요일</th>
+                <th>화요일</th>
+                <th>수요일</th>
+                <th>목요일</th>
+                <th>금요일</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>9:00-10:00</td>
+                <td>HTML</td>
+                <td>CSS</td>
+                <td colspan="2">JavaScript (2시간)</td>
+                <!-- colspan="2": 2개 열을 합침 -->
+                <td>프로젝트</td>
+            </tr>
+            <tr>
+                <td>10:00-11:00</td>
+                <td>HTML</td>
+                <td>CSS</td>
+                <td>JavaScript</td>
+                <td>React</td>
+                <td>프로젝트</td>
+            </tr>
+            <tr>
+                <td>11:00-12:00</td>
+                <td rowspan="2">실습<br>(2시간)</td>
+                <!-- rowspan="2": 2개 행을 합침 -->
+                <td>실습</td>
+                <td>실습</td>
+                <td>실습</td>
+                <td>발표</td>
+            </tr>
+            <tr>
+                <td>12:00-13:00</td>
+                <!-- rowspan으로 병합된 셀은 다음 행에서 생략 -->
+                <td>점심시간</td>
+                <td>점심시간</td>
+                <td>점심시간</td>
+                <td>점심시간</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <!-- 접근성을 고려한 테이블 -->
+    <h2>제품 비교표 (접근성 고려)</h2>
+    <table >
+        <caption>스마트폰 모델별 주요 사양 비교</caption>
+        <!-- caption: 테이블의 제목이나 설명 (스크린 리더가 먼저 읽음) -->
+        
+        <thead>
+            <tr>
+                <th scope="col">모델명</th>
+                <!-- 
+                scope="col": 이 헤더가 열(column)을 대표함을 명시
+                스크린 리더는 scope="col"이 있는 <th> 태그를 만나면 
+                "모델명"이라는 헤더가 해당 열에 있는 
+                모든 데이터에 대한 설명이라는 것을 인식합니다
+                 -->
+                <th scope="col">가격</th>
+                <th scope="col">화면 크기</th>
+                <th scope="col">배터리</th>
+                <th scope="col">카메라</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">Galaxy S24</th>
+                <!-- 
+                     scope="row": 이 헤더가 행(row)을 대표함을 명시 
+                     스크린 리더 사용자에게 유용: 스크린 리더는 scope="row"와 같은 속성을 통해 
+                     해당 셀이 어떤 데이터를 설명하는 헤더인지 정확하게 파악하고 
+                     사용자에게 전달할 수 있습니다. 
+                     예를 들어, 스크린 리더는 "갤럭시 S24"라고 읽은 다음, 
+                     해당 행의 다른 셀(예: "가격", "출시일", "색상" 등)의 정보를 읽어주면서 
+                     "갤럭시 S24의 가격은 얼마입니다"와 같이 문맥을 제공합니다. 
+                -->
+                <td>120만원</td>
+                <td>6.1인치</td>
+                <td>4,000mAh</td>
+                <td>50MP</td>
+            </tr>
+            <tr>
+                <th scope="row">iPhone 15</th>
+                <td>125만원</td>
+                <td>6.1인치</td>
+                <td>3,349mAh</td>
+                <td>48MP</td>
+            </tr>
+            <tr>
+                <th scope="row">Pixel 8</th>
+                <td>95만원</td>
+                <td>6.2인치</td>
+                <td>4,575mAh</td>
+                <td>50MP</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <!-- 복잡한 데이터 테이블 -->
+    <h2>분기별 부서 실적표</h2>
+    <table >
+        <caption>2024년 분기별 부서 실적 (단위: 백만원)</caption>
+        <thead>
+            <tr>
+                <th rowspan="2" scope="col">부서</th>
+                <!-- 2행에 걸쳐진 헤더 -->
+                <th colspan="4" scope="colgroup">2024년 분기별 실적</th>
+                <!-- 4열에 걸쳐진 헤더, scope="colgroup": 열 그룹을 대표 -->
+                <th rowspan="2" scope="col">연간 합계</th>
+            </tr>
+            <tr>
+                <th scope="col">1분기</th>
+                <th scope="col">2분기</th>
+                <th scope="col">3분기</th>
+                <th scope="col">4분기</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">영업팀</th>
+                <td>150</td>
+                <td>180</td>
+                <td>200</td>
+                <td>170</td>
+                <td><strong>700</strong></td>
+            </tr>
+            <tr>
+                <th scope="row">마케팅팀</th>
+                <td>80</td>
+                <td>95</td>
+                <td>110</td>
+                <td>85</td>
+                <td><strong>370</strong></td>
+            </tr>
+            <tr>
+                <th scope="row">개발팀</th>
+                <td>120</td>
+                <td>140</td>
+                <td>160</td>
+                <td>145</td>
+                <td><strong>565</strong></td>
+            </tr>
+        </tbody>  
+        <tfoot>
+            <tr>
+                <th scope="row">총합계</th>
+                <td><strong>350</strong></td>
+                <td><strong>415</strong></td>
+                <td><strong>470</strong></td>
+                <td><strong>400</strong></td>
+                <td><strong>1,635</strong></td>
+            </tr>
+        </tfoot>
+    </table>
+    
+</body>
+</html>

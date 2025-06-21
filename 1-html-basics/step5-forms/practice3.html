@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<!-- HTML5 문서임을 브라우저에게 알리는 선언부 -->
+<html lang="ko">
+<!-- html 태그: 전체 문서를 감싸는 최상위 태그
+     lang="ko": 문서 언어를 한국어로 지정 (검색엔진과 스크린 리더에 도움) -->
+<head>
+    <!-- head 영역: 웹페이지의 메타데이터 (화면에 보이지 않는 정보들) -->
+    <meta charset="UTF-8">
+    <!-- 문자 인코딩을 UTF-8로 설정
+         UTF-8: 전 세계 모든 언어를 표현할 수 있는 유니코드 인코딩
+         한글, 영문, 특수문자 등의 깨짐 방지 -->
+    <title>연락처 폼 - 실습 답안</title>
+    <!-- title: 브라우저 탭에 표시되는 제목
+         검색엔진 결과에서도 클릭 가능한 제목으로 사용됨 -->
+</head>
+<body>
+    <!-- body 영역: 실제로 브라우저 화면에 표시되는 모든 내용 -->
+    
+    <h1>고객 연락처 폼</h1>
+    <!-- h1: 페이지의 가장 중요한 제목 (한 페이지에 하나만 권장)
+         검색엔진이 페이지 주제를 파악하는 가장 중요한 요소 -->
+    
+    <form action="contact.jsp" method="post">
+        <!-- form: 사용자 입력을 받아 서버로 전송하는 양식
+             action="contact.jsp": 폼 데이터를 처리할 서버 페이지
+             method="post": HTTP 전송 방식
+             - GET: URL에 데이터가 노출됨 (검색, 조회용)
+             - POST: 데이터가 숨겨져 전송됨 (개인정보, 민감한 데이터용) -->
+        
+        <!-- 기본 정보 그룹 -->
+        <fieldset>
+            <!-- fieldset: 관련된 폼 요소들을 논리적으로 그룹화하는 태그
+                 - 시각적으로는 테두리가 있는 박스로 표시
+                 - 스크린 리더는 이를 하나의 그룹으로 인식
+                 - 키보드 탐색 시 그룹 단위로 이동 가능 -->
+            <legend>기본 정보</legend>
+            <!-- legend: fieldset의 제목 역할
+                 스크린 리더가 이 그룹에 진입할 때 가장 먼저 읽어주는 텍스트 -->
+            
+            <p>
+                <!-- p: 문단 태그, 여기서는 각 입력 필드를 구분하는 용도
+                     시각적 간격과 논리적 구분을 위해 사용 -->
+                <label for="name">이름 <span style="color: red;">*</span></label><br>
+                <!-- label: 입력 필드의 설명 라벨
+                     for="name": id가 "name"인 input 요소와 연결
+                     라벨을 클릭하면 연결된 input에 포커스가 이동
+                     스크린 리더가 input 읽을 때 이 라벨 내용도 함께 읽어줌
+                     빨간 별표(*): 필수 입력 필드임을 시각적으로 표시 -->
+                <input type="text" id="name" name="name" required>
+                <!-- input: 사용자 입력을 받는 핵심 태그
+                     type="text": 일반 텍스트 입력 (기본값)
+                     id="name": 고유 식별자 (라벨과 연결, CSS/JS에서 참조)
+                     name="name": 서버로 전송될 때 사용되는 변수명
+                     required: HTML5 필수 입력 속성 (빈 값으로 제출 시 브라우저가 에러 표시) -->
+            </p>
+            
+            <p>
+                <label for="email">이메일 <span style="color: red;">*</span></label><br>
+                <input type="email" id="email" name="email" required>
+                <!-- type="email": 이메일 전용 입력 타입
+                     - 브라우저가 자동으로 이메일 형식 검증 (@포함 여부 등)
+                     - 모바일에서 이메일 입력에 최적화된 키보드 표시
+                     - 제출 시 유효하지 않은 이메일 형식이면 에러 메시지 표시 -->
+            </p>
+            
+            <p>
+                <label for="phone">전화번호</label><br>
+                <!-- 필수 입력이 아니므로 빨간 별표 없음 -->
+                <input type="tel" id="phone" name="phone" placeholder="010-1234-5678">
+                <!-- type="tel": 전화번호 입력 전용 타입
+                     - 모바일에서 숫자 키패드 자동 표시
+                     - 브라우저가 전화번호로 인식하여 클릭 시 전화 걸기 가능
+                     placeholder: 입력 힌트 텍스트
+                     - 실제 입력값이 아닌 가이드 역할
+                     - 사용자가 입력하면 자동으로 사라짐 -->
+            </p>
+            
+        </fieldset>
+        
+        <!-- 문의 유형 그룹 -->
+        <fieldset>
+            <legend>문의 유형</legend>
+            <!-- 라디오 버튼 그룹의 제목 -->
+            
+            <div>
+                <!-- div: 각 라디오 버튼 항목을 묶는 컨테이너
+                     시각적 정렬과 스타일링을 위해 사용 -->
+                <input type="radio" id="general" name="inquiry_type" value="general" checked>
+                <!-- type="radio": 여러 선택지 중 하나만 선택 가능한 라디오 버튼
+                     name="inquiry_type": 같은 name을 가진 라디오 버튼들은 하나의 그룹
+                     value="general": 이 버튼이 선택되었을 때 서버로 전송될 값
+                     checked: 페이지 로딩 시 기본으로 선택된 상태 -->
+                <label for="general">일반 문의</label>
+                <!-- 라디오 버튼의 라벨, 클릭 시 해당 라디오 버튼 선택됨 -->
+            </div>
+            
+            <div>
+                <input type="radio" id="technical" name="inquiry_type" value="technical">
+                <!-- 같은 name="inquiry_type"이므로 위의 라디오 버튼과 그룹을 이룸
+                     하나를 선택하면 다른 것은 자동으로 선택 해제됨 -->
+                <label for="technical">기술 지원</label>
+            </div>
+            
+            <div>
+                <input type="radio" id="complaint" name="inquiry_type" value="complaint">
+                <label for="complaint">불만 사항</label>
+            </div>
+            
+        </fieldset>
+        
+        <!-- 문의 내용 -->
+        <fieldset>
+            <legend>문의 내용</legend>
+            
+            <p>
+                <label for="message">문의 내용 <span style="color: red;">*</span></label><br>
+                <textarea id="message" name="message" rows="5" cols="50" 
+                          placeholder="문의하실 내용을 자세히 작성해주세요" required></textarea>
+                <!-- textarea: 여러 줄 텍스트 입력이 가능한 태그
+                     rows="5": 화면에 표시될 줄 수 (세로 크기)
+                     cols="50": 화면에 표시될 문자 수 (가로 크기)
+                     실제 크기는 CSS로 조정하는 것이 현대적 방법
+                     사용자가 더 많은 텍스트를 입력하면 자동으로 스크롤 생성 -->
+            </p>
+            
+            <p>
+                <label for="attachment">파일 첨부 (선택사항)</label><br>
+                <!-- 선택사항임을 명시하여 사용자에게 안내 -->
+                <input type="file" id="attachment" name="attachment">
+                <!-- type="file": 파일 업로드를 위한 입력 타입
+                     클릭 시 파일 선택 대화상자가 열림
+                     선택된 파일명이 입력 필드에 표시됨
+                     실제 파일은 폼 제출 시 서버로 전송됨 -->
+            </p>
+            
+        </fieldset>
+        
+        <br>
+        <!-- br: 줄바꿈 태그, 버튼들과 위 내용 사이의 시각적 간격 -->
+        
+        <!-- 버튼들 -->
+        <p>
+            <input type="submit" value="문의 전송">
+            <!-- type="submit": 폼 데이터를 서버로 전송하는 제출 버튼
+                 클릭 시 폼의 모든 데이터가 action에 지정된 주소로 전송
+                 required 필드가 비어있으면 브라우저가 에러 메시지 표시
+                 value: 버튼에 표시될 텍스트 -->
+            <input type="reset" value="다시 작성">
+            <!-- type="reset": 폼의 모든 입력값을 초기 상태로 되돌리는 버튼
+                 사용자가 입력한 모든 내용이 지워짐
+                 체크박스, 라디오 버튼도 기본 상태로 복원
+                 실수로 클릭할 수 있어 사용에 주의 필요 -->
+        </p>
+        
+    </form>
+    <!-- 폼의 끝 -->
+    
+</body>
+</html>
+
+<!--
+이 폼의 설계 원칙:
+1. 사용자 편의성: 직관적인 입력 순서와 명확한 라벨
+2. 접근성: 모든 입력 요소에 적절한 라벨 연결
+3. 유효성 검사: HTML5 속성으로 기본적인 검증
+4. 논리적 구조: fieldset으로 관련 요소 그룹화
+5. 명확한 피드백: 필수 필드 표시와 placeholder 활용
+
+실무에서 고려할 추가 사항:
+- CSS로 시각적 디자인 개선
+- JavaScript로 실시간 유효성 검사
+- 서버 측 데이터 검증 및 보안 처리
+- 모바일 반응형 디자인
+- 에러 메시지 및 성공 메시지 처리
+- 파일 업로드 크기 및 형식 제한
+-->

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+ <title>사용자 정보 변경 - 해답</title>
+</head>
+<body>
+    <h1>사용자 정보</h1>
+    <p id="userInfo"><span>이름: 홍길동, 나이: 25세</span></p>
+    <button onclick="changeInfo()">정보 변경</button>
+
+    <script>
+        // 사용자 정보 변경 함수
+        function changeInfo() {
+            // 1. HTML 요소 선택
+            // getElementById: ID 속성으로 특정 요소를 찾아서 가져오기
+            // 여기서는 id="userInfo"인 <p> 요소를 선택
+            let userElement = document.getElementById('userInfo');
+
+            // 2. 요소의 내용 변경
+            // textContent: 요소 안의 텍스트 내용을 읽거나 변경
+            // HTML 태그는 해석하지 않고 순수 텍스트만 처리
+            userElement.textContent = "이름: 김철수, 나이: 30세";
+
+            // 3. 콘솔에 로그 출력
+            // console.log(): 개발자 도구의 콘솔 탭에서 확인 가능
+            // 디버깅이나 프로그램 실행 상태 확인에 사용
+            console.log("사용자 정보가 변경되었습니다!");
+
+            // 추가 기능: 변경 시간도 기록
+            let currentTime = new Date().toLocaleString(); // 현재 시간 얻기
+            console.log("변경 시간:", currentTime);
+        }
+
+        // 실행 결과:
+        // - 버튼 클릭 전: "이름: 홍길동, 나이: 25세" 표시
+        // - 버튼 클릭 후: "이름: 김철수, 나이: 30세" 표시
+        // - 콘솔에 "사용자 정보가 변경되었습니다!" 메시지 출력
+    </script>
+</body>
+</html>

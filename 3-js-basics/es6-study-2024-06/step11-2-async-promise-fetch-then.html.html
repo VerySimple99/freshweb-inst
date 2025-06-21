@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+      <!--
+      자바스크립트 세가지 비동기 방식
+      1. callback     이전부터 사용          함수 안에 또 다른 함수를 매개변수로 넘겨서 실행순서를 제어 
+      2. promise      ECMA 2015 부터 도입    Promise 객체와 콜백 함수를 사용해서 실행 순서를 제어
+      3. async,await  ECMA 2017 부터 도입    async 함수와 await 예약어를 사용해서 실행순서를 제어
+      방식	특징	단점
+      Callback	간단한 작업에는 적합	콜백 지옥 발생 가능
+      Promise	then() 체이닝으로 가독성 개선	코드가 여전히 길어질 수 있음
+      Async/Await	동기 코드처럼 읽히고 가독성 최고	await을 사용하지 않으면 동작하지 않음
+  -->
+    <script>
+      console.log("1. 시작");
+      /* setTimeout()뿐만 아니라, fetch() 같은 네트워크 요청도 같은 원리로 동작합니다
+      ✅ then()은 Promise가 "이행(Resolved)" 상태가 되었을 때 실행됩니다.  => 이부분은 이후에 자세히 공부함
+      ✅ 즉, Promise가 성공적으로 완료되면(fulfilled) then() 내부 코드가 실행됩니다.
+      ✅ 반면, Promise가 실패하면(rejected) then()이 실행되지 않고 catch()로 넘어갑니다.
+      */
+      fetch("https://jsonplaceholder.typicode.com/todos/1")
+        .then((response) => {
+          console.log("2. 📦 응답을 받았습니다!", response);
+          return response.json();
+        })
+        .then((data) => {
+          console.log("3. 📖 데이터를 변환했습니다!", data);
+        })
+        .catch((error) => {
+          console.error("2. ❌ 요청 실패!", error);
+        });
+
+      console.log("4. 끝");
+    </script>
+  </body>
+</html>

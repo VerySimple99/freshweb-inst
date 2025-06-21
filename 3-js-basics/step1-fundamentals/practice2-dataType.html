@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>JavaScript 첫 시작</title>
+</head>
+<body>
+	<h1 id="title">안녕하세요!</h1>
+	<button onclick="changeTitle()">제목 변경</button>
+
+	<script>
+		// JavaScript는 <script> 태그 안에 작성
+		// HTML이 로드된 후 실행됩니다
+
+		// 1. 변수 선언 (Java와 비교)
+		// Java: String message = "안녕하세요";
+		let message = "안녕하세요"; // let: 변경 가능한 변수
+		const greeting = "환영합니다"; // const: 변경 불가능한 상수
+
+		// 2. 함수 선언 (Java 메서드와 비슷)
+		// Java: public void changeTitle() { ... }
+		function changeTitle() {
+			// DOM 요소 선택: HTML 요소를 JavaScript로 가져오기
+			// document: 웹페이지 전체를 나타내는 객체
+			// getElementById: ID로 HTML 요소를 찾는 메서드
+			let titleElement = document.getElementById('title');
+
+			// 선택된 요소의 텍스트 내용 변경
+			// textContent: 요소 안의 텍스트를 읽거나 변경하는 속성
+			titleElement.textContent = "JavaScript로 변경됨!";
+
+			// 콘솔에 메시지 출력 (개발자 도구에서 확인 가능)
+			// Java의 System.out.println()과 같은 역할
+			console.log("제목이 변경되었습니다!");
+		}
+
+		// 3. 데이터 타입 (Java보다 유연함)
+		let number = 42; // 숫자 (Java의 int, double 구분 없음)
+		let text = "문자열"; // 문자열 (Java의 String과 비슷)
+		let isActive = true; // 불린 (Java의 boolean과 동일)
+		let items = [ 1, 2, 3 ]; // 배열 (Java의 ArrayList와 비슷)
+
+		// 4. 타입 확인 (Java와 다른 점)
+		console.log(typeof number); // "number" 출력
+		console.log(typeof text); // "string" 출력
+		console.log(typeof isActive); // "boolean" 출력
+
+		// 실행 결과:
+		// - 버튼 클릭 전: "안녕하세요!" 표시
+		// - 버튼 클릭 후: "JavaScript로 변경됨!" 표시
+		// - 개발자 도구 콘솔에: "제목이 변경되었습니다!" 메시지 출력
+	</script>
+</body>
+</html>

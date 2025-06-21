@@ -1,0 +1,253 @@
+<!--
+🎯 HTML5 시맨틱 태그 핵심 정리:
+
+📋 문서 구조 태그:
+- <!DOCTYPE html>: HTML5 문서 선언
+- <html>: 문서 전체 컨테이너
+- <head>: 메타데이터 영역
+- <body>: 실제 콘텐츠 영역
+
+🏗️ 레이아웃 시맨틱 태그:
+- <header>: 머리말 영역
+- <nav>: 네비게이션 영역  
+- <main>: 주요 콘텐츠 영역 (페이지당 하나)
+- <section>: 관련 콘텐츠 그룹
+- <article>: 독립적인 완전한 콘텐츠
+- <aside>: 부가 정보 영역
+- <footer>: 바닥글 영역
+
+📝 텍스트 시맨틱 태그:
+- <h1>~<h6>: 제목 계층 구조
+- <p>: 문단
+- <strong>: 중요한 내용 강조
+- <em>: 내용 강조
+- <code>: 코드나 기술용어
+- <time>: 날짜/시간
+- <address>: 연락처 정보
+- <small>: 부가 정보
+
+💡 왜 시맨틱 태그를 사용하나요?
+1. 웹 접근성 향상 (스크린 리더 등)
+2. 검색엔진 최적화 (SEO)
+3. 코드 가독성과 유지보수성
+4. 브라우저와 개발도구의 더 나은 지원
+
+🎈 다음 단계 학습 내용:
+- CSS로 시맨틱 태그 스타일링
+- JavaScript로 동적 콘텐츠 조작
+- 폼(Form) 태그와 사용자 입력 처리
+- 웹 표준과 접근성 고려사항
+-->
+
+<!DOCTYPE html>
+<!-- HTML5 문서 선언 - 모든 HTML 문서의 시작점 -->
+
+<html lang="ko">
+<!-- html: 모든 HTML 요소의 최상위 컨테이너 -->
+<!-- lang="ko": 웹 접근성과 검색엔진 최적화를 위한 언어 선언 -->
+
+<head>
+    <!-- head: 브라우저와 검색엔진을 위한 메타데이터 영역 -->
+    <!-- 사용자 화면에는 보이지 않지만 매우 중요한 정보들 -->
+
+    <meta charset="UTF-8">
+    <!-- 문자 인코딩 설정 - 한글 깨짐 방지를 위한 UTF-8 -->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 반응형 웹을 위한 뷰포트 설정 - 모바일에서 올바른 화면 표시 -->
+
+    <title>김철수의 개발자 포트폴리오</title>
+    <!-- 브라우저 탭에 표시되는 제목, 검색결과에도 표시됨 -->
+
+    <style>
+        /* 기본 시각화를 위한 간단한 CSS */
+        body { font-family: 'Malgun Gothic', Arial, sans-serif; line-height: 1.6; margin: 20px; }
+        header, nav, main, aside, footer { margin: 20px 0; padding: 15px; border: 1px solid #ddd; }
+        header { background-color: #f8f9fa; }
+        nav { background-color: #e9ecef; }
+        aside { background-color: #fff3cd; }
+        footer { background-color: #f8f9fa; text-align: center; }
+        nav ul { list-style: none; padding: 0; }
+        nav li { display: inline; margin-right: 20px; }
+    </style>
+</head>
+
+<body>
+    <!-- body: 사용자에게 실제로 보여지는 모든 콘텐츠 영역 -->
+
+    <!-- ========== HEADER: 페이지 상단 영역 ========== -->
+    <header>
+        <!-- header: 페이지나 섹션의 머리말 -->
+        <!-- 보통 제목, 로고, 간단한 소개가 들어감 -->
+        
+        <h1>김철수</h1>
+        <!-- h1: 페이지의 가장 중요한 제목 (페이지당 하나만 사용 권장) -->
+        
+        <p>웹 개발을 꿈꾸는 신입 개발자입니다</p>
+        <!-- p: 문단을 나타내는 기본 태그 -->
+    </header>
+
+    <!-- ========== NAV: 네비게이션 영역 ========== -->
+    <nav>
+        <!-- nav: 사이트 내 네비게이션 링크 그룹 -->
+        <!-- 다른 페이지나 같은 페이지 내 섹션으로 이동하는 링크들 -->
+        
+        <ul>
+            <li><a href="#about">자기소개</a></li>
+            <li><a href="#skills">기술스택</a></li>
+            <li><a href="#projects">프로젝트</a></li>
+            <li><a href="#contact">연락처</a></li>
+        </ul>
+    </nav>
+
+    <!-- ========== MAIN: 주요 콘텐츠 영역 ========== -->
+    <main>
+        <!-- main: 페이지의 주요 콘텐츠 (한 페이지에 하나만 존재) -->
+        <!-- 이 페이지의 핵심 내용이 모두 여기에 들어감 -->
+
+        <!-- 자기소개 섹션 -->
+        <section id="about">
+            <!-- section: 관련된 콘텐츠를 묶는 의미적 구역 -->
+            <!-- 보통 제목(h2)으로 시작하는 독립적인 내용 그룹 -->
+            
+            <h2>자기소개</h2>
+            <!-- h2: 섹션의 제목, h1 다음으로 중요한 제목 -->
+            
+            <p>안녕하세요! 저는 웹 개발에 관심이 많은 <strong>김철수</strong>입니다.</p>
+            <!-- strong: 중요한 내용을 강조 (의미적 강조) -->
+            
+            <p>현재 <em>HTML, CSS, JavaScript</em>를 열심히 공부하고 있으며, 
+            앞으로 <em>Java와 Spring Boot</em>를 배워서 풀스택 개발자가 되고 싶습니다.</p>
+            <!-- em: 내용을 강조 (강세 표현) -->
+        </section>
+
+        <!-- 프로젝트 섹션 -->
+        <section id="projects">
+            <h2>프로젝트 경험</h2>
+            
+            <!-- 첫 번째 프로젝트 -->
+            <article>
+                <!-- article: 독립적으로 배포 가능한 완전한 콘텐츠 -->
+                <!-- 블로그 글, 뉴스 기사, 제품 리뷰 등에 사용 -->
+                
+                <h3>할일 관리 웹 애플리케이션</h3>
+                <!-- h3: article의 제목, 계층 구조 유지 -->
+                
+                <p><strong>완성일:</strong> 
+                <time datetime="2025-05-15">2025년 5월 15일</time></p>
+                <!-- time: 날짜나 시간을 나타내는 의미적 태그 -->
+                <!-- datetime 속성으로 기계가 읽을 수 있는 형식 제공 -->
+                
+                <p><strong>사용 기술:</strong> HTML, CSS, JavaScript</p>
+                <p><strong>프로젝트 설명:</strong> 사용자가 할 일을 추가, 완료, 삭제할 수 있는 
+                간단한 웹 애플리케이션을 만들었습니다.</p>
+                
+                <p><strong>주요 기능:</strong></p>
+                <ul>
+                    <!-- ul: 순서가 중요하지 않은 목록 -->
+                    <li>할 일 추가/삭제 기능</li>
+                    <li>완료 상태 체크 기능</li>
+                    <li>로컬 스토리지 데이터 저장</li>
+                </ul>
+            </article>
+
+            <!-- 두 번째 프로젝트 -->
+            <article>
+                <h3>반응형 포트폴리오 사이트</h3>
+                <p><strong>완성일:</strong> 
+                <time datetime="2025-06-01">2025년 6월 1일</time></p>
+                <p><strong>사용 기술:</strong> HTML5, CSS3, JavaScript</p>
+                <p><strong>프로젝트 설명:</strong> 모바일과 데스크톱에서 모두 잘 보이는 
+                반응형 개인 포트폴리오 웹사이트를 제작했습니다.</p>
+            </article>
+        </section>
+
+        <!-- 학습 계획 섹션 -->
+        <section id="learning">
+            <h2>학습 계획</h2>
+            
+            <p><strong>현재 학습 중:</strong></p>
+            <ol>
+                <!-- ol: 순서가 중요한 목록 -->
+                <li>HTML5 시맨틱 태그 완전 정복</li>
+                <li>CSS3 고급 레이아웃 (Flexbox, Grid)</li>
+                <li>JavaScript ES6+ 문법</li>
+            </ol>
+            
+            <p><strong>다음 학습 예정:</strong></p>
+            <ol start="4">
+                <!-- start 속성으로 시작 번호 지정 -->
+                <li>Java 객체지향 프로그래밍</li>
+                <li>Spring Boot 웹 개발</li>
+                <li>데이터베이스 (MySQL)</li>
+                <li>실무 프로젝트 진행</li>
+            </ol>
+        </section>
+    </main>
+
+    <!-- ========== ASIDE: 부가 정보 영역 ========== -->
+    <aside>
+        <!-- aside: 주요 콘텐츠와 간접적으로 관련된 보조 정보 -->
+        <!-- 사이드바, 광고, 관련 링크 등에 사용 -->
+        
+        <h3>기술 스택</h3>
+        
+        <h4>현재 사용 가능</h4>
+        <ul>
+            <li><code>HTML5</code> - 웹 구조 설계</li>
+            <li><code>CSS3</code> - 스타일링과 레이아웃</li>
+            <li><code>JavaScript</code> - 기본 문법과 DOM 조작</li>
+        </ul>
+        <!-- code: 프로그래밍 코드나 기술용어 표시 -->
+        
+        <h4>학습 예정</h4>
+        <ul>
+            <li><code>Java</code> - 객체지향 프로그래밍</li>
+            <li><code>Spring Boot</code> - 백엔드 웹 프레임워크</li>
+            <li><code>MySQL</code> - 관계형 데이터베이스</li>
+            <li><code>AWS</code> - 클라우드 서비스</li>
+        </ul>
+        
+        <hr>
+        <!-- hr: 수평선으로 내용 구분 -->
+        
+        <h3>취미 활동</h3>
+        <ul>
+            <li>📚 IT 서적 읽기</li>
+            <li>🎬 영화 감상 (특히 SF 장르)</li>
+            <li>🎵 코딩 음악 듣기</li>
+            <li>⚽ 축구 경기 관람</li>
+        </ul>
+    </aside>
+
+    <!-- ========== FOOTER: 페이지 하단 영역 ========== -->
+    <footer>
+        <!-- footer: 페이지나 섹션의 바닥글 -->
+        <!-- 저작권 정보, 연락처, 사이트맵 등이 들어감 -->
+        
+        <section id="contact">
+            <!-- footer 안에도 section 사용 가능 -->
+            <h3>연락처 정보</h3>
+            
+            <address>
+                <!-- address: 연락처나 주소 정보를 나타내는 특별한 태그 -->
+                <p><strong>김철수</strong></p>
+                <p>📧 이메일: <a href="mailto:chulsoo@example.com">chulsoo@example.com</a></p>
+                <p>📱 전화: <a href="tel:010-1234-5678">010-1234-5678</a></p>
+                <p>🏠 주소: 서울특별시 강남구 ○○동</p>
+                <p>💻 GitHub: <a href="https://github.com/chulsoo-kim" target="_blank">github.com/chulsoo-kim</a></p>
+            </address>
+        </section>
+        
+        <hr>
+        
+        <p><small>&copy; 2025 김철수. 모든 권리 보유.</small></p>
+        <!-- small: 저작권, 법적 고지사항 등 작은 글씨 정보 -->
+        
+        <p><small>이 포트폴리오는 
+        <time datetime="2025-06-19">2025년 6월 19일</time>에 마지막으로 업데이트되었습니다.</small></p>
+    </footer>
+
+</body>
+</html>
+

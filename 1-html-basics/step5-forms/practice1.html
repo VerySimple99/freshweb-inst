@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>기본 폼 구조</title>
+</head>
+<body>
+    <h1>회원가입 폼</h1>
+
+    <!-- 기본 폼 구조 -->
+    <form action="register.jsp" method="post">
+        <!-- form: 폼의 시작과 끝을 표시 -->
+        <!-- action: 폼 데이터를 처리할 서버 주소 -->
+        <!-- method: 데이터 전송 방식 (get 또는 post) -->
+
+        <!-- 텍스트 입력 -->
+        <label for="username">사용자명:</label>
+        <!-- label: 입력 필드의 설명 (for 속성으로 input과 연결) -->
+        <input type="text" id="username" name="username" required>
+        <!-- input: 사용자 입력을 받는 태그 -->
+        <!-- type="text": 일반 텍스트 입력 -->
+        <!-- id: 라벨과 연결하기 위한 고유 식별자 -->
+        <!-- name: 서버로 전송될 때 사용되는 변수명 -->
+        <!-- required: 필수 입력 필드로 지정 -->
+        <br><br>
+
+        <!-- 비밀번호 입력 -->
+        <label for="password">비밀번호:</label>
+        <input type="password" id="password" name="password" required>
+        <!-- type="password": 입력 내용이 별표(*) 로 표시 -->
+        <br><br>
+
+        <!-- 이메일 입력 -->
+        <label for="email">이메일:</label>
+        <input type="email" id="email" name="email" required>
+        <!-- type="email": 이메일 형식 자동 검증 -->
+        <br><br>
+
+        <!-- 전송 버튼 -->
+        <input type="submit" value="회원가입">
+        <!-- type="submit": 폼 데이터를 서버로 전송하는 버튼 -->
+
+        <!-- 리셋 버튼 -->
+        <input type="reset" value="다시 작성">
+        <!-- type="reset": 폼의 모든 입력을 초기화 -->
+
+    </form>
+
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /*
+      (전개 연산자 ...spread 와 헷갈리지 않도록 조심!)
+      ### 🍱 **Rest Parameter를 도시락에 비유해 보자!**
+
+      친구들이랑 소풍을 가는데, **각자 도시락을 싸왔다고** 가정해 봅시다.
+
+      - 어떤 친구는 김밥 한 줄만 가져옴.
+      - 어떤 친구는 샌드위치 + 과일 + 음료수까지 가져옴.
+      - 어떤 친구는 그냥 엄청 많이 싸옴.
+
+      이때, **남은 음식들을 하나의 도시락 박스에 넣어서 관리** 하고 싶다면?
+
+      👉 Rest Parameter가 딱 그 역할을 합니다.
+      ### 🎯 **Rest Parameter란?**
+
+      함수의 매개변수에서 **남는 인자들을 하나의 배열로 모아주는 기능**입니다.
+
+      즉, 몇 개의 인자가 들어올지 모를 때 유용하게 쓰입니다.
+    */
+      function printFruits(first, second, ...restFruits) {
+        console.log(`첫 번째 과일: ${first}`);
+        console.log(`두 번째 과일: ${second}`);
+        console.log(`나머지 과일들:`, restFruits);
+      }
+
+      printFruits("🍎", "🍌", "🍇", "🍊", "🍉");
+      /*
+      ### 🚀 **Rest Parameter vs Spread Operator (`...`) 차이점**
+
+      | 기능 | Rest Parameter (`...rest`) | Spread Operator (`...spread`) |    
+      | 역할 | **남는 값들을 배열로 묶음**| **배열 또는 객체를 펼침** |
+      | 사용위치| 함수 매개변수에서 사용  | 배열/객체 복사 및 확장 |
+      | 예시 | `function fn(a, ...rest) {}` | `[...arr]`, `{...obj}` |
+      */
+    </script>
+  </body>
+</html>

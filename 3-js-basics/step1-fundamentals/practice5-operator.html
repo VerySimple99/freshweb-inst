@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>operator</title>
+</head>
+<body>
+<button type="button" onclick="testOperator()">연산자테스트</button>
+<script type="text/javascript">
+	function testOperator() {
+		let name1="화요일";
+		let name2="화요일 ";
+		console.log(name1.length);
+		console.log(name2.length);
+		console.log(name1.length==name2.length);
+		// trim() 으로 양여백을 삭제한 후 비교해 true 
+		console.log(name1.length==name2.trim().length);
+		let age1=24;
+		let age2="24";
+		console.log(age1==age2);//true :  == 강제형변환(문자열을 숫자로 변환 후 비교)  true 
+		console.log(age1===age2);//false : === 타입까지 비교 , 엄격한 비교시 사용 
+		let age3=parseInt(age2);// 정수형으로 변환 
+		console.log(age1===age3);
+	}
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+

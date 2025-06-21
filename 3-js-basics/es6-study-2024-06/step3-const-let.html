@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        const PI=3.14;
+       // PI=1; // error 상수 재할당 불가 
+        console.log(PI);
+        let count = 10;
+        if(count>5){
+            const total = count * 2;
+            console.log(total);
+        } 
+       // console.log(total); //error let 은 block level scope
+       // let 변수는 선언된 블록 내에서 이용 가능  
+
+       //  const 객체나 배열일 때 내부 속성 정보를 변경하는 것은 가능 
+       const myObj = {money:3};
+        myObj.money=7;
+        
+    </script>
+
+</body>
+</html>

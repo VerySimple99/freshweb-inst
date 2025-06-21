@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>js 변수 var,let 범위</title>
+</head>
+<body>
+ECMA5 (ES5) : var 중복선언 가능  function level scope <br>
+ECMA6 (ES6) : let 중복선언 불가, 선언된 자신의 블럭 내에서만 사용 가능  block level scope 
+				  const 상수로써 재할당 불가  block level scope 
+<!-- 
+		호이스팅(Hoisting)이란?
+       호이스팅은 자바스크립트에서 변수 선언(declarations)과 함수 선언(function declarations)이 
+       코드 실행 전에 해당 스코프의 맨 위로 "끌어 올려진" 것처럼 동작하는 현상을 말해요. 
+       여기서 중요한 점은 실제로 코드가 물리적으로 이동하는 것이 아니라, 
+       자바스크립트 엔진이 코드를 해석하는 방식 때문임 
+       
+           var 변수 호이스팅: 선언과 초기화가 분리됨
+          var로 선언된 변수는 스코프의 맨 위로 선언이 호이스팅되고, 
+          **초기화(undefined 할당)**까지 함께 일어납니다.
+          
+          let과 const 변수 호이스팅: 초기화 없이 선언만 호이스팅 (TDZ)
+ -->				  
+<br><br>
+<button type="button" onclick="varTest(7)">varTestBtn</button><br>
+<button type="button" onclick="letTest(7)">letTestBtn</button><br>
+<script type="text/javascript">
+	function varTest(num){
+		if(num>1){
+			var a=1;
+		}
+		alert(a); // ok : var 변수는 사용가능 => function level scope
+	}
+	//alert(a); // error 
+	function letTest(num){
+		if(num>1){
+			let a=1;
+		}
+		alert(a);// error :  let 변수는 선언된 자신의 실행 영역 block 내에서만 사용 가능 => block level scope 
+	}
+</script>				  
+</body>
+</html>
+
+
+
+
+
+
+

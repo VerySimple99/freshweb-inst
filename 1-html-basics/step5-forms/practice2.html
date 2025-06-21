@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>다양한 입력 타입</title>
+</head>
+<body>
+	<h1>폼</h1>
+	<form>
+		<!-- 
+	   핵심 개념
+      fieldset은 관련된 form 요소들을 논리적으로 묶어주는 컨테이너입니다. 
+       마치 책의 챕터처럼, 비슷한 성격의 정보들을 하나의 단위로 구성합니다.	
+		
+		
+      1. 시각적인 그룹화 및 가독성 향상
+      <fieldset>은 기본적으로 경계선(border)과 선택적으로 <legend> 태그를 사용하여 그룹의 제목을 표시합니다.
+      이는 폼이 여러 섹션으로 나뉘어 있을 때 사용자가 폼의 구조를 한눈에 파악
+      
+      2. 접근성 향상 (Accessibility)
+      스크린 리더(Screen Reader) 사용자에게 매우 중요합니다. 
+      <fieldset>과 함께 사용되는 <legend> 태그는 
+      그룹의 목적이나 제목을 명확하게 설명해줍니다.
+      
+      3. 의미론적 그룹화 (Semantic Grouping)
+      JavaScript 등으로 폼 요소를 조작할 때, 
+      특정 <fieldset> 내의 요소들을 한 번에 선택하거나 관리하기 더 편리
+      CSS를 통해 쉽게 스타일을 적용
+      
+      실제 개발 현장에서는...
+      온라인 쇼핑몰 주문 페이지에서 "배송 정보", "결제 정보", "추가 옵션"을 
+      각각 fieldset으로 구분하여 
+      사용자가 단계적으로 정보를 입력할 수 있도록 합니다. 
+      특히 긴 회원가입 폼에서 정보를 카테고리별로 나누어 
+      사용자의 인지 부담을 줄입니다.
+ -->
+		<fieldset>
+		<!-- 
+			legend는 fieldset의 제목 역할을 합니다. 
+			마치 책의 챕터 제목처럼, 
+			해당 그룹이 무엇에 대한 정보인지 명확히 알려줍니다.
+		 -->
+			<legend>개인 정보</legend>
+			<!-- 
+		클릭 가능한 영역 확장: <label> 태그와 연결된 입력 필드는 
+		레이블 텍스트 자체를 클릭해도 해당 입력 필드에 포커스가 가거나 
+		(텍스트/숫자 입력 필드), 토글(체크박스/라디오 버튼)이 됩니다. 
+		사용자가 작은 체크박스나 라디오 버튼을 정확히 클릭하기 어려울 때, 
+		넓은 레이블 텍스트를 클릭하여도 되므로 편의성이 크게 증가합니다.    
+       
+     -->
+			<label for="name">이름:</label> <input type="text" id="name"
+				name="name" required><br>
+			<br> <label for="email">이메일:</label> <input type="email"
+				id="email" name="email" required> <br>
+			<br> <label for="agree">개인정보 수집 동의</label> <input
+				type="checkbox" id="agree">
+		</fieldset>
+
+		<br>
+
+		<fieldset>
+			<legend>주소 정보</legend>
+			<label for="address">주소:</label> <input type="text" id="address"
+				name="address"><br>
+			<br> <label for="city">도시:</label> <input type="text" id="city"
+				name="city">
+		</fieldset>
+
+		<br>
+
+		<button type="submit">제출</button>
+	</form>
+
+
+</body>
+</html>

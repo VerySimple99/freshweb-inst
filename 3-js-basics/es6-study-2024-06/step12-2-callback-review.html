@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /*
+        비동기 함수의 예 
+        🍜 비동기를 라면 끓이기에 비유해 보자!
+        라면을 끓일 때, 다음과 같은 과정이 있어요:
+        물을 끓인다. (시간이 걸림 ⏳)
+        라면을 넣고 기다린다.
+        완성되면 먹는다! 🍜​
+        👉 하지만, 물이 끓을 때까지 멍하니 기다릴 필요는 없어요!
+        다른 재료를 준비하거나, 반찬을 꺼낼 수도 있죠.
+        이처럼 비동기 처리는 시간이 걸리는 작업을 기다리는 동안,
+        다른 일을 하면서 효율적으로 처리할 수 있도록 도와주는 기술이에요!
+
+      */
+      console.log("물 끓이기 시작! 🔥");
+
+      setTimeout(() => {
+        console.log("물이 다 끓었어요! 💨");
+      }, 3000);
+
+      console.log("다른 재료를 준비한다. 🥬🍖");
+      /*
+        👉 **물이 끓는 동안(3초), 다른 재료를 준비하는 것이 가능!**
+        이것이 **비동기 처리의 핵심 개념!**
+      */
+     
+    </script>
+  </body>
+</html>

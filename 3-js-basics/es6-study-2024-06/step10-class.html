@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 🔹 요즘은 함수형 컴포넌트를 많이 쓰지만, 클래스형도 알아두면 좋아요!
+      class Person {
+        constructor(name) {
+          this.name = name;
+        }
+        sayHello() {
+          console.log(`안녕! 나는 ${this.name}이야.`);
+        }
+      }
+      const user = new Person("Alice");
+      user.sayHello(); // "안녕! 나는 Alice이야."
+    </script>
+  </body>
+</html>

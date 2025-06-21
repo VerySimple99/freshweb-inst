@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>퀘스트 진행</title>
+</head>
+<body>
+    <h1>🛡️ 퀘스트 진행 상황 저장</h1>
+    <p id="quest-status">진행 중인 퀘스트가 없습니다.</p>
+    <button onclick="startQuest()">퀘스트 시작</button>
+    <button onclick="clearQuest()">퀘스트 초기화</button>
+
+    <h2>🎮 캐릭터 정보 (영구 저장)</h2>
+    <input type="text" id="character-name" placeholder="캐릭터 이름 입력">
+    <button onclick="saveCharacter()">저장</button>
+    <p id="character-info"></p>
+
+    <script>
+        // 🏹 SessionStorage 예제: 현재 퀘스트 상태 관리
+        function startQuest() {
+            sessionStorage.setItem("quest", "🔥 드래곤을 사냥하라!");
+            updateQuestStatus();
+        }
+
+        function clearQuest() {
+            sessionStorage.removeItem("quest");
+            updateQuestStatus();
+        }
+
+        function updateQuestStatus() {
+            const quest = sessionStorage.getItem("quest");
+            if (quest) {
+                document.getElementById("quest-status").innerText = quest;
+            } else {
+                document.getElementById("quest-status").innerText = "진행 중인 퀘스트가 없습니다.";
+            }
+        }
+
+        // 🌟 LocalStorage 예제: 캐릭터 정보 저장
+        function saveCharacter() {
+            const name = document.getElementById("character-name").value;
+            localStorage.setItem("character", name);
+            loadCharacter();
+        }
+
+        function loadCharacter() {
+            const name = localStorage.getItem("character");
+            if (name) {
+                document.getElementById("character-info").innerText = `현재 캐릭터: ${name}`;
+            }
+        }
+
+        // 페이지 로드 시 SessionStorage와 LocalStorage에서 데이터 불러오기
+        window.onload = function() {
+            updateQuestStatus(); // 퀘스트 상태 업데이트
+            loadCharacter();    // 캐릭터 정보 업데이트
+        };
+    </script>
+</body>
+</html>
+ <!--
+      1. Cookie와 Web Storage의 특징
+      항목	                Cookie	                           Web Storage (LocalStorage / SessionStorage)
+      데이터 크기	          약 4KB 제한	                       약 5~10MB (브라우저별 다름)
+      유효 기간	          설정 가능 (만료 기한 명시)	          LocalStorage: 영구 저장 / SessionStorage: 세션 종료 시 삭제
+      브라우저 접근성	    모든 요청에 자동 포함 (서버에도 전송)	클라이언트에서만 사용
+      보안	비교적 취약 (자동 전송, 스니핑 위험)	               HTTP 요청에 포함되지 않음 (보안성 증가)
+      사용 목적	         세션 유지, 인증 정보 저장	             캐시, 사용자 설정, 임시 데이터 저장
+
+  
+      ### 2. **SessionStorage와 LocalStorage의 특징**
+    | **특징**      | **SessionStorage** 🚀               | **LocalStorage** 📦 |
+    | **유효 기간** | 브라우저탭을 닫으면 삭제**           | 명시적으로 삭제하기 전까지 **영구 저장** |
+    | **데이터 공유** | 같은 탭 내에서만 접근 가능**       | 같은 **브라우저의 모든 탭에서 공유 가능** |
+    | **저장 용량** | 약 **5~10MB** (브라우저별 차이 있음) | 약 **5~10MB** (브라우저별 차이 있음) |
+    | **사용 예시** | 로그인 중 현재 탭에서만 필요한 정보  | 테마 설정, 사용자 설정 값, 장바구니 데이터 |
+    | **자동삭제여부** | **탭을 닫으면 자동 삭제**         | **사용자가 직접 삭제해야 함** |
+
+
+  -->

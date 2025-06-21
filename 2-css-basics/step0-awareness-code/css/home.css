@@ -1,0 +1,42 @@
+@charset "UTF-8";
+
+table {
+	border-collapse: collapse;
+}
+/*
+	여러 대상을 선택할 때는  셀렉터,셀렉터 ...
+*/
+table, td {
+	border: 1px solid black;
+}
+
+td {
+	padding: 15px;
+}
+div {
+	background-color: lime;
+}
+span {
+	background-color: orange;
+}
+/*
+	class 접근시에는 .클래스명 
+*/
+.testDiv{
+	background-color: yellow;
+}
+/*
+	id 접근시에는 #아이디명 
+*/
+#testDivId{
+	background-color: purple;
+}
+
+
+
+
+
+
+
+
+

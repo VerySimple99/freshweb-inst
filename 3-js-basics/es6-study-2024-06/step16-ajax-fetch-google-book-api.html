@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>도서 검색</title>
+</head>
+<body>
+    <h1>📚 도서 검색</h1>
+    <input type="text" id="search" placeholder="책 제목을 입력하세요">
+    <button id="searchBooksBtn">검색</button>
+    <ul id="results"></ul>
+
+    <script>
+        
+        document.querySelector("#searchBooksBtn").addEventListener("click",searchBooks);
+        // fetch async await 를 이용해 비동기 처리 이유는 
+        // UI 반응성 유지 : 네트워크 요청 동안 페이지가 멈추지 않고 다른 작업(예를 들어 입력 등)을 수행할 수 있습니다.
+        // 실제 서비스에서는 다양한 네트워크 요청과 복잡한 로직들이 얽히게 되어 비동기 프로그래밍이 사용자 경험을 향상
+        // 시키는 핵심 요소가 됨  
+        async function searchBooks() {
+            const query = document.getElementById("search").value;
+            const apiKey = "AIzaSyCZkkFmUjJZT0CSfF9kScjcV5kW12j2iLw";  // 여기에 API 키 입력
+            const url = `https://www.googleapis.com/books/v1/volumes?q=${query}&key=${apiKey}`;
+            // async await 는 try catch 구문으로 예외 처리가 직관적으로 가능 
+            try {
+                // fetch(url)을 실행하면 해당 URL로 네트워크 요청을 보냅니다
+                //과거에는 XMLHttpRequest를 사용했지만, fetch()는 코드가 더 간결하고 Promise 기반이므로 더 현대적인 방식입니다.
+                //이 함수는 Promise를 반환하므로 .then()을 사용할 수도 있지만, 코드 가독성을 위해 async/await을 활용했습니다.
+                const response = await fetch(url);
+                const data = await response.json();
+                displayBooks(data.items);
+            } catch (error) {
+                console.error("책 정보를 불러오는 데 실패했습니다!", error);
+            }
+        }
+
+        function displayBooks(books) {
+            const results = document.querySelector("#results");
+            results.innerHTML = "";  // 기존 검색 결과 삭제
+            books.forEach(book => {
+                const li = document.createElement("li");
+                li.textContent = `${book.volumeInfo.title} - ${book.volumeInfo.authors?.join(", ") || "저자 정보 없음"}`;
+                results.appendChild(li);
+            });
+        }
+    </script>
+</body>
+</html>
