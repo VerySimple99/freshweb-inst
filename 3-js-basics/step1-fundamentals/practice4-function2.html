@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>javascript function</title>
+</head>
+<body>
+	<!--
+	함수(Function): 특정 작업을 수행하는 코드들을 하나로 묶어서 이름을 붙인 것으로, 필요할 때마다 호출하여 사용할 수 있는 재사용 가능한 코드 블록
+	-->
+javascript 함수 선언문 (Function Declaration)<br><br>
+<script type="text/javascript">
+// 🎯 학습 목표: 가장 기본적인 함수 작성 방법 이해하기
+// 📝 시나리오: 간단한 인사말을 만드는 함수
+
+// [단계1]: 기본 함수 선언 - 매개변수 없음
+function sayHello() {
+    return "안녕하세요!";
+}
+
+// [단계2]: 매개변수가 있는 함수 선언
+function greetUser(name) {
+    return "안녕하세요, " + name + "님!";
+}
+
+// [단계3]: 함수 호출
+console.log(sayHello());           // 함수 실행
+console.log(greetUser("덴빠"));     // 매개변수와 함께 실행
+
+// 💡 핵심 포인트: 함수 선언문은 호이스팅되어 선언 전에도 호출 가능
+// ⚠️  주의사항: function 키워드로 시작하며, 중괄호 안에 실행할 코드 작성
+
+/*
+📋 실행 결과:
+안녕하세요!
+안녕하세요, 덴빠님!
+*/
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+

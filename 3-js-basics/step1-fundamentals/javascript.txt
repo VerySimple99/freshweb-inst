@@ -1,0 +1,40 @@
+**webstudy4-javascript**
+
+HTML : web document 컨텐트 담당
+CSS : web document 디자인 스타일 담당
+JavaScript : web document 행위 담당 
+
+ECMAScript 표준을 준수하는 스크립트 언어 
+ECMA 인터내셔널 : 정보 통신 표준을 제정하는 표준화 기구 
+
+ES5 (ECMA5, 2009)	: 변수 선언 var -> 중복선언 가능 , Function level scope 		   
+ES6 (ECMA6, 2015)  : 변수 선언 let -> 중복선언 불가 , Block level scope 
+						   const 상수 , arrow function (화살표 함수) 등이 새롭게 추가 
+
+서버가 웹문서를 응답하여 브라우저가 수신하면 						   
+HTML을 읽는다 -> HTML 을 파싱한다 -> DOM Tree를 생성한다 
+-> Render 트리가 생성(css와 결합)->브라우저에 표시된다					   	
+
+DOM ( Document Object Model ) 
+: javascript에서  web document 의 요소(element : 버튼, div, span ..)를 제어하기 위한 
+  프로그래밍 인터페이스를 제공 
+  웹브라우저 지원 
+  HTML 문서(document) 요소를 계층적으로 지원 ( DOM Tree ) 
+  하여  button, div , span 과 같은 요소들을 제어하고 조작하기 위한 함수를 제공 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

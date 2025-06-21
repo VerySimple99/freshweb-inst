@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript 반복문 완전 정복</title>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1, h2 {
+            color: #2c3e50;
+        }
+        .code-section {
+            background: #f4f4f4;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            border-left: 4px solid #3498db;
+        }
+        .output {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+            white-space: pre-line;
+        }
+        button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+        }
+        button:hover {
+            background: #2980b9;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 10px;
+            border-radius: 5px;
+            border-left: 4px solid #ffc107;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔄 JavaScript 반복문 완전 정복</h1>
+        <p><strong>💡 학습 핵심:</strong> 반복문은 같은 작업을 여러 번 수행할 때 사용하는 제어문입니다.</p>
+        
+        <div class="highlight">
+            <strong>🎯 실생활 비유:</strong> 반복문은 요리할 때 "소금을 3번 뿌리기", "과일을 하나씩 씻기"와 같은 반복 작업과 똑같습니다.
+        </div>
+
+        <!-- 1. 전통적인 for문 -->
+        <h2>1️⃣ 전통적인 for문 - 가장 기본이 되는 반복문</h2>
+        <div class="code-section">
+            <button onclick="traditionalFor()">전통적인 for문 실행</button>
+            <div id="output1" class="output">결과가 여기에 표시됩니다...</div>
+        </div>
+
+        <!-- 2. while문 -->
+        <h2>2️⃣ while문 - 조건이 참인 동안 계속 반복</h2>
+        <div class="code-section">
+            <button onclick="whileLoop()">while문 실행</button>
+            <div id="output2" class="output">결과가 여기에 표시됩니다...</div>
+        </div>
+
+        <!-- 3. for...in문 -->
+        <h2>3️⃣ for...in문 - 객체의 속성을 하나씩 순회</h2>
+        <div class="code-section">
+            <button onclick="forInLoop()">for...in문 실행</button>
+            <div id="output3" class="output">결과가 여기에 표시됩니다...</div>
+        </div>
+
+        <!-- 4. for...of문 -->
+        <h2>4️⃣ for...of문 - 배열의 값을 하나씩 순회 (ES6+)</h2>
+        <div class="code-section">
+            <button onclick="forOfLoop()">for...of문 실행</button>
+            <div id="output4" class="output">결과가 여기에 표시됩니다...</div>
+        </div>
+
+        <!-- 5. forEach 메서드 -->
+        <h2>5️⃣ forEach 메서드 - 배열 전용 반복 메서드 (ES5+)</h2>
+        <div class="code-section">
+            <button onclick="forEachMethod()">forEach 메서드 실행</button>
+            <div id="output5" class="output">결과가 여기에 표시됩니다...</div>
+        </div>
+
+        <!-- 6. map 메서드 -->
+        <h2>6️⃣ map 메서드 - 새로운 배열을 만들며 반복 (ES5+)</h2>
+        <div class="code-section">
+            <button onclick="mapMethod()">map 메서드 실행</button>
+            <div id="output6" class="output">결과가 여기에 표시됩니다...</div>
+        </div>
+
+        <!-- 실습 과제 -->
+        <h2>🎯 종합 실습: 세계 명작 도서관 관리</h2>
+        <div class="code-section">
+            <button onclick="practiceExercise()">종합 실습 실행</button>
+            <div id="outputPractice" class="output">결과가 여기에 표시됩니다...</div>
+        </div>
+    </div>
+<script src="js/script-loop.js""></script>    
+</body>
+</html>

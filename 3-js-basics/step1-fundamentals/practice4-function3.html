@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>javascript function</title>
+</head>
+<body>
+	<!--
+	함수(Function): 특정 작업을 수행하는 코드들을 하나로 묶어서 이름을 붙인 것으로, 필요할 때마다 호출하여 사용할 수 있는 재사용 가능한 코드 블록
+	-->
+javascript 함수 표현식 (Function Expression) <br><br>
+<script type="text/javascript">
+// 🎯 학습 목표: 변수에 함수를 할당하는 방법 이해하기
+// 📝 시나리오: 계산기 기능을 함수 표현식으로 구현
+
+// [단계1]: 기본 함수 표현식
+const add = function(a, b) {
+    return a + b;
+};
+
+// [단계2]: 함수 표현식 활용
+const multiply = function(x, y) {
+    const result = x * y;
+    return result;
+};
+
+// [단계3]: 함수 표현식 호출
+console.log(add(5, 3));        // 8
+console.log(multiply(4, 7));   // 28
+
+// 💡 핵심 포인트: 변수에 함수를 저장하여 나중에 호출
+// ⚠️  주의사항: 함수 표현식은 호이스팅되지 않아 선언 후에만 사용 가능
+
+/*
+📋 실행 결과:
+8
+28
+*/
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
