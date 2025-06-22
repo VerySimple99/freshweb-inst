@@ -1,31 +1,163 @@
-**webstudy4-javascript**
+# JavaScript 핵심 개념 - 구술 면접용 정리
 
-HTML : web document 컨텐트 담당
-CSS : web document 디자인 스타일 담당
-JavaScript : web document 행위 담당 
+## 📌 기본 개념
 
-ECMAScript 표준을 준수하는 스크립트 언어 
-ECMA 인터내셔널 : 정보 통신 표준을 제정하는 표준화 기구 
+**JavaScript**
+- 웹 문서의 동적 행위를 담당하는 ECMAScript 표준 스크립트 언어
+- HTML(컨텐트) + CSS(디자인) + JavaScript(행위)의 웹 3대 요소
 
-ES5 (ECMA5, 2009)	: 변수 선언 var -> 중복선언 가능 , Function level scope 		   
-ES6 (ECMA6, 2015)  : 변수 선언 let -> 중복선언 불가 , Block level scope 
-						   const 상수 , arrow function (화살표 함수) 등이 새롭게 추가 
+**ECMAScript**
+- ECMA 인터내셔널이 제정한 JavaScript 표준 명세
+- ES5(2009): var, function level scope
+- ES6(2015): let/const, block level scope, arrow function
 
-서버가 웹문서를 응답하여 브라우저가 수신하면 						   
-HTML을 읽는다 -> HTML 을 파싱한다 -> DOM Tree를 생성한다 
--> Render 트리가 생성(css와 결합)->브라우저에 표시된다					   	
+## 📌 변수와 스코프
 
-DOM ( Document Object Model ) 
-: javascript에서  web document 의 요소(element : 버튼, div, span ..)를 제어하기 위한 
-  프로그래밍 인터페이스를 제공 
-특징 
-트리 구조: HTML 문서는 부모-자식 관계의 노드(Node)들로 구성
-            HTML 문서(document) 요소를 계층적으로 지원 ( DOM Tree ) 
-동적 조작 가능: JavaScript로 실시간으로 요소 추가/삭제/변경 가능
-이벤트 기반: 사용자 행동(클릭, 입력 등)에 반응하여 DOM 변경
-브라우저 API: 웹 브라우저가 제공하는 JavaScript 인터페이스
+**var vs let vs const**
+- var: 중복선언 가능, function level scope, 호이스팅
+- let: 중복선언 불가, block level scope, 재할당 가능
+- const: 중복선언 불가, block level scope, 재할당 불가
 
+**Scope (스코프)**
+- 변수에 접근할 수 있는 유효한 범위
+- Global scope: 전역에서 접근 가능
+- Function scope: 함수 내부에서만 접근 가능
+- Block scope: 블록({}) 내부에서만 접근 가능
 
+**Hoisting (호이스팅)**
+- 변수와 함수 선언이 스코프 최상단으로 끌어올려지는 현상
+- var와 function 선언문에서 발생
+
+## 📌 함수
+
+**Function Declaration (함수 선언문)**
+```javascript
+function add(a, b) {
+    return a + b;
+}
+```
+
+**Function Expression (함수 표현식)**
+```javascript
+const add = function(a, b) {
+    return a + b;
+};
+```
+
+**Arrow Function (화살표 함수)**
+```javascript
+const add = (a, b) => a + b;
+```
+
+**this 키워드**
+- 함수 호출 방식에 따라 달라지는 현재 실행 컨텍스트 객체
+- 일반 함수: 전역 객체 또는 호출한 객체
+- 화살표 함수: 상위 스코프의 this 값 유지
+
+## 📌 객체와 배열
+
+**Object (객체)**
+- key-value 쌍으로 구성된 데이터 구조
+- 점 표기법(obj.key) 또는 대괄호 표기법(obj['key'])으로 접근
+
+**Array (배열)**
+- 순서가 있는 데이터 집합, index로 접근
+- length 속성으로 배열 크기 확인
+
+**Destructuring (구조 분해 할당)**
+- 배열이나 객체의 값을 개별 변수로 추출하는 문법
+```javascript
+const [a, b] = [1, 2];
+const {name, age} = {name: 'John', age: 30};
+```
+
+## 📌 비동기 처리
+
+**Callback (콜백)**
+- 다른 함수의 인자로 전달되어 나중에 호출되는 함수
+- 비동기 작업 완료 후 실행할 코드 정의
+
+**Promise (프로미스)**
+- 비동기 작업의 최종 완료 또는 실패를 나타내는 객체
+- pending, fulfilled, rejected 세 가지 상태
+
+**async/await**
+- Promise를 더 간결하고 동기적으로 작성할 수 있는 문법
+- async 함수 내에서 await로 Promise 결과 대기
+
+## 📌 데이터 통신
+
+**JSON (JavaScript Object Notation)**
+- 경량의 데이터 교환 형식, JavaScript 객체 문법 기반
+- 텍스트 형태로 사람이 읽기 쉽고 언어 독립적
+- `JSON.stringify()`: 객체 → JSON 문자열 변환
+- `JSON.parse()`: JSON 문자열 → 객체 변환
+
+**Ajax (Asynchronous JavaScript and XML)**
+- 페이지 전체를 새로고침하지 않고 서버와 비동기 통신하는 기술
+- XMLHttpRequest 객체 사용 (현재는 fetch API 권장)
+- 사용자 경험 향상을 위한 비동기 데이터 로딩
+
+**Fetch API**
+- 현대적인 Ajax 대안, Promise 기반 HTTP 통신
+- XMLHttpRequest보다 간결하고 직관적
+```javascript
+fetch('/api/data')
+  .then(response => response.json())
+  .then(data => console.log(data));
+```
+
+**HTTP Methods**
+- GET: 데이터 조회 (서버에서 데이터 읽기)
+- POST: 데이터 생성 (서버에 새 데이터 전송)
+- PUT: 데이터 전체 수정 (기존 데이터 교체)
+- DELETE: 데이터 삭제
+
+## 📌 DOM 조작
+
+**DOM (Document Object Model)**
+- JavaScript에서 HTML 문서의 요소를 제어하기 위한 프로그래밍 인터페이스
+- 트리 구조로 문서 표현, 동적 조작 가능
+
+**Element 선택**
+- `getElementById()`: ID로 요소 선택
+- `querySelector()`: CSS 선택자로 첫 번째 요소 선택
+- `querySelectorAll()`: CSS 선택자로 모든 요소 선택
+
+**Event Handling (이벤트 처리)**
+- 사용자 행동(클릭, 입력 등)에 반응하여 실행되는 코드
+- `addEventListener()`로 이벤트 리스너 등록
+
+## 📌 ES6+ 주요 기능
+
+**Template Literals (템플릿 리터럴)**
+- 백틱(`)을 사용한 문자열, ${} 표현식 삽입 가능
+
+**Spread Operator (전개 연산자)**
+- `...` 연산자로 배열이나 객체를 확장
+
+**Default Parameters (기본 매개변수)**
+- 함수 매개변수에 기본값 설정
+
+**Class**
+- 객체 지향 프로그래밍을 위한 문법적 설탕
+- constructor, method, extends, super 키워드
+
+## 📌 브라우저 환경
+
+**Browser Rendering Process**
+1. HTML 파싱 → DOM Tree 생성
+2. CSS 파싱 → CSSOM Tree 생성  
+3. DOM + CSSOM → Render Tree 생성
+4. Layout → Paint → Composite
+
+**Web API**
+- 브라우저가 제공하는 JavaScript 인터페이스
+- fetch, setTimeout, DOM API 등
+
+---
+
+*"진리는 단순함에서 나온다. 복잡함은 이해의 부족에서 온다."*
 
 
 
