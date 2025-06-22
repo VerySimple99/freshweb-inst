@@ -1,0 +1,1126 @@
+<!--
+1️⃣ 기본 이벤트 처리
+
+HTML 인라인 vs DOM 속성 vs addEventListener 비교
+다양한 이벤트 타입 (click, input, focus, blur, keydown 등)
+마우스와 키보드 이벤트의 기본 활용
+
+2️⃣ addEventListener 마스터
+
+여러 이벤트 핸들러 등록과 제거
+이벤트 옵션 ({ once, passive })
+이벤트 위임 (Event Delegation)
+디바운싱과 쓰로틀링 성능 최적화
+
+3️⃣ 이벤트 객체 완전 활용
+
+이벤트 객체의 주요 속성들
+preventDefault()와 stopPropagation()
+마우스/키보드 이벤트 상세 정보
+커스텀 이벤트 생성과 발생
+
+4️⃣ 폼 이벤트 완전 정복
+
+실시간 유효성 검사 (input, change 이벤트)
+폼 제출 처리와 Ajax 연동
+사용자 경험 향상 (로딩 상태, 에러 표시)
+키보드 네비게이션과 접근성
+
+5️⃣ Spring 폼 연동 실무
+
+Spring Boot Controller와 연동하는 회원가입 폼
+@Valid 검증과 일치하는 클라이언트 측 유효성 검사
+실시간 이메일 중복 확인
+Spring 에러 응답 처리 (fieldErrors)
+로딩 상태와 사용자 피드백
+
+💡 Spring 학습에 특히 유용한 이유:
+🌱 실무 직결:
+
+Spring Controller의 @PostMapping과 연동
+@RequestBody로 전송할 데이터 처리
+@Valid 검증과 클라이언트 검증 일치
+
+🔒 보안과 UX:
+
+클라이언트와 서버 양쪽 유효성 검사
+CSRF 방지와 보안 헤더 처리
+실시간 피드백으로 사용자 경험 향상
+
+📱 접근성:
+
+키보드 네비게이션 지원
+스크린 리더 친화적 에러 메시지
+로딩 상태와 진행 표시
+
+⚡ 성능 최적화:
+
+디바운싱으로 API 호출 최적화
+이벤트 위임으로 메모리 효율성
+적절한 이벤트 타입 선택
+-->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>JavaScript Event Handling 완전 정복</title>
+<style>
+    .demo-button { padding: 10px 20px; margin: 5px; background: #007bff; color: white; border: none; cursor: pointer; }
+    .demo-input { padding: 8px; margin: 5px; border: 1px solid #ccc; }
+    .demo-box { width: 200px; height: 100px; border: 2px solid #333; margin: 10px; padding: 10px; background: #f0f0f0; }
+    .highlight { background: yellow; }
+</style>
+</head>
+<body>
+JavaScript Event Handling: 사용자 상호작용을 처리하는 웹 개발의 핵심
+<br><br>
+
+<button onclick="basicEvents()">기본 이벤트</button>
+<button onclick="eventListeners()">이벤트 리스너</button>
+<button onclick="eventObject()">이벤트 객체</button>
+<button onclick="formEvents()">폼 이벤트</button>
+<button onclick="springFormExample()">Spring 폼 연동</button>
+
+<!-- 데모용 요소들 -->
+<div id="demo-area" style="margin-top: 20px; padding: 20px; border: 1px solid #ddd;">
+    <h3>이벤트 데모 영역</h3>
+    <button id="demo-btn" class="demo-button">클릭해보세요</button>
+    <input id="demo-input" class="demo-input" placeholder="여기에 입력하세요">
+    <div id="demo-box" class="demo-box">마우스를 올려보세요</div>
+    
+    <form id="demo-form" style="margin-top: 20px;">
+        <input type="text" id="name-input" placeholder="이름" required>
+        <input type="email" id="email-input" placeholder="이메일" required>
+        <button type="submit">제출</button>
+    </form>
+</div>
+
+<script>
+    // 🎯 학습 목표: 이벤트 처리의 모든 것을 마스터하기
+    // 💡 핵심 개념:
+    // - 이벤트: 사용자 행동(클릭, 입력 등)이나 브라우저 상태 변화를 알리는 신호
+    // - 이벤트 핸들러: 이벤트가 발생했을 때 실행되는 함수
+    // - 이벤트 객체: 이벤트에 대한 상세 정보를 담은 객체
+    // - Spring 폼 연동에서 클라이언트 측 유효성 검사와 사용자 경험 향상에 필수
+
+    function basicEvents() {
+        console.log("=== 기본 이벤트 처리 ===");
+        
+        // 🔍 이벤트 처리 방식의 진화
+        // 1) HTML 인라인 방식 → 2) DOM 속성 방식 → 3) addEventListener 방식
+        
+        // 1️⃣ HTML 인라인 방식 (onclick="함수명()")
+        // 장점: 간단함, 단점: HTML과 JavaScript 혼재, 하나의 이벤트만 등록 가능
+        // 이미 위의 버튼들이 이 방식을 사용 중
+        console.log("HTML 인라인 방식은 간단하지만 권장하지 않음");
+        
+        // 2️⃣ DOM 속성 방식 (element.onclick = function)
+        // HTML과 JavaScript 분리 가능, 하지만 여전히 하나의 핸들러만 등록 가능
+        const demoBtn = document.getElementById('demo-btn');
+        
+        // 기존 이벤트 핸들러 백업 (덮어쓰기 방지)
+        const originalHandler = demoBtn.onclick;
+        
+        demoBtn.onclick = function(event) {
+            console.log("DOM 속성 방식으로 클릭 이벤트 처리됨");
+            console.log("클릭된 요소:", event.target.textContent);
+            
+            // 버튼 텍스트 변경으로 이벤트 처리 확인
+            event.target.style.background = "#28a745";
+            event.target.textContent = "클릭됨!";
+            
+            // 2초 후 원상복구
+            setTimeout(() => {
+                event.target.style.background = "#007bff";
+                event.target.textContent = "클릭해보세요";
+            }, 2000);
+        };
+        
+        // 3️⃣ 다양한 이벤트 타입들
+        const demoInput = document.getElementById('demo-input');
+        const demoBox = document.getElementById('demo-box');
+        
+        // 입력 이벤트: 실시간 입력 감지 (검색 자동완성에 주로 사용)
+        demoInput.oninput = function(event) {
+            console.log("입력된 텍스트:", event.target.value);
+            
+            // 입력 길이에 따른 피드백
+            if (event.target.value.length > 5) {
+                event.target.style.borderColor = "green";
+            } else {
+                event.target.style.borderColor = "#ccc";
+            }
+        };
+        
+        // 포커스 이벤트: 입력 필드 활성화/비활성화
+        demoInput.onfocus = function(event) {
+            console.log("입력 필드에 포커스됨");
+            event.target.style.backgroundColor = "#e3f2fd";
+        };
+        
+        demoInput.onblur = function(event) {
+            console.log("입력 필드에서 포커스 해제됨");
+            event.target.style.backgroundColor = "white";
+        };
+        
+        // 마우스 이벤트: 호버 효과 구현
+        demoBox.onmouseenter = function(event) {
+            console.log("마우스가 박스에 진입함");
+            event.target.style.backgroundColor = "#ffeaa7";
+            event.target.textContent = "마우스가 위에 있어요!";
+        };
+        
+        demoBox.onmouseleave = function(event) {
+            console.log("마우스가 박스에서 나감");
+            event.target.style.backgroundColor = "#f0f0f0";
+            event.target.textContent = "마우스를 올려보세요";
+        };
+        
+        // 키보드 이벤트: 특정 키 입력 감지
+        demoInput.onkeydown = function(event) {
+            // Enter 키 감지 (키 코드 13 또는 key 속성 사용)
+            if (event.key === "Enter") {
+                console.log("Enter 키가 눌렸습니다");
+                console.log("현재 입력값:", event.target.value);
+            }
+            
+            // ESC 키로 입력 내용 지우기
+            if (event.key === "Escape") {
+                event.target.value = "";
+                console.log("ESC 키로 입력 내용 지워짐");
+            }
+        };
+        
+        // 💡 실무 팁: 이벤트 핸들러 정리
+        console.log("💡 기본 이벤트 처리 방식들:");
+        console.log("• HTML 인라인: 간단하지만 권장 안함 (onclick='')");
+        console.log("• DOM 속성: 기본적인 방식 (element.onclick = function)");
+        console.log("• addEventListener: 가장 권장하는 방식 (다음 예제에서 설명)");
+        
+        alert("콘솔을 확인하고 데모 영역의 요소들과 상호작용해보세요!");
+    }
+    
+    function eventListeners() {
+        console.log("=== addEventListener: 현대적인 이벤트 처리 ===");
+        
+        // 🔍 addEventListener의 장점
+        // 1) 하나의 요소에 여러 이벤트 핸들러 등록 가능
+        // 2) 이벤트 캡처링/버블링 제어 가능
+        // 3) 이벤트 핸들러 제거 가능 (removeEventListener)
+        // 4) 현대적이고 유연한 이벤트 처리 방식
+        
+        const demoBtn = document.getElementById('demo-btn');
+        const demoInput = document.getElementById('demo-input');
+        
+        // 1️⃣ 기본 addEventListener 사용법
+        // element.addEventListener('이벤트타입', 핸들러함수, 옵션)
+        
+        // 같은 요소에 여러 클릭 이벤트 핸들러 등록 (DOM 속성 방식으로는 불가능!)
+        demoBtn.addEventListener('click', function(event) {
+            console.log("📌 첫 번째 클릭 핸들러 실행됨");
+        });
+        
+        demoBtn.addEventListener('click', function(event) {
+            console.log("📌 두 번째 클릭 핸들러 실행됨");
+            event.target.classList.toggle('highlight'); // CSS 클래스 토글
+        });
+        
+        // 화살표 함수로도 가능
+        demoBtn.addEventListener('click', (event) => {
+            console.log("📌 세 번째 클릭 핸들러 (화살표 함수)");
+        });
+        
+        // 2️⃣ 이벤트 핸들러 제거
+        // removeEventListener를 위해서는 함수를 변수에 저장해야 함
+        function removableHandler(event) {
+            console.log("🗑️ 이 핸들러는 3초 후 제거됩니다");
+        }
+        
+        demoBtn.addEventListener('click', removableHandler);
+        
+        // 3초 후 핸들러 제거
+        setTimeout(() => {
+            demoBtn.removeEventListener('click', removableHandler);
+            console.log("🗑️ 핸들러가 제거되었습니다");
+        }, 3000);
+        
+        // 3️⃣ 이벤트 옵션 활용
+        
+        // once: true - 한 번만 실행되고 자동으로 제거
+        demoBtn.addEventListener('click', function(event) {
+            console.log("🔥 이 메시지는 한 번만 나타납니다 (once 옵션)");
+        }, { once: true });
+        
+        // passive: true - preventDefault() 호출 안함을 명시 (성능 최적화)
+        demoInput.addEventListener('wheel', function(event) {
+            console.log("🎡 마우스 휠 이벤트 (passive)");
+        }, { passive: true });
+        
+        // 4️⃣ 이벤트 위임 (Event Delegation)
+        // 부모 요소에서 자식 요소들의 이벤트를 처리하는 패턴
+        // 동적으로 생성되는 요소들의 이벤트 처리에 필수
+        
+        const demoArea = document.getElementById('demo-area');
+        
+        // 데모 영역 내의 모든 버튼 클릭을 한 곳에서 처리
+        demoArea.addEventListener('click', function(event) {
+            // event.target으로 실제 클릭된 요소 확인
+            if (event.target.tagName === 'BUTTON') {
+                console.log("🎯 이벤트 위임으로 버튼 클릭 감지:", event.target.textContent);
+                
+                // 클릭된 버튼에 임시 효과 추가
+                event.target.style.transform = "scale(0.95)";
+                setTimeout(() => {
+                    event.target.style.transform = "scale(1)";
+                }, 100);
+            }
+        });
+        
+        // 동적 버튼 생성 테스트
+        function createDynamicButton() {
+            const newBtn = document.createElement('button');
+            newBtn.textContent = `동적 버튼 ${Date.now()}`;
+            newBtn.className = 'demo-button';
+            demoArea.appendChild(newBtn);
+            
+            console.log("🆕 동적 버튼 생성됨 (이벤트 위임으로 자동 처리)");
+        }
+        
+        // 동적 버튼 생성 버튼 추가
+        const createBtn = document.createElement('button');
+        createBtn.textContent = '동적 버튼 생성';
+        createBtn.className = 'demo-button';
+        createBtn.addEventListener('click', createDynamicButton);
+        demoArea.appendChild(createBtn);
+        
+        // 5️⃣ 실무에서 자주 사용하는 패턴들
+        
+        // 디바운싱 (Debouncing): 연속된 이벤트 중 마지막 것만 처리
+        // 검색 자동완성, API 호출 최적화에 필수
+        let debounceTimer;
+        demoInput.addEventListener('input', function(event) {
+            clearTimeout(debounceTimer);
+            
+            debounceTimer = setTimeout(() => {
+                console.log("🔍 디바운싱된 검색:", event.target.value);
+                // 실제로는 여기서 API 호출
+            }, 300); // 300ms 대기 후 실행
+        });
+        
+        // 쓰로틀링 (Throttling): 일정 간격으로만 이벤트 처리
+        // 스크롤, 리사이즈 이벤트 성능 최적화에 사용
+        let throttleTimer = false;
+        window.addEventListener('scroll', function(event) {
+            if (!throttleTimer) {
+                setTimeout(() => {
+                    console.log("📜 쓰로틀링된 스크롤 이벤트");
+                    throttleTimer = false;
+                }, 100); // 100ms마다 한 번씩만 실행
+                throttleTimer = true;
+            }
+        });
+        
+        // 💡 실무 활용 팁
+        console.log("💡 addEventListener 실무 팁:");
+        console.log("• 여러 핸들러 등록 시 반드시 addEventListener 사용");
+        console.log("• 이벤트 위임으로 동적 요소 처리");
+        console.log("• 디바운싱/쓰로틀링으로 성능 최적화");
+        console.log("• { once: true } 옵션으로 일회성 이벤트 처리");
+        console.log("• removeEventListener로 메모리 누수 방지");
+        
+        alert("콘솔을 확인하고 버튼을 여러 번 클릭해보세요!");
+    }
+    
+    function eventObject() {
+        console.log("=== 이벤트 객체 활용하기 ===");
+        
+        // 🔍 이벤트 객체 (Event Object)
+        // 이벤트가 발생할 때 브라우저가 자동으로 생성하는 객체
+        // 이벤트에 대한 모든 정보를 담고 있음 (타입, 대상, 위치, 키 등)
+        // 이벤트 핸들러의 첫 번째 매개변수로 전달됨
+        
+        const demoBtn = document.getElementById('demo-btn');
+        const demoBox = document.getElementById('demo-box');
+        
+        // 1️⃣ 이벤트 객체의 주요 속성들
+        demoBtn.addEventListener('click', function(event) {
+            console.log("=== 클릭 이벤트 객체 분석 ===");
+            console.log("이벤트 타입:", event.type); // "click"
+            console.log("클릭된 요소:", event.target); // 실제 클릭된 요소
+            console.log("이벤트가 등록된 요소:", event.currentTarget); // 이벤트 리스너가 등록된 요소
+            console.log("마우스 X 좌표:", event.clientX); // 뷰포트 기준 X 좌표
+            console.log("마우스 Y 좌표:", event.clientY); // 뷰포트 기준 Y 좌표
+            console.log("페이지 X 좌표:", event.pageX); // 페이지 전체 기준 X 좌표
+            console.log("페이지 Y 좌표:", event.pageY); // 페이지 전체 기준 Y 좌표
+            console.log("타임스탬프:", event.timeStamp); // 이벤트 발생 시간
+        });
+        
+        // 2️⃣ 마우스 이벤트 상세 정보
+        demoBox.addEventListener('mousedown', function(event) {
+            console.log("=== 마우스 다운 이벤트 ===");
+            console.log("눌린 버튼:", event.button); // 0: 왼쪽, 1: 휠, 2: 오른쪽
+            console.log("Ctrl 키 눌림:", event.ctrlKey);
+            console.log("Shift 키 눌림:", event.shiftKey);
+            console.log("Alt 키 눌림:", event.altKey);
+            
+            // 마우스 위치에 따른 동적 스타일링
+            const x = event.offsetX; // 요소 내부 기준 X 좌표
+            const y = event.offsetY; // 요소 내부 기준 Y 좌표
+            
+            event.target.style.background = `radial-gradient(circle at ${x}px ${y}px, #ff6b6b, #f0f0f0)`;
+        });
+        
+        demoBox.addEventListener('mouseup', function(event) {
+            event.target.style.background = "#f0f0f0"; // 원상복구
+        });
+        
+        // 3️⃣ 키보드 이벤트 상세 정보
+        const demoInput = document.getElementById('demo-input');
+        
+        demoInput.addEventListener('keydown', function(event) {
+            console.log("=== 키보드 이벤트 ===");
+            console.log("눌린 키:", event.key); // 실제 키 값 ("a", "Enter", "ArrowUp" 등)
+            console.log("키 코드:", event.code); // 물리적 키 위치 ("KeyA", "Enter", "ArrowUp" 등)
+            console.log("키 코드 (레거시):", event.keyCode); // 숫자 코드 (권장하지 않음)
+            
+            // 특수 키 조합 처리
+            if (event.ctrlKey && event.key === 's') {
+                event.preventDefault(); // 브라우저 기본 저장 동작 방지
+                console.log("💾 Ctrl+S 감지 - 커스텀 저장 로직 실행");
+            }
+            
+            if (event.key === 'F1') {
+                event.preventDefault(); // F1 도움말 방지
+                console.log("❓ F1 감지 - 커스텀 도움말 표시");
+            }
+        });
+        
+        // 4️⃣ 이벤트 전파 제어
+        
+        // 버블링 시연을 위한 중첩 요소 생성
+        const outerDiv = document.createElement('div');
+        outerDiv.style.cssText = 'padding: 20px; background: lightblue; margin: 10px;';
+        outerDiv.textContent = '외부 영역 (클릭해보세요)';
+        
+        const innerDiv = document.createElement('div');
+        innerDiv.style.cssText = 'padding: 20px; background: lightcoral; margin: 10px;';
+        innerDiv.textContent = '내부 영역 (클릭해보세요)';
+        
+        outerDiv.appendChild(innerDiv);
+        document.getElementById('demo-area').appendChild(outerDiv);
+        
+        // 버블링 시연: 내부 요소 클릭 시 외부 요소 이벤트도 발생
+        outerDiv.addEventListener('click', function(event) {
+            console.log("🔵 외부 영역 클릭됨");
+        });
+        
+        innerDiv.addEventListener('click', function(event) {
+            console.log("🔴 내부 영역 클릭됨");
+            
+            // event.stopPropagation()으로 버블링 중단 가능
+            // event.stopPropagation(); // 주석 해제하면 외부 영역 이벤트 발생 안함
+        });
+        
+        // 5️⃣ 기본 동작 방지 (preventDefault)
+        
+        // 폼 제출 방지 예제
+        const demoForm = document.getElementById('demo-form');
+        
+        demoForm.addEventListener('submit', function(event) {
+            console.log("=== 폼 제출 이벤트 ===");
+            
+            const nameInput = document.getElementById('name-input');
+            const emailInput = document.getElementById('email-input');
+            
+            // 간단한 유효성 검사
+            if (nameInput.value.length < 2) {
+                console.log("❌ 이름이 너무 짧습니다");
+                event.preventDefault(); // 폼 제출 중단
+                nameInput.focus();
+                return;
+            }
+            
+            if (!emailInput.value.includes('@')) {
+                console.log("❌ 유효하지 않은 이메일입니다");
+                event.preventDefault(); // 폼 제출 중단
+                emailInput.focus();
+                return;
+            }
+            
+            console.log("✅ 유효성 검사 통과");
+            // 실제로는 여기서 Ajax로 서버에 전송
+            event.preventDefault(); // 데모이므로 실제 제출은 막음
+            console.log("📤 Ajax로 서버에 전송할 데이터:", {
+                name: nameInput.value,
+                email: emailInput.value
+            });
+        });
+        
+        // 6️⃣ 커스텀 이벤트 생성과 발생
+        // 컴포넌트 간 통신이나 모듈 간 결합도를 낮추는 데 유용
+        
+        function createCustomEvent() {
+            // 커스텀 이벤트 생성
+            const customEvent = new CustomEvent('userAction', {
+                detail: {
+                    action: 'buttonClick',
+                    timestamp: Date.now(),
+                    user: 'testUser'
+                },
+                bubbles: true // 버블링 허용
+            });
+            
+            // 이벤트 발생
+            demoBtn.dispatchEvent(customEvent);
+        }
+        
+        // 커스텀 이벤트 리스너 등록
+        demoBtn.addEventListener('userAction', function(event) {
+            console.log("🎨 커스텀 이벤트 감지:", event.detail);
+        });
+        
+        // 커스텀 이벤트 테스트 버튼
+        const customEventBtn = document.createElement('button');
+        customEventBtn.textContent = '커스텀 이벤트 발생';
+        customEventBtn.className = 'demo-button';
+        customEventBtn.addEventListener('click', createCustomEvent);
+        document.getElementById('demo-area').appendChild(customEventBtn);
+        
+        // 💡 이벤트 객체 활용 팁
+        console.log("💡 이벤트 객체 활용 팁:");
+        console.log("• event.target vs event.currentTarget 구분하기");
+        console.log("• preventDefault()로 기본 동작 제어");
+        console.log("• stopPropagation()으로 이벤트 전파 제어");
+        console.log("• 키보드 이벤트는 event.key 사용 (keyCode는 레거시)");
+        console.log("• 커스텀 이벤트로 컴포넌트 간 통신 구현");
+        
+        alert("콘솔을 확인하고 다양한 이벤트를 발생시켜보세요!");
+    }
+    
+    function formEvents() {
+        console.log("=== 폼 이벤트 완전 정복 ===");
+        
+        // 🔍 폼 이벤트의 중요성
+        // 웹 애플리케이션에서 사용자 입력을 받는 가장 중요한 방법
+        // Spring Controller로 데이터를 전송하기 전 클라이언트 측 검증 필수
+        // 사용자 경험(UX) 향상의 핵심
+        
+        // 데모용 폼 요소들 가져오기
+        const demoForm = document.getElementById('demo-form');
+        const nameInput = document.getElementById('name-input');
+        const emailInput = document.getElementById('email-input');
+        
+        // 1️⃣ 입력 관련 이벤트들
+        
+        // input: 실시간 입력 감지 (가장 많이 사용)
+        nameInput.addEventListener('input', function(event) {
+            const value = event.target.value;
+            console.log("📝 이름 입력 중:", value);
+            
+            // 실시간 유효성 검사
+            if (value.length === 0) {
+                event.target.style.borderColor = "#ccc";
+            } else if (value.length < 2) {
+                event.target.style.borderColor = "orange";
+                console.log("⚠️ 이름이 너무 짧습니다");
+            } else {
+                event.target.style.borderColor = "green";
+                console.log("✅ 유효한 이름입니다");
+            }
+        });
+        
+        // change: 값이 변경되고 포커스가 벗어날 때
+        emailInput.addEventListener('change', function(event) {
+            const email = event.target.value;
+            console.log("📧 이메일 변경됨:", email);
+            
+            // 이메일 형식 검증 (간단한 정규식)
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (emailPattern.test(email)) {
+                event.target.style.borderColor = "green";
+                console.log("✅ 유효한 이메일 형식");
+            } else {
+                event.target.style.borderColor = "red";
+                console.log("❌ 유효하지 않은 이메일 형식");
+            }
+        });
+        
+        // focus/blur: 포커스 이벤트로 사용자 가이드
+        nameInput.addEventListener('focus', function(event) {
+            console.log("👆 이름 필드에 포커스");
+            
+            // 도움말 표시
+            let helpText = document.getElementById('name-help');
+            if (!helpText) {
+                helpText = document.createElement('small');
+                helpText.id = 'name-help';
+                helpText.style.color = '#666';
+                helpText.textContent = '2자 이상 입력해주세요';
+                event.target.parentNode.insertBefore(helpText, event.target.nextSibling);
+            }
+        });
+        
+        nameInput.addEventListener('blur', function(event) {
+            console.log("👋 이름 필드에서 포커스 해제");
+            
+            // 도움말 제거
+            const helpText = document.getElementById('name-help');
+            if (helpText) {
+                helpText.remove();
+            }
+        });
+        
+        // 2️⃣ 키보드 이벤트로 UX 향상
+        
+        // Enter 키로 다음 필드로 이동
+        nameInput.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault(); // 폼 제출 방지
+                emailInput.focus(); // 다음 필드로 포커스 이동
+                console.log("⏭️ Enter로 다음 필드 이동");
+            }
+        });
+        
+        // Tab 키 동작 커스터마이징 (필요한 경우)
+        emailInput.addEventListener('keydown', function(event) {
+            if (event.key === 'Tab' && !event.shiftKey) {
+                // Tab 키로 제출 버튼으로 이동하는 대신 커스텀 동작
+                console.log("📋 Tab으로 폼 네비게이션");
+            }
+        });
+        
+        // 3️⃣ 폼 제출 이벤트 고급 처리
+        demoForm.addEventListener('submit', function(event) {
+            console.log("=== 폼 제출 이벤트 처리 ===");
+            
+            // 기본 제출 동작 방지 (Ajax로 처리하기 위함)
+            event.preventDefault();
+            
+            // 폼 데이터 수집
+            const formData = new FormData(event.target);
+            const data = {
+                name: formData.get('name') || nameInput.value,
+                email: formData.get('email') || emailInput.value
+            };
+            
+            console.log("📤 수집된 폼 데이터:", data);
+            
+            // 종합 유효성 검사
+            const validation = validateFormData(data);
+            
+            if (!validation.isValid) {
+                console.log("❌ 유효성 검사 실패:", validation.errors);
+                displayValidationErrors(validation.errors);
+                return;
+            }
+            
+            // 성공 시 처리
+            console.log("✅ 유효성 검사 통과 - 서버로 전송 준비");
+            simulateFormSubmission(data);
+        });
+        
+        // 4️⃣ 유효성 검사 함수
+        function validateFormData(data) {
+            const errors = [];
+            
+            // 이름 검증
+            if (!data.name || data.name.trim().length < 2) {
+                errors.push({ field: 'name', message: '이름은 2자 이상 입력해주세요' });
+            }
+            
+            if (data.name && data.name.length > 50) {
+                errors.push({ field: 'name', message: '이름은 50자 이하로 입력해주세요' });
+            }
+            
+            // 이메일 검증
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!data.email) {
+                errors.push({ field: 'email', message: '이메일을 입력해주세요' });
+            } else if (!emailPattern.test(data.email)) {
+                errors.push({ field: 'email', message: '유효한 이메일 형식이 아닙니다' });
+            }
+            
+            return {
+                isValid: errors.length === 0,
+                errors: errors
+            };
+        }
+        
+        // 5️⃣ 에러 표시 함수
+        function displayValidationErrors(errors) {
+            // 기존 에러 메시지 제거
+            document.querySelectorAll('.error-message').forEach(el => el.remove());
+            
+            errors.forEach(error => {
+                const field = document.getElementById(`${error.field}-input`);
+                if (field) {
+                    // 필드 스타일 변경
+                    field.style.borderColor = 'red';
+                    
+                    // 에러 메시지 표시
+                    const errorEl = document.createElement('div');
+                    errorEl.className = 'error-message';
+                    errorEl.style.cssText = 'color: red; font-size: 12px; margin-top: 2px;';
+                    errorEl.textContent = error.message;
+                    
+                    field.parentNode.insertBefore(errorEl, field.nextSibling);
+                }
+            });
+        }
+        
+        // 6️⃣ 폼 제출 시뮬레이션
+        function simulateFormSubmission(data) {
+            console.log("🚀 서버로 데이터 전송 시뮬레이션");
+            
+            // 로딩 상태 표시
+            const submitBtn = demoForm.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = '전송 중...';
+            submitBtn.disabled = true;
+            
+            // 서버 요청 시뮬레이션 (2초 대기)
+            setTimeout(() => {
+                console.log("✅ 서버 응답 성공");
+                
+                // 성공 메시지 표시
+                showSuccessMessage('데이터가 성공적으로 전송되었습니다!');
+                
+                // 폼 초기화
+                demoForm.reset();
+                
+                // 버튼 원상복구
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+                
+                // 필드 스타일 초기화
+                nameInput.style.borderColor = '#ccc';
+                emailInput.style.borderColor = '#ccc';
+                
+            }, 2000);
+        }
+        
+        // 7️⃣ 성공 메시지 표시
+        function showSuccessMessage(message) {
+            const successEl = document.createElement('div');
+            successEl.style.cssText = `
+                background: #d4edda;
+                color: #155724;
+                padding: 10px;
+                border: 1px solid #c3e6cb;
+                border-radius: 4px;
+                margin: 10px 0;
+            `;
+            successEl.textContent = message;
+            
+            demoForm.parentNode.insertBefore(successEl, demoForm);
+            
+            // 3초 후 자동 제거
+            setTimeout(() => {
+                successEl.remove();
+            }, 3000);
+        }
+        
+        // 8️⃣ 실시간 문자 카운터
+        function addCharacterCounter() {
+            const counter = document.createElement('div');
+            counter.id = 'char-counter';
+            counter.style.cssText = 'font-size: 12px; color: #666; margin-top: 2px;';
+            nameInput.parentNode.insertBefore(counter, nameInput.nextSibling);
+            
+            nameInput.addEventListener('input', function(event) {
+                const length = event.target.value.length;
+                const maxLength = 50;
+                counter.textContent = `${length}/${maxLength}자`;
+                
+                if (length > maxLength * 0.8) {
+                    counter.style.color = 'orange';
+                } else {
+                    counter.style.color = '#666';
+                }
+            });
+        }
+        
+        addCharacterCounter();
+        
+        // 💡 폼 이벤트 실무 팁
+        console.log("💡 폼 이벤트 실무 팁:");
+        console.log("• input 이벤트로 실시간 유효성 검사");
+        console.log("• submit 이벤트에서 preventDefault() 후 Ajax 처리");
+        console.log("• FormData API로 간편한 데이터 수집");
+        console.log("• 로딩 상태와 에러 메시지로 UX 향상");
+        console.log("• 키보드 이벤트로 접근성 개선");
+        
+        alert("콘솔을 확인하고 폼에 데이터를 입력해보세요!");
+    }
+    
+    function springFormExample() {
+        console.log("=== Spring 폼 연동 실무 예제 ===");
+        
+        // 🌱 Spring Boot Controller와 연동하는 실제 폼 처리 패턴
+        // @PostMapping, @RequestBody, @Valid 등과 연계되는 프론트엔드 코드
+        
+        // 실무용 회원가입 폼 생성
+        const signupFormHtml = `
+            <div style="border: 1px solid #ddd; padding: 20px; margin: 20px 0; border-radius: 8px;">
+                <h4>🌱 Spring 연동 회원가입 폼</h4>
+                <form id="spring-signup-form">
+                    <div style="margin-bottom: 15px;">
+                        <label>이름 *</label><br>
+                        <input type="text" name="name" id="signup-name" required 
+                               style="width: 200px; padding: 8px; border: 1px solid #ccc;">
+                        <div id="name-validation" class="validation-message"></div>
+                    </div>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <label>이메일 *</label><br>
+                        <input type="email" name="email" id="signup-email" required
+                               style="width: 200px; padding: 8px; border: 1px solid #ccc;">
+                        <div id="email-validation" class="validation-message"></div>
+                    </div>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <label>비밀번호 *</label><br>
+                        <input type="password" name="password" id="signup-password" required
+                               style="width: 200px; padding: 8px; border: 1px solid #ccc;">
+                        <div id="password-validation" class="validation-message"></div>
+                    </div>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <label>전화번호</label><br>
+                        <input type="tel" name="phone" id="signup-phone"
+                               style="width: 200px; padding: 8px; border: 1px solid #ccc;">
+                    </div>
+                    
+                    <button type="submit" style="padding: 10px 20px; background: #28a745; color: white; border: none; cursor: pointer;">
+                        회원가입
+                    </button>
+                </form>
+            </div>
+        `;
+        
+        // DOM에 폼 추가
+        document.getElementById('demo-area').insertAdjacentHTML('beforeend', signupFormHtml);
+        
+        // 1️⃣ Spring Validation과 연동되는 클라이언트 측 검증
+        class SpringFormValidator {
+            constructor() {
+                this.rules = {
+                    name: [
+                        { test: (value) => value && value.trim().length >= 2, message: '이름은 2자 이상 입력해주세요' },
+                        { test: (value) => value.length <= 50, message: '이름은 50자 이하로 입력해주세요' },
+                        { test: (value) => /^[가-힣a-zA-Z\s]+$/.test(value), message: '이름은 한글, 영문만 입력 가능합니다' }
+                    ],
+                    email: [
+                        { test: (value) => value && value.trim().length > 0, message: '이메일을 입력해주세요' },
+                        { test: (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value), message: '유효한 이메일 형식이 아닙니다' }
+                    ],
+                    password: [
+                        { test: (value) => value && value.length >= 8, message: '비밀번호는 8자 이상 입력해주세요' },
+                        { test: (value) => /[A-Z]/.test(value), message: '대문자를 포함해주세요' },
+                        { test: (value) => /[a-z]/.test(value), message: '소문자를 포함해주세요' },
+                        { test: (value) => /[0-9]/.test(value), message: '숫자를 포함해주세요' }
+                    ],
+                    phone: [
+                        { test: (value) => !value || /^010-\d{4}-\d{4}$/.test(value), message: '010-0000-0000 형식으로 입력해주세요' }
+                    ]
+                };
+            }
+            
+            validateField(fieldName, value) {
+                const rules = this.rules[fieldName] || [];
+                const errors = [];
+                
+                rules.forEach(rule => {
+                    if (!rule.test(value)) {
+                        errors.push(rule.message);
+                    }
+                });
+                
+                return {
+                    isValid: errors.length === 0,
+                    errors: errors
+                };
+            }
+            
+            validateForm(formData) {
+                const allErrors = {};
+                let isValid = true;
+                
+                Object.keys(this.rules).forEach(fieldName => {
+                    const value = formData[fieldName] || '';
+                    const validation = this.validateField(fieldName, value);
+                    
+                    if (!validation.isValid) {
+                        allErrors[fieldName] = validation.errors;
+                        isValid = false;
+                    }
+                });
+                
+                return { isValid, errors: allErrors };
+            }
+        }
+        
+        // 2️⃣ Spring API 통신 클래스
+        class SpringApiClient {
+            constructor() {
+                this.baseUrl = 'http://localhost:8080/api'; // Spring Boot 서버 주소
+                this.defaultHeaders = {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                };
+            }
+            
+            async signup(userData) {
+                try {
+                    console.log("🚀 Spring 서버로 회원가입 요청:", userData);
+                    
+                    // 실제 Spring Controller 호출 시뮬레이션
+                    // POST /api/users/signup
+                    const response = await this.simulateSpringRequest('/users/signup', {
+                        method: 'POST',
+                        headers: this.defaultHeaders,
+                        body: JSON.stringify(userData)
+                    });
+                    
+                    return response;
+                    
+                } catch (error) {
+                    console.error("❌ 회원가입 요청 실패:", error);
+                    throw error;
+                }
+            }
+            
+            async checkEmailDuplicate(email) {
+                try {
+                    console.log("📧 이메일 중복 확인:", email);
+                    
+                    // GET /api/users/check-email?email=test@example.com
+                    const response = await this.simulateSpringRequest(`/users/check-email?email=${email}`);
+                    return response;
+                    
+                } catch (error) {
+                    console.error("❌ 이메일 중복 확인 실패:", error);
+                    throw error;
+                }
+            }
+            
+            // Spring 서버 응답 시뮬레이션
+            async simulateSpringRequest(endpoint, options = {}) {
+                return new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        // 성공 응답 시뮬레이션
+                        if (Math.random() > 0.2) { // 80% 성공률
+                            if (endpoint.includes('check-email')) {
+                                resolve({
+                                    available: Math.random() > 0.3, // 70% 확률로 사용 가능
+                                    message: '이메일 중복 확인 완료'
+                                });
+                            } else {
+                                resolve({
+                                    success: true,
+                                    message: '회원가입이 완료되었습니다',
+                                    userId: Date.now()
+                                });
+                            }
+                        } else {
+                            // 에러 응답 시뮬레이션 (Spring의 @ExceptionHandler 응답 형식)
+                            reject({
+                                status: 400,
+                                error: 'Bad Request',
+                                message: '유효성 검사 실패',
+                                fieldErrors: {
+                                    email: ['이미 사용 중인 이메일입니다']
+                                }
+                            });
+                        }
+                    }, 1000 + Math.random() * 1000); // 1-2초 대기
+                });
+            }
+        }
+        
+        // 3️⃣ 폼 핸들러 설정
+        const springForm = document.getElementById('spring-signup-form');
+        const validator = new SpringFormValidator();
+        const apiClient = new SpringApiClient();
+        
+        // 실시간 유효성 검사
+        ['name', 'email', 'password', 'phone'].forEach(fieldName => {
+            const field = document.getElementById(`signup-${fieldName}`);
+            const validationEl = document.getElementById(`${fieldName}-validation`);
+            
+            field.addEventListener('input', function(event) {
+                const value = event.target.value;
+                const validation = validator.validateField(fieldName, value);
+                
+                updateValidationUI(field, validationEl, validation);
+            });
+            
+            // 이메일 중복 확인 (blur 이벤트 사용)
+            if (fieldName === 'email') {
+                field.addEventListener('blur', async function(event) {
+                    const email = event.target.value;
+                    if (email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                        try {
+                            validationEl.textContent = '이메일 중복 확인 중...';
+                            validationEl.style.color = 'orange';
+                            
+                            const result = await apiClient.checkEmailDuplicate(email);
+                            
+                            if (result.available) {
+                                validationEl.textContent = '✅ 사용 가능한 이메일입니다';
+                                validationEl.style.color = 'green';
+                                field.style.borderColor = 'green';
+                            } else {
+                                validationEl.textContent = '❌ 이미 사용 중인 이메일입니다';
+                                validationEl.style.color = 'red';
+                                field.style.borderColor = 'red';
+                            }
+                        } catch (error) {
+                            validationEl.textContent = '⚠️ 이메일 확인 중 오류가 발생했습니다';
+                            validationEl.style.color = 'orange';
+                        }
+                    }
+                });
+            }
+        });
+        
+        // 4️⃣ 유효성 검사 UI 업데이트
+        function updateValidationUI(field, validationEl, validation) {
+            if (validation.isValid) {
+                field.style.borderColor = 'green';
+                validationEl.textContent = '';
+            } else {
+                field.style.borderColor = 'red';
+                validationEl.textContent = validation.errors[0]; // 첫 번째 에러만 표시
+                validationEl.style.color = 'red';
+            }
+        }
+        
+        // 5️⃣ 폼 제출 처리
+        springForm.addEventListener('submit', async function(event) {
+            event.preventDefault();
+            
+            console.log("=== Spring 폼 제출 처리 ===");
+            
+            // 폼 데이터 수집
+            const formData = new FormData(event.target);
+            const userData = {
+                name: formData.get('name').trim(),
+                email: formData.get('email').trim(),
+                password: formData.get('password'),
+                phone: formData.get('phone').trim()
+            };
+            
+            console.log("📝 수집된 사용자 데이터:", { ...userData, password: '[HIDDEN]' });
+            
+            // 전체 폼 유효성 검사
+            const validation = validator.validateForm(userData);
+            
+            if (!validation.isValid) {
+                console.log("❌ 클라이언트 유효성 검사 실패:", validation.errors);
+                displayFormErrors(validation.errors);
+                return;
+            }
+            
+            // 제출 버튼 로딩 상태
+            const submitBtn = event.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = '처리 중...';
+            submitBtn.disabled = true;
+            
+            try {
+                // Spring 서버로 데이터 전송
+                const result = await apiClient.signup(userData);
+                
+                console.log("✅ 회원가입 성공:", result);
+                
+                // 성공 처리
+                showSuccessMessage('🎉 회원가입이 완료되었습니다!');
+                springForm.reset();
+                clearValidationMessages();
+                
+            } catch (error) {
+                console.log("❌ 회원가입 실패:", error);
+                
+                // Spring 서버 에러 처리
+                if (error.fieldErrors) {
+                    displayFormErrors(error.fieldErrors);
+                } else {
+                    showErrorMessage(error.message || '서버 오류가 발생했습니다');
+                }
+                
+            } finally {
+                // 버튼 원상복구
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+        
+        // 6️⃣ 에러 표시 함수들
+        function displayFormErrors(errors) {
+            Object.keys(errors).forEach(fieldName => {
+                const field = document.getElementById(`signup-${fieldName}`);
+                const validationEl = document.getElementById(`${fieldName}-validation`);
+                
+                if (field && validationEl) {
+                    field.style.borderColor = 'red';
+                    validationEl.textContent = Array.isArray(errors[fieldName]) 
+                        ? errors[fieldName][0] 
+                        : errors[fieldName];
+                    validationEl.style.color = 'red';
+                }
+            });
+        }
+        
+        function clearValidationMessages() {
+            ['name', 'email', 'password', 'phone'].forEach(fieldName => {
+                const field = document.getElementById(`signup-${fieldName}`);
+                const validationEl = document.getElementById(`${fieldName}-validation`);
+                
+                if (field && validationEl) {
+                    field.style.borderColor = '#ccc';
+                    validationEl.textContent = '';
+                }
+            });
+        }
+        
+        function showSuccessMessage(message) {
+            const messageEl = document.createElement('div');
+            messageEl.style.cssText = `
+                background: #d4edda; color: #155724; padding: 15px;
+                border: 1px solid #c3e6cb; border-radius: 4px; margin: 10px 0;
+            `;
+            messageEl.textContent = message;
+            
+            springForm.parentNode.insertBefore(messageEl, springForm);
+            
+            setTimeout(() => messageEl.remove(), 5000);
+        }
+        
+        function showErrorMessage(message) {
+            const messageEl = document.createElement('div');
+            messageEl.style.cssText = `
+                background: #f8d7da; color: #721c24; padding: 15px;
+                border: 1px solid #f5c6cb; border-radius: 4px; margin: 10px 0;
+            `;
+            messageEl.textContent = message;
+            
+            springForm.parentNode.insertBefore(messageEl, springForm);
+            
+            setTimeout(() => messageEl.remove(), 5000);
+        }
+        
+        // 💡 Spring 연동 실무 팁
+        console.log("💡 Spring 폼 연동 실무 팁:");
+        console.log("• 클라이언트와 서버 양쪽에서 유효성 검사 필수");
+        console.log("• Spring @Valid와 일치하는 클라이언트 검증 규칙");
+        console.log("• 서버 에러는 fieldErrors 형태로 처리");
+        console.log("• 로딩 상태와 피드백으로 UX 향상");
+        console.log("• 이메일 중복 확인 등 실시간 검증 구현");
+        console.log("• CSRF 토큰 처리 (실제 환경에서 필요)");
+        
+        alert("콘솔을 확인하고 Spring 연동 회원가입 폼을 테스트해보세요!");
+    }
+</script>
+</body>
+</html>
