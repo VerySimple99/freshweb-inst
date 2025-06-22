@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>ES6+ Spread & Rest 연산자</title>
+</head>
+<body>
+ES6+ Spread(...) : 배열/객체를 개별 요소로 펼치기<br>
+Rest(...) : 여러 개의 인수를 하나의 배열/객체로 수집하기
+<br><br>
+
+<button onclick="spreadArrayExample()">Spread - 배열</button>
+<button onclick="spreadObjectExample()">Spread - 객체</button>
+<button onclick="restParameterExample()">Rest - 매개변수</button>
+<button onclick="destructuringExample()">구조분해할당 + Rest</button>
+<button onclick="practicalExample()">실무 활용 예제</button>
+
+<script>
+    // 🎯 학습 목표: Spread와 Rest 연산자의 실무 활용법 이해하기
+    // 💡 핵심 개념:
+    // - Spread(...): 배열이나 객체를 개별 요소로 "펼치는" 연산자
+    // - Rest(...): 여러 요소를 하나의 배열이나 객체로 "수집하는" 연산자
+    // - 같은 문법(...)이지만 사용 위치에 따라 역할이 정반대
+    // - React에서 props 전달, 상태 업데이트에 필수적으로 사용
+    
+    function spreadArrayExample() {
+        console.log("=== Spread 연산자 - 배열 활용 ===");
+        
+        // 🔍 Spread의 기본 개념: 배열을 개별 요소로 펼치기
+        // 마치 선물 상자에서 물건들을 하나씩 꺼내서 나열하는 것과 같음
+        const fruits = ["사과", "바나나"];
+        const vegetables = ["당근", "브로콜리"];
+        
+        // ❌ 기존 방식: concat() 메서드 사용 (ES5 방식)
+        const oldWay = fruits.concat(vegetables);
+        console.log("기존 방식 (concat):", oldWay);
+        
+        // ✅ Spread 방식: 더 직관적이고 읽기 쉬움 (ES6+ 방식)
+        const newWay = [...fruits, ...vegetables];
+        console.log("Spread 방식:", newWay);
+        
+        // 🚀 Spread의 강력한 기능들
+        
+        // 1️⃣ 배열 복사 (얕은 복사) - 원본 보호
+        // 실무에서 매우 중요! 원본 배열을 건드리지 않고 새로운 배열 생성
+        const originalNumbers = [1, 2, 3];
+        const copiedNumbers = [...originalNumbers]; // 새로운 배열 생성
+        
+        copiedNumbers.push(4); // 복사본만 변경
+        console.log("원본 배열:", originalNumbers); // [1, 2, 3] - 변경되지 않음!
+        console.log("복사된 배열:", copiedNumbers); // [1, 2, 3, 4]
+        
+        // 2️⃣ 배열 요소 추가 (앞, 중간, 뒤)
+        // 기존 배열을 수정하지 않고 새로운 배열을 만들어 요소 추가
+        const baseArray = [2, 3];
+        const addFront = [1, ...baseArray]; // 앞에 추가
+        const addMiddle = [1, ...baseArray, 4]; // 중간에 추가
+        const addBack = [...baseArray, 4, 5]; // 뒤에 추가
+        
+        console.log("앞에 추가:", addFront); // [1, 2, 3]
+        console.log("중간에 추가:", addMiddle); // [1, 2, 3, 4]
+        console.log("뒤에 추가:", addBack); // [2, 3, 4, 5]
+        
+        // 3️⃣ 함수 호출 시 배열을 개별 인수로 전달
+        // Math.max()는 개별 숫자를 받지만, 배열을 가지고 있을 때 유용
+        const scores = [85, 92, 78, 96, 88];
+        
+        // ❌ 배열을 직접 전달하면 NaN (숫자가 아님)
+        console.log("배열 직접 전달:", Math.max(scores)); // NaN
+        
+        // ✅ Spread로 배열을 개별 요소로 펼쳐서 전달
+        console.log("Spread로 전달:", Math.max(...scores)); // 96
+        
+        // 4️⃣ 문자열을 문자 배열로 변환
+        // 문자열도 iterable이므로 spread로 개별 문자로 분해 가능
+        const word = "Hello";
+        const letters = [...word];
+        console.log("문자 배열:", letters); // ['H', 'e', 'l', 'l', 'o']
+        
+        // 💼 실무 활용 패턴: React에서 배열 상태 업데이트
+        console.log("=== React 스타일 배열 상태 업데이트 ===");
+        
+        // 할 일 목록에 새 항목 추가하는 예제
+        let todoList = ["공부하기", "운동하기"];
+        
+        // React에서 setState할 때 이런 식으로 사용
+        // setTodoList([...todoList, "새로운 할 일"]);
+        todoList = [...todoList, "새로운 할 일"];
+        console.log("할 일 추가 후:", todoList);
+        
+        // 특정 인덱스의 요소 제거
+        const indexToRemove = 1;
+        todoList = [
+            ...todoList.slice(0, indexToRemove),
+            ...todoList.slice(indexToRemove + 1)
+        ];
+        console.log("항목 제거 후:", todoList);
+        
+        alert("콘솔 확인! Spread로 배열을 자유자재로 조작하는 방법들");
+    }
+    
+    function spreadObjectExample() {
+        console.log("=== Spread 연산자 - 객체 활용 ===");
+        
+        // 🔍 객체 Spread: 객체의 속성들을 개별적으로 펼치기
+        // 객체를 복사하거나 병합할 때 매우 유용
+        
+        // 1️⃣ 객체 복사 (얕은 복사)
+        // 실무에서 가장 많이 사용하는 패턴 중 하나
+        const originalUser = {
+            name: "김철수",
+            age: 25,
+            city: "서울"
+        };
+        
+        const copiedUser = {...originalUser}; // 새로운 객체 생성
+        copiedUser.age = 26; // 복사본만 변경
+        
+        console.log("원본 사용자:", originalUser); // age: 25 (변경되지 않음)
+        console.log("복사된 사용자:", copiedUser); // age: 26
+        
+        // 2️⃣ 객체 병합 - 여러 객체를 하나로 합치기
+        // 설정 객체를 합치거나 사용자 정보를 업데이트할 때 자주 사용
+        const defaultSettings = {
+            theme: "light",
+            language: "ko",
+            notifications: true
+        };
+        
+        const userSettings = {
+            theme: "dark", // 기본값 덮어쓰기
+            fontSize: 16    // 새로운 속성 추가
+        };
+        
+        // 뒤에 오는 객체의 속성이 앞의 것을 덮어씀
+        const finalSettings = {...defaultSettings, ...userSettings};
+        console.log("최종 설정:", finalSettings);
+        // { theme: "dark", language: "ko", notifications: true, fontSize: 16 }
+        
+        // 3️⃣ 객체 속성 업데이트 (React 패턴)
+        // React에서 state 업데이트할 때 필수적인 패턴
+        const employee = {
+            id: 1,
+            name: "이영희",
+            department: "개발팀",
+            salary: 3000000
+        };
+        
+        // 급여만 업데이트하면서 나머지 속성은 유지
+        const promotedEmployee = {
+            ...employee,
+            salary: 4000000,
+            position: "시니어 개발자" // 새 속성도 추가
+        };
+        
+        console.log("승진 전:", employee);
+        console.log("승진 후:", promotedEmployee);
+        
+        // 4️⃣ 조건부 속성 추가
+        // 특정 조건에 따라 속성을 추가하거나 제외하는 고급 패턴
+        const isAdmin = true;
+        const userProfile = {
+            name: "박민수",
+            email: "park@example.com",
+            // 조건부로 속성 추가 (admin일 때만 권한 정보 포함)
+            ...(isAdmin && { 
+                role: "admin", 
+                permissions: ["read", "write", "delete"] 
+            })
+        };
+        
+        console.log("사용자 프로필:", userProfile);
+        
+        // 5️⃣ 중첩 객체 업데이트 (주의사항)
+        // Spread는 얕은 복사만 수행 - 중첩 객체는 참조가 복사됨
+        console.log("=== 중첩 객체 처리 주의사항 ===");
+        
+        const company = {
+            name: "테크 컴퍼니",
+            address: {
+                city: "서울",
+                district: "강남구"
+            },
+            employees: ["김철수", "이영희"]
+        };
+        
+        // ⚠️ 얕은 복사: address 객체는 여전히 같은 참조를 가짐
+        const copiedCompany = {...company};
+        copiedCompany.address.city = "부산"; // 원본도 변경됨!
+        
+        console.log("원본 회사 주소:", company.address.city); // "부산" (변경됨!)
+        
+        // ✅ 중첩 객체까지 올바르게 복사하는 방법
+        const properCopy = {
+            ...company,
+            address: {...company.address}, // 중첩 객체도 spread로 복사
+            employees: [...company.employees] // 배열도 spread로 복사
+        };
+        
+        // 💼 실무 활용: API 응답 데이터 가공
+        console.log("=== API 응답 데이터 가공 예제 ===");
+        
+        const apiResponse = {
+            id: 1,
+            user_name: "김철수",
+            user_age: 25,
+            created_at: "2024-01-01",
+            updated_at: "2024-01-15"
+        };
+        
+        // 프론트엔드에서 사용하기 좋게 속성명 변경 및 가공
+        const processedData = {
+            ...apiResponse,
+            name: apiResponse.user_name, // 속성명 변경
+            age: apiResponse.user_age,
+            isAdult: apiResponse.user_age >= 18, // 계산된 속성 추가
+            // 불필요한 속성 제외하고 새 객체 생성
+        };
+        
+        // 원하지 않는 속성 제거
+        const {user_name, user_age, created_at, updated_at, ...cleanData} = processedData;
+        
+        console.log("가공된 데이터:", cleanData);
+        
+        alert("콘솔 확인! 객체 Spread로 불변성을 유지하며 데이터 조작하기");
+    }
+    
+    function restParameterExample() {
+        console.log("=== Rest 매개변수 - 함수에서 활용 ===");
+        
+        // 🔍 Rest 매개변수: 여러 개의 인수를 하나의 배열로 수집
+        // 함수가 받을 인수의 개수가 정해지지 않았을 때 매우 유용
+        
+        // 1️⃣ 기본 Rest 매개변수 사용법
+        // 모든 인수를 배열로 받아서 처리
+        function sum(...numbers) {
+            console.log("받은 숫자들:", numbers); // 배열로 수집됨
+            
+            // 배열의 모든 요소를 더하기
+            return numbers.reduce((total, num) => total + num, 0);
+        }
+        
+        console.log("합계 1:", sum(1, 2, 3)); // 6
+        console.log("합계 2:", sum(1, 2, 3, 4, 5)); // 15
+        console.log("합계 3:", sum(10)); // 10
+        console.log("합계 4:", sum()); // 0 (빈 배열)
+        
+        // 2️⃣ 첫 번째 매개변수와 나머지 매개변수 분리
+        // 첫 번째 인수는 따로 처리하고, 나머지는 배열로 받기
+        function greetUsers(greeting, ...userNames) {
+            console.log(`인사말: ${greeting}`);
+            console.log(`사용자들: ${userNames}`);
+            
+            // 모든 사용자에게 인사
+            userNames.forEach(name => {
+                console.log(`${greeting}, ${name}님!`);
+            });
+        }
+        
+        greetUsers("안녕하세요", "김철수", "이영희", "박민수");
+        
+        // 3️⃣ 실무 활용: 로깅 함수
+        // 다양한 형태의 데이터를 받아서 로그로 출력하는 함수
+        function logger(level, message, ...additionalInfo) {
+            console.log(`[${level.toUpperCase()}] ${message}`);
+            
+            // 추가 정보가 있으면 상세 출력
+            if (additionalInfo.length > 0) {
+                console.log("추가 정보:", additionalInfo);
+            }
+        }
+        
+        logger("info", "사용자가 로그인했습니다");
+        logger("error", "데이터베이스 연결 실패", "connection timeout", { retries: 3 });
+        
+        // 4️⃣ Math 객체의 메서드들과 Rest 활용
+        // 최대값, 최소값을 구하는 유틸리티 함수
+        function findExtremes(...numbers) {
+            if (numbers.length === 0) {
+                return { min: undefined, max: undefined };
+            }
+            
+            return {
+                min: Math.min(...numbers), // Rest로 받은 배열을 다시 Spread로 펼침
+                max: Math.max(...numbers),
+                count: numbers.length,
+                average: numbers.reduce((sum, num) => sum + num, 0) / numbers.length
+            };
+        }
+        
+        const stats = findExtremes(5, 2, 8, 1, 9, 3);
+        console.log("통계 정보:", stats);
+        
+        // 5️⃣ Rest와 기본 매개변수 조합
+        // 기본값이 있는 매개변수와 Rest 매개변수를 함께 사용
+        function createArray(defaultValue = 0, length = 1, ...additionalValues) {
+            // 기본값으로 배열 생성
+            const baseArray = new Array(length).fill(defaultValue);
+            
+            // 추가 값들을 뒤에 붙임
+            return [...baseArray, ...additionalValues];
+        }
+        
+        console.log("배열 1:", createArray()); // [0]
+        console.log("배열 2:", createArray(5, 3)); // [5, 5, 5]
+        console.log("배열 3:", createArray(1, 2, 10, 20, 30)); // [1, 1, 10, 20, 30]
+        
+        // 💡 Rest vs arguments 객체 비교
+        console.log("=== Rest vs arguments 객체 ===");
+        
+        // ❌ 기존 방식: arguments 객체 (ES5)
+        function oldStyleFunction() {
+            console.log("arguments 객체:", arguments);
+            console.log("배열인가?", Array.isArray(arguments)); // false
+            
+            // 배열 메서드를 사용하려면 변환 필요
+            const argsArray = Array.from(arguments);
+            console.log("변환 후:", argsArray);
+        }
+        
+        // ✅ 현대적 방식: Rest 매개변수 (ES6+)
+        function modernFunction(...args) {
+            console.log("Rest 매개변수:", args);
+            console.log("배열인가?", Array.isArray(args)); // true
+            
+            // 바로 배열 메서드 사용 가능
+            const doubled = args.map(x => x * 2);
+            console.log("2배 배열:", doubled);
+        }
+        
+        oldStyleFunction(1, 2, 3);
+        modernFunction(1, 2, 3);
+        
+        alert("콘솔 확인! Rest 매개변수로 유연한 함수 만들기");
+    }
+    
+    function destructuringExample() {
+        console.log("=== 구조분해할당 + Rest 조합 ===");
+        
+        // 🔍 구조분해할당과 Rest를 조합하면 매우 강력한 패턴 생성
+        // 필요한 요소만 추출하고 나머지는 따로 모으기
+        
+        // 1️⃣ 배열 구조분해할당 + Rest
+        const numbers = [1, 2, 3, 4, 5, 6];
+        
+        // 첫 번째, 두 번째 요소와 나머지 분리
+        const [first, second, ...rest] = numbers;
+        console.log("첫 번째:", first); // 1
+        console.log("두 번째:", second); // 2
+        console.log("나머지:", rest); // [3, 4, 5, 6]
+        
+        // 실무 예제: 사용자 목록에서 관리자와 일반 사용자 분리
+        const users = ["admin", "user1", "user2", "user3"];
+        const [adminUser, ...regularUsers] = users;
+        console.log("관리자:", adminUser);
+        console.log("일반 사용자들:", regularUsers);
+        
+        // 2️⃣ 객체 구조분해할당 + Rest
+        const userProfile = {
+            id: 1,
+            name: "김철수",
+            email: "kim@example.com",
+            age: 25,
+            address: "서울시 강남구",
+            phone: "010-1234-5678",
+            hobby: "독서"
+        };
+        
+        // 필요한 속성만 추출하고 나머지는 others로 모으기
+        const {name, email, ...others} = userProfile;
+        console.log("이름:", name);
+        console.log("이메일:", email);
+        console.log("기타 정보:", others);
+        
+        // 3️⃣ 함수 매개변수에서 객체 구조분해할당 + Rest
+        // API에서 받은 데이터 중 필요한 부분만 처리하는 함수
+        function processUserData({name, email, ...additionalData}) {
+            console.log(`사용자 처리: ${name} (${email})`);
+            console.log("추가 데이터:", additionalData);
+            
+            // 필수 정보로 새 객체 생성
+            return {
+                processedAt: new Date().toISOString(),
+                userName: name,
+                userEmail: email,
+                hasAdditionalData: Object.keys(additionalData).length > 0
+            };
+        }
+        
+        const result = processUserData(userProfile);
+        console.log("처리 결과:", result);
+        
+        // 4️⃣ 중첩 구조분해할당 + Rest
+        const company = {
+            name: "테크 컴퍼니",
+            ceo: "홍길동",
+            address: {
+                city: "서울",
+                district: "강남구",
+                street: "테헤란로 123"
+            },
+            departments: ["개발", "디자인", "마케팅", "인사"],
+            foundedYear: 2020
+        };
+        
+        // 중첩된 객체에서도 구조분해할당 + Rest 사용 가능
+        const {
+            name: companyName,
+            address: {city, ...addressRest},
+            departments: [mainDept, ...otherDepts],
+            ...companyRest
+        } = company;
+        
+        console.log("회사명:", companyName);
+        console.log("도시:", city);
+        console.log("주소 나머지:", addressRest);
+        console.log("주 부서:", mainDept);
+        console.log("기타 부서:", otherDepts);
+        console.log("회사 기타 정보:", companyRest);
+        
+        // 5️⃣ 실무 패턴: props에서 특정 속성 제외하기 (React 스타일)
+        // React 컴포넌트에서 자주 사용하는 패턴
+        function createButtonProps(props) {
+            // className과 onClick은 따로 처리하고, 나머지는 그대로 전달
+            const {className = "", onClick, ...restProps} = props;
+            
+            return {
+                className: `btn ${className}`.trim(), // 기본 클래스 추가
+                onClick: onClick || (() => console.log("버튼 클릭됨")),
+                ...restProps // 나머지 속성들은 그대로 전달
+            };
+        }
+        
+        const buttonConfig = {
+            id: "submit-btn",
+            type: "submit",
+            disabled: false,
+            className: "primary",
+            onClick: () => console.log("제출 버튼 클릭"),
+            "data-testid": "submit-button"
+        };
+        
+        const finalButtonProps = createButtonProps(buttonConfig);
+        console.log("최종 버튼 속성:", finalButtonProps);
+        
+        // 6️⃣ 배열에서 특정 요소 제거하고 나머지 유지
+        function removeItemsAtIndices(array, ...indicesToRemove) {
+            // 제거할 인덱스들을 정렬 (큰 수부터) - 뒤에서부터 제거해야 인덱스가 틀어지지 않음
+            const sortedIndices = [...indicesToRemove].sort((a, b) => b - a);
+            
+            let result = [...array]; // 원본 보호
+            sortedIndices.forEach(index => {
+                result.splice(index, 1);
+            });
+            
+            return result;
+        }
+        
+        const originalArray = ["a", "b", "c", "d", "e", "f"];
+        const filteredArray = removeItemsAtIndices(originalArray, 1, 3, 5);
+        console.log("원본 배열:", originalArray);
+        console.log("필터된 배열:", filteredArray); // ["a", "c", "e"]
+        
+        alert("콘솔 확인! 구조분해할당과 Rest를 조합한 강력한 패턴들");
+    }
+    
+    function practicalExample() {
+        console.log("=== 실무 활용 종합 예제 ===");
+        
+        // 🎯 실제 프로젝트에서 자주 사용하는 패턴들을 종합한 예제
+        
+        // 1️⃣ 사용자 관리 시스템
+        class UserManager {
+            constructor() {
+                this.users = [];
+            }
+            
+            // Rest 매개변수로 여러 사용자를 한 번에 추가
+            addUsers(...newUsers) {
+                // Spread로 기존 배열에 새 사용자들 추가 (불변성 유지)
+                this.users = [...this.users, ...newUsers];
+                console.log(`${newUsers.length}명의 사용자가 추가되었습니다.`);
+            }
+            
+            // 구조분해할당으로 필요한 정보만 추출하여 처리
+            updateUser(userId, updates) {
+                this.users = this.users.map(user => {
+                    if (user.id === userId) {
+                        // Spread로 기존 사용자 정보와 업데이트 정보 병합
+                        return {...user, ...updates, updatedAt: new Date().toISOString()};
+                    }
+                    return user;
+                });
+            }
+            
+            // Rest와 구조분해할당으로 사용자 검색
+            findUsers(criteria = {}, ...additionalFields) {
+                return this.users.filter(user => {
+                    // 검색 조건의 모든 속성이 일치하는지 확인
+                    return Object.entries(criteria).every(([key, value]) => {
+                        return user[key] === value;
+                    });
+                }).map(user => {
+                    // 기본 정보 + 추가로 요청된 필드만 반환
+                    const {id, name, email} = user;
+                    const result = {id, name, email};
+                    
+                    // 추가 필드가 요청되면 포함
+                    additionalFields.forEach(field => {
+                        if (user[field] !== undefined) {
+                            result[field] = user[field];
+                        }
+                    });
+                    
+                    return result;
+                });
+            }
+            
+            // Rest로 여러 ID를 받아서 일괄 삭제
+            removeUsers(...userIds) {
+                const beforeCount = this.users.length;
+                this.users = this.users.filter(user => !userIds.includes(user.id));
+                const removedCount = beforeCount - this.users.length;
+                console.log(`${removedCount}명의 사용자가 삭제되었습니다.`);
+            }
+        }
+        
+        // 2️⃣ 사용자 관리 시스템 테스트
+        const userManager = new UserManager();
+        
+        // 여러 사용자 한 번에 추가
+        userManager.addUsers(
+            {id: 1, name: "김철수", email: "kim@example.com", age: 25, department: "개발"},
+            {id: 2, name: "이영희", email: "lee@example.com", age: 30, department: "디자인"},
+            {id: 3, name: "박민수", email: "park@example.com", age: 28, department: "개발"}
+        );
+        
+        // 사용자 정보 업데이트
+        userManager.updateUser(1, {age: 26, position: "시니어 개발자"});
+        
+        // 개발 부서 사용자 검색 (나이 정보도 함께)
+        const devUsers = userManager.findUsers({department: "개발"}, "age", "position");
+        console.log("개발 부서 사용자:", devUsers);
+        
+        // 3️⃣ API 응답 데이터 처리 유틸리티
+        class ApiResponseProcessor {
+            // Rest로 여러 변환 함수를 받아서 순차적으로 적용
+            static transform(data, ...transformers) {
+                return transformers.reduce((result, transformer) => {
+                    return transformer(result);
+                }, data);
+            }
+            
+            // 객체에서 불필요한 속성 제거
+            static omitFields(obj, ...fieldsToOmit) {
+                const result = {...obj}; // 원본 보호
+                fieldsToOmit.forEach(field => {
+                    delete result[field];
+                });
+                return result;
+            }
+            
+            // 여러 객체에서 공통 속성만 추출
+            static pickCommonFields(...objects) {
+                if (objects.length === 0) return {};
+                
+                // 첫 번째 객체의 키들을 기준으로 함
+                const [firstObj, ...restObjs] = objects;
+                const commonKeys = Object.keys(firstObj).filter(key => 
+                    restObjs.every(obj => obj.hasOwnProperty(key))
+                );
+                
+                return objects.map(obj => {
+                    const result = {};
+                    commonKeys.forEach(key => {
+                        result[key] = obj[key];
+                    });
+                    return result;
+                });
+            }
+            
+            // 배열 데이터를 그룹화
+            static groupBy(array, keyOrFunction, ...additionalProcessors) {
+                const groups = array.reduce((acc, item) => {
+                    const key = typeof keyOrFunction === 'function' 
+                        ? keyOrFunction(item) 
+                        : item[keyOrFunction];
+                    
+                    if (!acc[key]) {
+                        acc[key] = [];
+                    }
+                    acc[key].push(item);
+                    return acc;
+                }, {});
+                
+                // 추가 처리기들 적용
+                additionalProcessors.forEach(processor => {
+                    Object.keys(groups).forEach(key => {
+                        groups[key] = processor(groups[key]);
+                    });
+                });
+                
+                return groups;
+            }
+        }
+        
+        // 4️⃣ API 처리 예제
+        const apiData = [
+            {id: 1, name: "김철수", department: "개발", salary: 5000, createdAt: "2024-01-01"},
+            {id: 2, name: "이영희", department: "디자인", salary: 4500, createdAt: "2024-01-02"},
+            {id: 3, name: "박민수", department: "개발", salary: 5500, createdAt: "2024-01-03"},
+            {id: 4, name: "최지연", department: "마케팅", salary: 4000, createdAt: "2024-01-04"}
+        ];
+        
+        // 변환 함수들
+        const removeTimestamps = (data) => data.map(item => 
+            ApiResponseProcessor.omitFields(item, "createdAt")
+        );
+        
+        const addFullTimeStatus = (data) => data.map(item => ({
+            ...item,
+            isFullTime: item.salary >= 4500
+        }));
+        
+        const formatSalary = (data) => data.map(item => ({
+            ...item,
+            formattedSalary: `${item.salary.toLocaleString()}만원`
+        }));
+        
+        // 여러 변환을 한 번에 적용
+        const processedData = ApiResponseProcessor.transform(
+            apiData,
+            removeTimestamps,
+            addFullTimeStatus,
+            formatSalary
+        );
+        
+        console.log("처리된 데이터:", processedData);
+        
+        // 부서별로 그룹화하고 평균 급여 계산
+        const departmentGroups = ApiResponseProcessor.groupBy(
+            processedData,
+            "department",
+            // 그룹의 평균 급여 계산하는 추가 처리기
+            (group) => ({
+                employees: group,
+                averageSalary: group.reduce((sum, emp) => sum + emp.salary, 0) / group.length,
+                count: group.length
+            })
+        );
+        
+        console.log("부서별 그룹:", departmentGroups);
+        
+        // 5️⃣ React 스타일 컴포넌트 props 관리
+        class ComponentPropsManager {
+            // 공통 props와 특정 컴포넌트 props 병합
+            static mergeProps(baseProps, ...additionalProps) {
+                return additionalProps.reduce((merged, props) => ({
+                    ...merged,
+                    ...props,
+                    // className은 특별 처리 (공백으로 합치기)
+                    ...(props.className && {
+                        className: `${merged.className || ''} ${props.className}`.trim()
+                    }),
+                    // style은 객체 병합
+                    ...(props.style && {
+                        style: {...(merged.style || {}), ...props.style}
+                    })
+                }), baseProps);
+            }
+            
+            // 특정 props 제외하고 나머지 전달 (React forwardRef 패턴)
+            static filterProps(props, ...propsToExclude) {
+                const result = {...props};
+                propsToExclude.forEach(prop => {
+                    delete result[prop];
+                });
+                return result;
+            }
+            
+            // 조건부 props 추가
+            static conditionalProps(baseProps, conditions = {}) {
+                const result = {...baseProps};
+                
+                Object.entries(conditions).forEach(([condition, props]) => {
+                    if (condition === 'true' || condition === true) {
+                        Object.assign(result, props);
+                    }
+                });
+                
+                return result;
+            }
+        }
+        
+        // 6️⃣ 컴포넌트 props 관리 예제
+        const baseButtonProps = {
+            type: "button",
+            className: "btn",
+            style: {padding: "8px 16px"}
+        };
+        
+        const primaryProps = {
+            className: "btn-primary",
+            style: {backgroundColor: "#007bff", color: "white"}
+        };
+        
+        const disabledProps = {
+            disabled: true,
+            style: {opacity: 0.6}
+        };
+        
+        // props 병합
+        const finalButtonProps = ComponentPropsManager.mergeProps(
+            baseButtonProps,
+            primaryProps,
+            disabledProps
+        );
+        
+        console.log("최종 버튼 props:", finalButtonProps);
+        
+        // 7️⃣ 설정 관리 시스템
+        class ConfigManager {
+            static defaultConfig = {
+                api: {
+                    baseURL: "https://api.example.com",
+                    timeout: 5000,
+                    retries: 3
+                },
+                ui: {
+                    theme: "light",
+                    language: "ko",
+                    animations: true
+                },
+                features: {
+                    notifications: true,
+                    analytics: false,
+                    betaFeatures: false
+                }
+            };
+            
+            // 깊은 병합 (중첩 객체까지 병합)
+            static mergeConfig(...configs) {
+                return configs.reduce((merged, config) => {
+                    const result = {...merged};
+                    
+                    Object.keys(config).forEach(key => {
+                        if (typeof config[key] === 'object' && !Array.isArray(config[key])) {
+                            // 객체인 경우 재귀적으로 병합
+                            result[key] = this.mergeConfig(merged[key] || {}, config[key]);
+                        } else {
+                            // 원시값이나 배열인 경우 덮어쓰기
+                            result[key] = config[key];
+                        }
+                    });
+                    
+                    return result;
+                }, {});
+            }
+            
+            // 환경별 설정 생성
+            static createEnvironmentConfig(environment, userConfig = {}) {
+                const envConfigs = {
+                    development: {
+                        api: {baseURL: "http://localhost:3000"},
+                        features: {betaFeatures: true}
+                    },
+                    production: {
+                        api: {baseURL: "https://api.production.com"},
+                        features: {analytics: true}
+                    },
+                    test: {
+                        api: {timeout: 1000},
+                        ui: {animations: false}
+                    }
+                };
+                
+                return this.mergeConfig(
+                    this.defaultConfig,
+                    envConfigs[environment] || {},
+                    userConfig
+                );
+            }
+        }
+        
+        // 설정 관리 테스트
+        const devConfig = ConfigManager.createEnvironmentConfig("development", {
+            ui: {theme: "dark"},
+            features: {notifications: false}
+        });
+        
+        console.log("개발 환경 설정:", devConfig);
+        
+        // 💡 성능 고려사항 및 팁
+        console.log("=== 💡 Spread/Rest 성능 팁 ===");
+        
+        // 팁 1: 큰 배열의 경우 성능 고려
+        const largeArray = new Array(1000000).fill(0).map((_, i) => i);
+        
+        console.time("Spread 복사");
+        const spreadCopy = [...largeArray];
+        console.timeEnd("Spread 복사");
+        
+        console.time("Array.from 복사");
+        const fromCopy = Array.from(largeArray);
+        console.timeEnd("Array.from 복사");
+        
+        // 팁 2: 객체 깊은 복사가 필요한 경우
+        const deepClone = (obj) => {
+            if (obj === null || typeof obj !== 'object') return obj;
+            if (obj instanceof Date) return new Date(obj.getTime());
+            if (obj instanceof Array) return obj.map(item => deepClone(item));
+            
+            const cloned = {};
+            Object.keys(obj).forEach(key => {
+                cloned[key] = deepClone(obj[key]);
+            });
+            return cloned;
+        };
+        
+        // 🎯 최신 트렌드: Optional Chaining과 조합
+        console.log("=== 최신 트렌드: Optional Chaining 조합 ===");
+        
+        const userData = {
+            profile: {
+                personal: {
+                    name: "김철수",
+                    age: 25
+                }
+            },
+            preferences: {
+                notifications: ["email", "sms"],
+                privacy: {
+                    shareData: false
+                }
+            }
+        };
+        
+        // Optional Chaining과 Spread 조합으로 안전한 데이터 추출
+        const safeExtraction = {
+            name: userData?.profile?.personal?.name || "Unknown",
+            age: userData?.profile?.personal?.age || 0,
+            notifications: [...(userData?.preferences?.notifications || [])],
+            ...(userData?.preferences?.privacy && {
+                privacy: {...userData.preferences.privacy}
+            })
+        };
+        
+        console.log("안전한 데이터 추출:", safeExtraction);
+        
+        // 사용자 삭제 테스트
+        userManager.removeUsers(2, 3);
+        
+        console.log("=== 📚 핵심 정리 ===");
+        console.log("1. Spread(...): 배열/객체를 개별 요소로 펼치기");
+        console.log("2. Rest(...): 여러 요소를 하나의 배열/객체로 수집");
+        console.log("3. 불변성 유지: 원본 데이터를 변경하지 않고 새로운 데이터 생성");
+        console.log("4. React 필수: props 전달, 상태 업데이트에 필수적");
+        console.log("5. 함수형 프로그래밍: 순수 함수 작성에 도움");
+        console.log("6. 성능 고려: 큰 데이터는 다른 방법도 고려");
+        console.log("7. 코드 가독성: 간결하고 직관적인 코드 작성 가능");
+        
+        alert("콘솔 확인! 실무에서 바로 사용할 수 있는 Spread/Rest 패턴들");
+    }
+</script>
+</body>
+</html>

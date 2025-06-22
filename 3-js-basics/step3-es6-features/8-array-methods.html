@@ -1,0 +1,967 @@
+/*
+🎯 5가지 핵심 섹션
+1️⃣ map - 변환의 마법사
+
+배열의 모든 요소를 변환하여 새 배열 생성
+세금 계산, 데이터 포맷팅, UI용 데이터 변환
+React 컴포넌트 렌더링의 핵심 패턴
+
+2️⃣ filter - 조건부 선별
+
+조건에 맞는 요소만 골라서 새 배열 생성
+검색, 카테고리 필터링, 동적 조건 처리
+페이지네이션과 조합한 실무 패턴
+
+3️⃣ reduce - 집계의 왕
+
+배열을 하나의 값으로 축약 (합계, 평균, 그룹화)
+장바구니 계산, 통계 생성, 객체 변환
+가장 강력하지만 어려운 메서드의 핵심 패턴들
+
+4️⃣ find/some/every - 검색과 검증
+
+find: 조건에 맞는 첫 번째 요소 찾기
+some: 하나라도 조건에 맞는지 확인 (OR)
+every: 모두 조건에 맞는지 확인 (AND)
+데이터 검증과 조건부 로직의 핵심
+
+5️⃣ Spring 데이터 처리 실무
+
+Spring Page<T> 응답 처리
+검색/필터링 파라미터 처리
+통계 대시보드 데이터 생성
+주문 처리 시스템
+실시간 재고 업데이트
+추천 시스템 데이터 가공
+
+
+💡 Spring 학습에 특히 유용한 이유:
+🌱 실무 직결:
+
+Spring Data JPA의 Page 응답 처리
+@RequestParam 검색 조건 처리
+@Transactional 주문 로직의 데이터 가공
+
+📊 데이터 처리:
+
+Controller에서 받은 JSON을 UI에 맞게 변환
+복잡한 비즈니스 로직을 함수형 스타일로 구현
+대시보드와 통계 화면의 데이터 가공
+
+🔗 메서드 체이닝:
+
+filter().map().reduce() 조합으로 복잡한 데이터 파이프라인 구축
+불변성을 유지하며 안전한 데이터 처리
+*/
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>ES6+ 배열 메서드 완전 정복</title>
+</head>
+<body>
+ES6+ 배열 메서드: map, filter, reduce, find 등으로 함수형 프로그래밍의 핵심
+<br><br>
+
+<button onclick="mapMethod()">map - 변환</button>
+<button onclick="filterMethod()">filter - 필터링</button>
+<button onclick="reduceMethod()">reduce - 집계</button>
+<button onclick="findMethods()">find/some/every - 검색</button>
+<button onclick="springDataExample()">Spring 데이터 처리</button>
+
+<script>
+    // 🎯 학습 목표: 배열 메서드로 함수형 프로그래밍 마스터하기
+    // 💡 핵심 개념:
+    // - map: 배열의 모든 요소를 변환하여 새 배열 생성 (1:1 대응)
+    // - filter: 조건에 맞는 요소만 골라서 새 배열 생성
+    // - reduce: 배열을 하나의 값으로 집계 (합계, 평균, 객체 변환 등)
+    // - find: 조건에 맞는 첫 번째 요소 찾기
+    // - Spring에서 받은 데이터를 가공할 때 필수 기술
+
+    // 📚 실습용 데이터 - 실제 Spring Controller에서 받을 법한 데이터
+    const products = [
+        { id: 1, name: "노트북", price: 1200000, category: "전자제품", inStock: true, rating: 4.5 },
+        { id: 2, name: "마우스", price: 35000, category: "전자제품", inStock: false, rating: 4.2 },
+        { id: 3, name: "키보드", price: 89000, category: "전자제품", inStock: true, rating: 4.7 },
+        { id: 4, name: "모니터", price: 350000, category: "전자제품", inStock: true, rating: 4.3 },
+        { id: 5, name: "책상", price: 180000, category: "가구", inStock: true, rating: 4.1 }
+    ];
+
+    function mapMethod() {
+        console.log("=== map: 배열 변환의 마법사 ===");
+        
+        // 🔍 map의 핵심 개념
+        // 원본 배열의 각 요소를 변환해서 새로운 배열을 생성
+        // 원본 배열은 절대 변경하지 않음 (불변성 원칙)
+        // 입력 배열과 출력 배열의 길이가 항상 같음 (1:1 대응)
+        // React에서 컴포넌트 리스트 렌더링할 때 필수
+
+        // 1️⃣ 기본 사용법: 가격에 세금 10% 추가
+        const withTax = products.map(product => {
+            // 각 상품 객체를 받아서 세금이 추가된 새 객체 반환
+            // 전개 연산자로 기존 속성을 모두 복사하고 새 속성 추가
+            return {
+                ...product,                          // 기존 모든 속성 복사
+                priceWithTax: Math.round(product.price * 1.1), // 세금 포함 가격 계산
+                formattedPrice: product.price.toLocaleString() + "원" // 천 단위 구분
+            };
+        });
+        
+        console.log("세금 포함 상품:", withTax);
+
+        // 2️⃣ 특정 속성만 추출: 상품명 리스트 만들기
+        // API 응답에서 필요한 데이터만 뽑아낼 때 매우 유용
+        const productNames = products.map(product => product.name);
+        console.log("상품명 목록:", productNames); // ["노트북", "마우스", ...]
+
+        // 화살표 함수 단축 문법 (중괄호 생략 시 자동 return)
+        const prices = products.map(p => p.price);
+        const categories = products.map(p => p.category);
+        console.log("가격 목록:", prices);
+        console.log("카테고리 목록:", categories);
+
+        // 3️⃣ 복잡한 변환: 등급별 라벨 추가
+        const withGradeLabels = products.map(product => {
+            // 평점에 따라 등급 라벨 결정
+            let gradeLabel;
+            if (product.rating >= 4.5) gradeLabel = "⭐ 최우수";
+            else if (product.rating >= 4.0) gradeLabel = "👍 우수";
+            else gradeLabel = "📝 보통";
+
+            return {
+                id: product.id,
+                name: product.name,
+                price: product.price,
+                gradeLabel,                    // 새로 계산된 등급 라벨
+                displayName: `${gradeLabel} ${product.name}`, // 표시용 이름
+                isRecommended: product.rating >= 4.5 && product.inStock // 추천 여부
+            };
+        });
+
+        console.log("등급 라벨이 추가된 상품:", withGradeLabels);
+
+        // 4️⃣ 인덱스 활용: 순위 정보 추가
+        // map의 두 번째 매개변수는 현재 인덱스
+        const rankedProducts = products
+            .sort((a, b) => b.rating - a.rating) // 평점 높은 순으로 정렬
+            .map((product, index) => ({
+                ...product,
+                rank: index + 1,                    // 순위 (1부터 시작)
+                medal: index === 0 ? "🥇" : index === 1 ? "🥈" : index === 2 ? "🥉" : ""
+            }));
+
+        console.log("순위가 매겨진 상품:", rankedProducts);
+
+        // 💼 실무 활용: API 응답 데이터를 UI에 맞게 변환
+        // Spring Controller에서 받은 데이터를 화면 표시용으로 가공
+        const displayData = products.map(product => ({
+            // UI에서 필요한 형태로 데이터 재구성
+            key: `product-${product.id}`,          // React key prop용
+            title: product.name.toUpperCase(),     // 제목은 대문자로
+            subtitle: `${product.category} | ${product.rating}⭐`, // 부제목
+            price: {
+                original: product.price,
+                formatted: `${product.price.toLocaleString()}원`,
+                isExpensive: product.price >= 100000
+            },
+            status: {
+                available: product.inStock,
+                label: product.inStock ? "구매 가능" : "품절",
+                color: product.inStock ? "green" : "red"
+            },
+            badges: [
+                product.rating >= 4.5 && "인기",
+                product.price >= 500000 && "프리미엄",
+                product.inStock && "재고 있음"
+            ].filter(Boolean) // falsy 값들 제거
+        }));
+
+        console.log("UI용 표시 데이터:", displayData);
+
+        alert("콘솔에서 map으로 변환된 다양한 데이터를 확인하세요!");
+    }
+
+    function filterMethod() {
+        console.log("=== filter: 조건에 맞는 데이터만 골라내기 ===");
+
+        // 🔍 filter의 핵심 개념
+        // 배열에서 특정 조건을 만족하는 요소들만 골라서 새 배열 생성
+        // 콜백 함수가 true를 반환하는 요소만 결과 배열에 포함
+        // 검색, 카테고리 필터링, 조건부 표시에서 필수
+        // 원본 배열은 변경되지 않음
+
+        // 1️⃣ 기본 필터링: 재고 있는 상품만
+        const inStockProducts = products.filter(product => product.inStock);
+        console.log("재고 있는 상품:", inStockProducts);
+
+        // 2️⃣ 가격 범위 필터링: 10만원 이상 고가 상품
+        const expensiveProducts = products.filter(product => product.price >= 100000);
+        console.log("고가 상품 (10만원 이상):", expensiveProducts);
+
+        // 3️⃣ 복합 조건: 재고 있으면서 평점 4.0 이상인 추천 상품
+        const recommendedProducts = products.filter(product => {
+            return product.inStock &&           // 재고 있음
+                   product.rating >= 4.0 &&     // 평점 4.0 이상
+                   product.price <= 500000;     // 50만원 이하 (접근성)
+        });
+        console.log("추천 상품:", recommendedProducts);
+
+        // 4️⃣ 카테고리별 필터링
+        const electronics = products.filter(p => p.category === "전자제품");
+        const furniture = products.filter(p => p.category === "가구");
+        console.log("전자제품:", electronics);
+        console.log("가구:", furniture);
+
+        // 5️⃣ 동적 필터링 함수: 실무에서 자주 사용하는 패턴
+        // 사용자가 선택한 조건에 따라 동적으로 필터링
+        function createProductFilter(conditions) {
+            return function(product) {
+                // 모든 조건을 만족하는지 검사
+                if (conditions.minPrice && product.price < conditions.minPrice) return false;
+                if (conditions.maxPrice && product.price > conditions.maxPrice) return false;
+                if (conditions.category && product.category !== conditions.category) return false;
+                if (conditions.minRating && product.rating < conditions.minRating) return false;
+                if (conditions.inStockOnly && !product.inStock) return false;
+                
+                return true; // 모든 조건 통과
+            };
+        }
+
+        // 다양한 조건으로 필터링 테스트
+        const filter1 = createProductFilter({ 
+            minPrice: 50000, 
+            maxPrice: 200000, 
+            inStockOnly: true 
+        });
+        const midRangeProducts = products.filter(filter1);
+        console.log("중가 재고 상품 (5-20만원):", midRangeProducts);
+
+        const filter2 = createProductFilter({ 
+            category: "전자제품", 
+            minRating: 4.5 
+        });
+        const premiumElectronics = products.filter(filter2);
+        console.log("프리미엄 전자제품:", premiumElectronics);
+
+        // 6️⃣ 문자열 검색 필터링: 상품명 검색
+        function searchProducts(searchTerm) {
+            const term = searchTerm.toLowerCase();
+            return products.filter(product => 
+                product.name.toLowerCase().includes(term) ||
+                product.category.toLowerCase().includes(term)
+            );
+        }
+
+        const laptopResults = searchProducts("북");
+        const electronicResults = searchProducts("전자");
+        console.log("'북' 검색 결과:", laptopResults);
+        console.log("'전자' 검색 결과:", electronicResults);
+
+        // 💼 실무 활용: 페이지네이션과 조합
+        function paginateProducts(products, page = 1, itemsPerPage = 2) {
+            const startIndex = (page - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            
+            return {
+                data: products.slice(startIndex, endIndex),
+                pagination: {
+                    currentPage: page,
+                    totalPages: Math.ceil(products.length / itemsPerPage),
+                    totalItems: products.length,
+                    hasNextPage: endIndex < products.length,
+                    hasPrevPage: page > 1
+                }
+            };
+        }
+
+        // 재고 있는 상품을 페이지별로 조회
+        const page1 = paginateProducts(inStockProducts, 1, 2);
+        const page2 = paginateProducts(inStockProducts, 2, 2);
+        console.log("재고 상품 1페이지:", page1);
+        console.log("재고 상품 2페이지:", page2);
+
+        // 🔗 filter와 map 조합: 필터링 후 변환
+        const discountedInStock = products
+            .filter(p => p.inStock)                    // 1단계: 재고 있는 것만
+            .map(p => ({                               // 2단계: 할인가 계산
+                ...p,
+                originalPrice: p.price,
+                discountPrice: Math.round(p.price * 0.9), // 10% 할인
+                savings: Math.round(p.price * 0.1)
+            }));
+
+        console.log("할인가가 적용된 재고 상품:", discountedInStock);
+
+        alert("콘솔에서 다양한 필터링 결과를 확인하세요!");
+    }
+
+    function reduceMethod() {
+        console.log("=== reduce: 배열을 하나의 값으로 집계하기 ===");
+
+        // 🔍 reduce의 핵심 개념
+        // 배열의 모든 요소를 순회하면서 하나의 값으로 누적
+        // accumulator(누적값)와 current(현재값)을 받아서 새 누적값 반환
+        // 합계, 평균, 최대/최소값, 객체 변환, 그룹화 등 만능 메서드
+        // 함수형 프로그래밍의 핵심이자 가장 강력한 배열 메서드
+
+        // 1️⃣ 기본 집계: 총 가격 계산
+        const totalPrice = products.reduce((sum, product) => {
+            console.log(`현재 합계: ${sum}, 상품 가격: ${product.price}`);
+            return sum + product.price; // 누적 합계에 현재 상품 가격 추가
+        }, 0); // 초기값 0부터 시작
+
+        console.log("총 상품 가격:", totalPrice.toLocaleString() + "원");
+
+        // 2️⃣ 평균 계산: 평균 가격과 평균 평점
+        const averagePrice = products.reduce((sum, product) => sum + product.price, 0) / products.length;
+        const averageRating = products.reduce((sum, product) => sum + product.rating, 0) / products.length;
+
+        console.log("평균 가격:", Math.round(averagePrice).toLocaleString() + "원");
+        console.log("평균 평점:", averageRating.toFixed(1) + "점");
+
+        // 3️⃣ 최대/최소값 찾기
+        const mostExpensive = products.reduce((max, product) => 
+            product.price > max.price ? product : max
+        );
+
+        const highestRated = products.reduce((best, product) => 
+            product.rating > best.rating ? product : best
+        );
+
+        console.log("가장 비싼 상품:", mostExpensive.name, mostExpensive.price.toLocaleString() + "원");
+        console.log("평점이 가장 높은 상품:", highestRated.name, highestRated.rating + "점");
+
+        // 4️⃣ 객체로 변환: ID를 키로 하는 객체 만들기
+        // Spring에서 받은 배열 데이터를 빠른 조회를 위해 객체로 변환
+        const productMap = products.reduce((map, product) => {
+            map[product.id] = product; // ID를 키로 해서 상품 저장
+            return map;
+        }, {});
+
+        console.log("ID 맵핑 객체:", productMap);
+        console.log("ID 3번 상품 빠른 조회:", productMap[3]);
+
+        // 5️⃣ 그룹화: 카테고리별로 상품 분류
+        // 실무에서 매우 자주 사용하는 패턴 (차트 데이터, 통계 등)
+        const groupedByCategory = products.reduce((groups, product) => {
+            const category = product.category;
+            
+            // 해당 카테고리 그룹이 없으면 생성
+            if (!groups[category]) {
+                groups[category] = [];
+            }
+            
+            groups[category].push(product);
+            return groups;
+        }, {});
+
+        console.log("카테고리별 그룹:", groupedByCategory);
+
+        // 6️⃣ 복잡한 통계: 카테고리별 상세 분석
+        const categoryStats = products.reduce((stats, product) => {
+            const category = product.category;
+            
+            // 카테고리 통계 초기화
+            if (!stats[category]) {
+                stats[category] = {
+                    count: 0,
+                    totalPrice: 0,
+                    totalRating: 0,
+                    inStockCount: 0,
+                    products: []
+                };
+            }
+            
+            const catStats = stats[category];
+            catStats.count++;
+            catStats.totalPrice += product.price;
+            catStats.totalRating += product.rating;
+            if (product.inStock) catStats.inStockCount++;
+            catStats.products.push(product.name);
+            
+            return stats;
+        }, {});
+
+        // 통계 완성: 평균값 계산
+        Object.keys(categoryStats).forEach(category => {
+            const stats = categoryStats[category];
+            stats.averagePrice = Math.round(stats.totalPrice / stats.count);
+            stats.averageRating = (stats.totalRating / stats.count).toFixed(1);
+            stats.stockRate = ((stats.inStockCount / stats.count) * 100).toFixed(1) + "%";
+        });
+
+        console.log("카테고리별 상세 통계:", categoryStats);
+
+        // 7️⃣ 실무 패턴: 장바구니 계산
+        // 사용자가 선택한 상품들의 총 금액, 할인, 배송비 계산
+        const cartItems = [
+            { productId: 1, quantity: 2 }, // 노트북 2개
+            { productId: 3, quantity: 1 }, // 키보드 1개
+            { productId: 4, quantity: 1 }  // 모니터 1개
+        ];
+
+        const cartSummary = cartItems.reduce((summary, cartItem) => {
+            // 상품 정보 찾기
+            const product = products.find(p => p.id === cartItem.productId);
+            if (!product) return summary; // 상품이 없으면 건너뛰기
+
+            const itemTotal = product.price * cartItem.quantity;
+            
+            summary.items.push({
+                name: product.name,
+                price: product.price,
+                quantity: cartItem.quantity,
+                total: itemTotal
+            });
+            
+            summary.subtotal += itemTotal;
+            summary.totalQuantity += cartItem.quantity;
+            
+            return summary;
+        }, {
+            items: [],
+            subtotal: 0,
+            totalQuantity: 0
+        });
+
+        // 최종 계산: 할인과 배송비
+        cartSummary.discount = cartSummary.subtotal >= 500000 ? cartSummary.subtotal * 0.05 : 0; // 50만원 이상 5% 할인
+        cartSummary.shippingFee = cartSummary.subtotal >= 300000 ? 0 : 3000; // 30만원 이상 무료배송
+        cartSummary.total = cartSummary.subtotal - cartSummary.discount + cartSummary.shippingFee;
+
+        console.log("장바구니 요약:", cartSummary);
+
+        // 8️⃣ 실무 활용: 배열을 원하는 형태로 변환
+        // Spring에서 받은 데이터를 차트 라이브러리용 데이터로 변환
+        const chartData = products.reduce((data, product) => {
+            data.labels.push(product.name);
+            data.prices.push(product.price);
+            data.ratings.push(product.rating);
+            return data;
+        }, {
+            labels: [],
+            prices: [],
+            ratings: []
+        });
+
+        console.log("차트용 데이터:", chartData);
+
+        alert("콘솔에서 reduce로 집계된 다양한 통계를 확인하세요!");
+    }
+
+    function findMethods() {
+        console.log("=== find, some, every: 검색과 조건 확인 ===");
+
+        // 🔍 검색 메서드들의 특징
+        // find: 조건에 맞는 첫 번째 요소 반환 (없으면 undefined)
+        // some: 하나라도 조건에 맞으면 true (OR 연산)
+        // every: 모두 조건에 맞아야 true (AND 연산)
+        // findIndex: 조건에 맞는 첫 번째 요소의 인덱스 반환
+
+        // 1️⃣ find: 특정 상품 찾기
+        const laptop = products.find(product => product.name === "노트북");
+        const expensiveProduct = products.find(product => product.price > 500000);
+        const outOfStock = products.find(product => !product.inStock);
+
+        console.log("노트북 찾기:", laptop);
+        console.log("50만원 넘는 상품:", expensiveProduct || "없음");
+        console.log("품절 상품:", outOfStock);
+
+        // 2️⃣ findIndex: 요소의 위치 찾기
+        const keyboardIndex = products.findIndex(p => p.name === "키보드");
+        const highRatingIndex = products.findIndex(p => p.rating >= 4.5);
+
+        console.log("키보드의 위치:", keyboardIndex); // 2
+        console.log("평점 4.5 이상 상품의 위치:", highRatingIndex);
+
+        // 3️⃣ some: 하나라도 조건에 맞는지 확인
+        const hasExpensiveItem = products.some(p => p.price > 1000000);
+        const hasOutOfStock = products.some(p => !p.inStock);
+        const hasHighRating = products.some(p => p.rating >= 4.5);
+        const hasFurniture = products.some(p => p.category === "가구");
+
+        console.log("100만원 넘는 상품 있나?", hasExpensiveItem); // true
+        console.log("품절 상품 있나?", hasOutOfStock); // true  
+        console.log("평점 4.5 이상 있나?", hasHighRating); // true
+        console.log("가구 있나?", hasFurniture); // true
+
+        // 4️⃣ every: 모든 요소가 조건에 맞는지 확인
+        const allInStock = products.every(p => p.inStock);
+        const allExpensive = products.every(p => p.price >= 50000);
+        const allGoodRating = products.every(p => p.rating >= 4.0);
+        const allElectronics = products.every(p => p.category === "전자제품");
+
+        console.log("모든 상품이 재고 있나?", allInStock); // false (마우스 품절)
+        console.log("모든 상품이 5만원 이상?", allExpensive); // false (마우스 3.5만원)
+        console.log("모든 상품이 평점 4.0 이상?", allGoodRating); // true
+        console.log("모든 상품이 전자제품?", allElectronics); // false (책상이 가구)
+
+        // 5️⃣ 실무 활용: 장바구니 유효성 검사
+        function validateCart(cartItems) {
+            // 모든 상품이 재고 있는지 확인
+            const allItemsAvailable = cartItems.every(cartItem => {
+                const product = products.find(p => p.id === cartItem.productId);
+                return product && product.inStock;
+            });
+
+            // 하나라도 고가 상품(50만원 이상)이 있는지 확인
+            const hasExpensiveItem = cartItems.some(cartItem => {
+                const product = products.find(p => p.id === cartItem.productId);
+                return product && product.price >= 500000;
+            });
+
+            // 총 상품 개수 확인
+            const totalQuantity = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+
+            return {
+                isValid: allItemsAvailable,
+                hasExpensiveItem,
+                totalQuantity,
+                warnings: [
+                    !allItemsAvailable && "일부 상품이 품절되었습니다",
+                    totalQuantity > 10 && "상품 개수가 너무 많습니다 (최대 10개)",
+                    hasExpensiveItem && "고가 상품이 포함되어 있습니다"
+                ].filter(Boolean)
+            };
+        }
+
+        // 장바구니 테스트
+        const testCart = [
+            { productId: 1, quantity: 2 }, // 노트북 (재고 있음, 고가)
+            { productId: 2, quantity: 1 }, // 마우스 (품절)
+            { productId: 3, quantity: 1 }  // 키보드 (재고 있음)
+        ];
+
+        const cartValidation = validateCart(testCart);
+        console.log("장바구니 검증 결과:", cartValidation);
+
+        // 6️⃣ 고급 검색: 복합 조건
+        function advancedSearch(criteria) {
+            return {
+                // 정확히 일치하는 상품 찾기
+                exact: products.find(p => 
+                    (!criteria.name || p.name === criteria.name) &&
+                    (!criteria.category || p.category === criteria.category) &&
+                    (!criteria.minPrice || p.price >= criteria.minPrice)
+                ),
+                
+                // 조건에 맞는 상품이 하나라도 있는지
+                hasMatch: products.some(p =>
+                    (!criteria.maxPrice || p.price <= criteria.maxPrice) &&
+                    (!criteria.minRating || p.rating >= criteria.minRating) &&
+                    (!criteria.inStock || p.inStock)
+                ),
+                
+                // 모든 상품이 조건을 만족하는지
+                allMatch: products.every(p =>
+                    (!criteria.minRating || p.rating >= criteria.minRating)
+                )
+            };
+        }
+
+        const searchResult = advancedSearch({
+            category: "전자제품",
+            minPrice: 50000,
+            maxPrice: 400000,
+            minRating: 4.0,
+            inStock: true
+        });
+
+        console.log("고급 검색 결과:", searchResult);
+
+        // 7️⃣ 실무 패턴: 데이터 검증
+        function validateProductData(productList) {
+            const validation = {
+                // 필수 필드 검사
+                hasRequiredFields: productList.every(p => 
+                    p.id && p.name && p.price && p.category
+                ),
+                
+                // 가격 범위 검사
+                hasValidPrices: productList.every(p => 
+                    p.price > 0 && p.price <= 10000000
+                ),
+                
+                // 평점 범위 검사
+                hasValidRatings: productList.every(p => 
+                    p.rating >= 0 && p.rating <= 5
+                ),
+                
+                // 중복 ID 검사
+                hasUniqueIds: productList.length === 
+                    new Set(productList.map(p => p.id)).size,
+                
+                // 품절 상품 확인
+                hasOutOfStockItems: productList.some(p => !p.inStock)
+            };
+
+            validation.isValid = validation.hasRequiredFields && 
+                               validation.hasValidPrices && 
+                               validation.hasValidRatings && 
+                               validation.hasUniqueIds;
+
+            return validation;
+        }
+
+        const dataValidation = validateProductData(products);
+        console.log("상품 데이터 검증:", dataValidation);
+
+        alert("콘솔에서 다양한 검색과 조건 확인 결과를 확인하세요!");
+    }
+
+    function springDataExample() {
+    function springDataExample() {
+        console.log("=== Spring 데이터 처리 실무 예제 ===");
+
+        // 🌱 Spring Boot Controller에서 받은 데이터를 처리하는 실무 패턴
+        // 실제 프로젝트에서 자주 마주치는 데이터 가공 시나리오들
+
+        // 1️⃣ Spring Page 응답 데이터 처리
+        // Spring Data JPA의 Page<T> 응답을 프론트엔드에서 처리
+        const springPageResponse = {
+            content: products, // 실제 데이터
+            pageable: {
+                pageNumber: 0,
+                pageSize: 10,
+                sort: { sorted: true, unsorted: false }
+            },
+            totalElements: 5,
+            totalPages: 1,
+            first: true,
+            last: true,
+            numberOfElements: 5
+        };
+
+        // Spring Page 데이터를 UI 친화적으로 변환
+        const processedPageData = {
+            items: springPageResponse.content.map(item => ({
+                ...item,
+                displayPrice: item.price.toLocaleString() + "원",
+                statusBadge: item.inStock ? "재고있음" : "품절",
+                categoryKor: item.category === "전자제품" ? "전자" : "가구"
+            })),
+            pagination: {
+                currentPage: springPageResponse.pageable.pageNumber + 1, // Spring은 0부터, UI는 1부터
+                totalPages: springPageResponse.totalPages,
+                totalItems: springPageResponse.totalElements,
+                hasNext: !springPageResponse.last,
+                hasPrev: !springPageResponse.first,
+                itemsPerPage: springPageResponse.pageable.pageSize
+            }
+        };
+
+        console.log("Spring Page 데이터 처리:", processedPageData);
+
+        // 2️⃣ 검색 및 필터링 (Spring @RequestParam 처리)
+        // Spring Controller에서 검색 조건을 받아 처리하는 패턴
+        function processSearchRequest(searchParams) {
+            let result = [...products]; // 원본 보호
+
+            // 키워드 검색
+            if (searchParams.keyword) {
+                const keyword = searchParams.keyword.toLowerCase();
+                result = result.filter(p => 
+                    p.name.toLowerCase().includes(keyword) ||
+                    p.category.toLowerCase().includes(keyword)
+                );
+            }
+
+            // 가격 범위 필터
+            if (searchParams.minPrice) {
+                result = result.filter(p => p.price >= parseInt(searchParams.minPrice));
+            }
+            if (searchParams.maxPrice) {
+                result = result.filter(p => p.price <= parseInt(searchParams.maxPrice));
+            }
+
+            // 카테고리 필터
+            if (searchParams.category && searchParams.category !== "all") {
+                result = result.filter(p => p.category === searchParams.category);
+            }
+
+            // 재고 필터
+            if (searchParams.inStockOnly === "true") {
+                result = result.filter(p => p.inStock);
+            }
+
+            // 정렬 처리 (Spring Sort 방식)
+            if (searchParams.sort) {
+                const [field, direction = "asc"] = searchParams.sort.split(",");
+                result.sort((a, b) => {
+                    let aVal = a[field];
+                    let bVal = b[field];
+                    
+                    if (direction === "desc") {
+                        return bVal > aVal ? 1 : -1;
+                    }
+                    return aVal > bVal ? 1 : -1;
+                });
+            }
+
+            return result;
+        }
+
+        // 검색 시나리오 테스트
+        const searchScenarios = [
+            { keyword: "노트북", sort: "price,desc" },
+            { category: "전자제품", minPrice: "50000", inStockOnly: "true" },
+            { maxPrice: "100000", sort: "rating,desc" }
+        ];
+
+        searchScenarios.forEach((params, index) => {
+            const results = processSearchRequest(params);
+            console.log(`검색 시나리오 ${index + 1}:`, params, "결과:", results.length + "개");
+        });
+
+        // 3️⃣ 통계 대시보드 데이터 생성
+        // Spring Controller에서 통계 API를 호출했을 때의 데이터 가공
+        function generateDashboardStats(productList) {
+            const stats = productList.reduce((acc, product) => {
+                // 기본 통계
+                acc.totalProducts++;
+                acc.totalValue += product.price;
+                if (product.inStock) acc.inStockCount++;
+
+                // 카테고리별 통계
+                if (!acc.categories[product.category]) {
+                    acc.categories[product.category] = {
+                        count: 0,
+                        value: 0,
+                        avgRating: 0,
+                        ratingSum: 0
+                    };
+                }
+                acc.categories[product.category].count++;
+                acc.categories[product.category].value += product.price;
+                acc.categories[product.category].ratingSum += product.rating;
+
+                // 가격 구간별 통계
+                const priceRange = product.price < 100000 ? "low" : 
+                                 product.price < 500000 ? "mid" : "high";
+                acc.priceRanges[priceRange]++;
+
+                return acc;
+            }, {
+                totalProducts: 0,
+                totalValue: 0,
+                inStockCount: 0,
+                categories: {},
+                priceRanges: { low: 0, mid: 0, high: 0 }
+            });
+
+            // 평균값 계산
+            stats.averagePrice = Math.round(stats.totalValue / stats.totalProducts);
+            stats.stockRate = ((stats.inStockCount / stats.totalProducts) * 100).toFixed(1);
+
+            // 카테고리별 평균 평점 계산
+            Object.keys(stats.categories).forEach(category => {
+                const cat = stats.categories[category];
+                cat.avgRating = (cat.ratingSum / cat.count).toFixed(1);
+                cat.avgPrice = Math.round(cat.value / cat.count);
+            });
+
+            return stats;
+        }
+
+        const dashboardStats = generateDashboardStats(products);
+        console.log("대시보드 통계:", dashboardStats);
+
+        // 4️⃣ 주문 처리 시스템
+        // Spring @Transactional 메서드에서 사용할 주문 데이터 가공
+        function processOrderData(orderItems) {
+            const orderSummary = orderItems.reduce((summary, item) => {
+                const product = products.find(p => p.id === item.productId);
+                
+                if (!product) {
+                    summary.errors.push(`상품 ID ${item.productId}를 찾을 수 없습니다`);
+                    return summary;
+                }
+
+                if (!product.inStock) {
+                    summary.errors.push(`${product.name}은(는) 품절입니다`);
+                    return summary;
+                }
+
+                const lineTotal = product.price * item.quantity;
+                
+                summary.items.push({
+                    productId: product.id,
+                    productName: product.name,
+                    unitPrice: product.price,
+                    quantity: item.quantity,
+                    lineTotal: lineTotal
+                });
+
+                summary.subtotal += lineTotal;
+                summary.totalQuantity += item.quantity;
+
+                return summary;
+            }, {
+                items: [],
+                subtotal: 0,
+                totalQuantity: 0,
+                errors: []
+            });
+
+            // 할인 및 배송비 계산
+            if (orderSummary.errors.length === 0) {
+                // VIP 고객 할인 (100만원 이상 주문 시 5% 할인)
+                orderSummary.discount = orderSummary.subtotal >= 1000000 ? 
+                    Math.round(orderSummary.subtotal * 0.05) : 0;
+
+                // 배송비 계산
+                orderSummary.shippingFee = orderSummary.subtotal >= 300000 ? 0 : 3000;
+
+                // 최종 금액
+                orderSummary.total = orderSummary.subtotal - orderSummary.discount + orderSummary.shippingFee;
+
+                // 주문 메타데이터
+                orderSummary.orderDate = new Date().toISOString();
+                orderSummary.orderNumber = `ORD-${Date.now()}`;
+            }
+
+            return orderSummary;
+        }
+
+        // 주문 테스트
+        const testOrder = [
+            { productId: 1, quantity: 1 }, // 노트북
+            { productId: 3, quantity: 2 }, // 키보드 2개
+            { productId: 4, quantity: 1 }  // 모니터
+        ];
+
+        const orderResult = processOrderData(testOrder);
+        console.log("주문 처리 결과:", orderResult);
+
+        // 5️⃣ 실시간 재고 업데이트 시뮬레이션
+        // Spring WebSocket이나 Server-Sent Events로 받은 재고 업데이트 처리
+        function updateInventory(inventoryUpdates) {
+            const updatedProducts = products.map(product => {
+                const update = inventoryUpdates.find(u => u.productId === product.id);
+                
+                if (update) {
+                    return {
+                        ...product,
+                        inStock: update.quantity > 0,
+                        stockQuantity: update.quantity,
+                        lastUpdated: new Date().toISOString()
+                    };
+                }
+                
+                return product;
+            });
+
+            // 재고 변경 요약
+            const changeSummary = inventoryUpdates.reduce((summary, update) => {
+                const product = products.find(p => p.id === update.productId);
+                if (product) {
+                    const wasInStock = product.inStock;
+                    const isInStock = update.quantity > 0;
+                    
+                    if (wasInStock && !isInStock) {
+                        summary.outOfStock.push(product.name);
+                    } else if (!wasInStock && isInStock) {
+                        summary.backInStock.push(product.name);
+                    }
+                }
+                return summary;
+            }, {
+                outOfStock: [],
+                backInStock: []
+            });
+
+            return {
+                products: updatedProducts,
+                summary: changeSummary
+            };
+        }
+
+        // 재고 업데이트 시뮬레이션
+        const inventoryUpdates = [
+            { productId: 2, quantity: 5 },  // 마우스 재입고
+            { productId: 5, quantity: 0 }   // 책상 품절
+        ];
+
+        const inventoryResult = updateInventory(inventoryUpdates);
+        console.log("재고 업데이트 결과:", inventoryResult);
+
+        // 6️⃣ 추천 시스템 데이터 처리
+        // Spring ML 서비스에서 받은 추천 결과를 처리
+        function processRecommendations(userId, userHistory) {
+            // 사용자 구매 이력 분석
+            const userCategories = userHistory.map(h => h.category);
+            const mostBoughtCategory = userCategories.reduce((freq, cat) => {
+                freq[cat] = (freq[cat] || 0) + 1;
+                return freq;
+            }, {});
+
+            const preferredCategory = Object.keys(mostBoughtCategory)
+                .reduce((a, b) => mostBoughtCategory[a] > mostBoughtCategory[b] ? a : b);
+
+            // 추천 상품 생성
+            const recommendations = products
+                .filter(p => p.inStock) // 재고 있는 것만
+                .filter(p => !userHistory.some(h => h.productId === p.id)) // 구매한 적 없는 것만
+                .map(p => ({
+                    ...p,
+                    score: calculateRecommendationScore(p, preferredCategory, userHistory),
+                    reason: getRecommendationReason(p, preferredCategory)
+                }))
+                .sort((a, b) => b.score - a.score) // 점수 높은 순
+                .slice(0, 3); // 상위 3개만
+
+            return {
+                userId,
+                preferredCategory,
+                recommendations,
+                totalRecommendations: recommendations.length
+            };
+        }
+
+        function calculateRecommendationScore(product, preferredCategory, userHistory) {
+            let score = product.rating * 20; // 기본 점수 (평점 기반)
+            
+            // 선호 카테고리 보너스
+            if (product.category === preferredCategory) score += 30;
+            
+            // 가격대 보너스 (사용자 구매 이력 평균가 고려)
+            const avgUserPrice = userHistory.reduce((sum, h) => sum + h.price, 0) / userHistory.length;
+            if (Math.abs(product.price - avgUserPrice) < avgUserPrice * 0.3) score += 20;
+            
+            return Math.round(score);
+        }
+
+        function getRecommendationReason(product, preferredCategory) {
+            if (product.category === preferredCategory) {
+                return `선호 카테고리(${preferredCategory}) 상품`;
+            }
+            if (product.rating >= 4.5) {
+                return "고객 만족도가 높은 상품";
+            }
+            return "인기 상품";
+        }
+
+        // 추천 시스템 테스트
+        const userPurchaseHistory = [
+            { productId: 1, category: "전자제품", price: 1200000 },
+            { productId: 3, category: "전자제품", price: 89000 }
+        ];
+
+        const recommendations = processRecommendations(123, userPurchaseHistory);
+        console.log("상품 추천 결과:", recommendations);
+
+        // 💡 Spring 연동 실무 팁
+        console.log("=== 💡 Spring 연동 실무 팁 ===");
+        console.log("1. Page<T> 응답은 content 배열을 주로 사용");
+        console.log("2. 검색 파라미터는 URL 쿼리스트링으로 Spring에 전달");
+        console.log("3. 대용량 데이터는 클라이언트에서 페이징 처리");
+        console.log("4. 실시간 업데이트는 WebSocket 또는 SSE 활용");
+        console.log("5. 복잡한 통계는 Spring에서 계산 후 프론트에서 시각화");
+        console.log("6. 에러 처리 시 Spring의 @ExceptionHandler 응답 형식 고려");
+
+        alert("콘솔에서 Spring 데이터 처리 실무 예제를 확인하세요!");
+    }
+</script>
+</body>
+</html>

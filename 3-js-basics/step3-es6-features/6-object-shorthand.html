@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>ES6 객체 메서드 단축 표기</title>
+</head>
+<body>
+ES6 객체 메서드 단축 표기: function 키워드 없이 메서드 정의 가능
+<br><br>
+
+<button onclick="methodShorthand()">메서드 단축 표기</button>
+<button onclick="propertyShorthand()">속성 단축 표기</button>
+<button onclick="computedProperty()">계산된 속성명</button>
+<button onclick="springExample()">Spring 연동 예제</button>
+
+<script>
+    // 🎯 학습 목표: 객체 메서드와 속성의 단축 표기법 이해하기
+    // 💡 핵심 개념:
+    // - 메서드 정의 시 function 키워드 생략 가능
+    // - 속성과 변수명이 같으면 한 번만 작성
+    // - 계산된 속성명으로 동적 키 생성 가능
+    // - Spring에서 JSON 데이터 처리 시 매우 유용
+    
+    function methodShorthand() {
+        console.log("=== 메서드 단축 표기 ===");
+        
+        const name = "김철수";
+        const age = 25;
+        
+        // 🔍 기존 방식: function 키워드 사용
+        // 객체 안에서 메서드를 정의할 때 function 키워드를 반드시 사용해야 함
+        // 코드가 길어지고 반복적인 function 작성으로 가독성 저하
+        const oldUser = {
+            name: name,
+            age: age,
+            getName: function() {
+                return this.name;
+            },
+            getAge: function() {
+                return this.age;
+            },
+            introduce: function() {
+                return `안녕하세요, ${this.name}입니다. ${this.age}세입니다.`;
+            }
+        };
+        
+        // ✨ ES6 단축 표기: function 키워드 생략
+        // 메서드명 바로 뒤에 괄호와 중괄호로 간결하게 정의
+        // 가독성이 크게 향상되고 코드가 깔끔해짐
+        const newUser = {
+            name, // 속성 단축: name: name과 동일
+            age,  // 속성 단축: age: age와 동일
+            
+            // 메서드 단축: getName: function() {...}와 동일
+            getName() {
+                return this.name;
+            },
+            
+            getAge() {
+                return this.age;
+            },
+            
+            introduce() {
+                return `안녕하세요, ${this.name}입니다. ${this.age}세입니다.`;
+            }
+        };
+        
+        console.log("기존 방식:", oldUser.introduce());
+        console.log("단축 표기:", newUser.introduce());
+        
+        // 💼 실무 활용: 사용자 서비스 객체
+        // Spring Controller에서 받은 데이터를 가공하는 서비스 객체 패턴
+        const userService = {
+            users: [], // 사용자 목록 저장
+            
+            // 사용자 추가
+            addUser(userData) {
+                const user = {
+                    id: Date.now(),
+                    ...userData,
+                    createdAt: new Date().toISOString()
+                };
+                this.users.push(user);
+                return user;
+            },
+            
+            // 사용자 검색
+            findUser(id) {
+                return this.users.find(user => user.id === id);
+            },
+            
+            // 사용자 목록 조회 (페이징)
+            getUsers(page = 1, limit = 10) {
+                const start = (page - 1) * limit;
+                return this.users.slice(start, start + limit);
+            },
+            
+            // 사용자 업데이트
+            updateUser(id, updates) {
+                const index = this.users.findIndex(user => user.id === id);
+                if (index !== -1) {
+                    this.users[index] = { ...this.users[index], ...updates };
+                    return this.users[index];
+                }
+                return null;
+            }
+        };
+        
+        // 서비스 테스트
+        const user1 = userService.addUser({ name: "이영희", email: "lee@example.com" });
+        const user2 = userService.addUser({ name: "박민수", email: "park@example.com" });
+        
+        console.log("추가된 사용자:", user1);
+        console.log("사용자 검색:", userService.findUser(user1.id));
+        console.log("사용자 목록:", userService.getUsers());
+        
+        alert("콘솔에서 메서드 단축 표기 결과를 확인하세요!");
+    }
+    
+    function propertyShorthand() {
+        console.log("=== 속성 단축 표기 ===");
+        
+        // 🔍 변수와 속성명이 같을 때 단축 가능
+        // API에서 받은 데이터를 객체로 구성할 때 매우 유용
+        const id = 123;
+        const name = "김개발";
+        const email = "dev@example.com";
+        const role = "developer";
+        
+        // ❌ 기존 방식: 속성명과 값을 모두 작성
+        const oldStyle = {
+            id: id,
+            name: name,
+            email: email,
+            role: role,
+            status: "active"
+        };
+        
+        // ✅ ES6 단축 표기: 변수명과 속성명이 같으면 한 번만 작성
+        const newStyle = {
+            id,    // id: id와 동일
+            name,  // name: name과 동일
+            email, // email: email과 동일
+            role,  // role: role과 동일
+            status: "active" // 다른 값일 때는 기존 방식
+        };
+        
+        console.log("기존 방식:", oldStyle);
+        console.log("단축 표기:", newStyle);
+        
+        // 💼 실무 패턴: 함수에서 객체 반환
+        // Spring Controller로 전송할 데이터를 구성할 때 자주 사용
+        function createUserDto(userData) {
+            const { name, email, age } = userData; // 구조분해할당으로 추출
+            const id = Date.now();
+            const createdAt = new Date().toISOString();
+            const isActive = true;
+            
+            // 추출한 변수들을 단축 표기로 객체 구성
+            return {
+                id,        // id: id
+                name,      // name: name
+                email,     // email: email
+                age,       // age: age
+                createdAt, // createdAt: createdAt
+                isActive   // isActive: isActive
+            };
+        }
+        
+        const userDto = createUserDto({
+            name: "최신입",
+            email: "new@example.com",
+            age: 22
+        });
+        
+        console.log("생성된 DTO:", userDto);
+        
+        // 💡 배열과 조합: 여러 객체를 한 번에 처리
+        const users = [
+            { name: "김철수", score: 85 },
+            { name: "이영희", score: 92 },
+            { name: "박민수", score: 78 }
+        ];
+        
+        // map과 단축 표기 조합으로 데이터 가공
+        const processedUsers = users.map(user => {
+            const { name, score } = user;
+            const grade = score >= 90 ? "A" : score >= 80 ? "B" : "C";
+            const passed = score >= 80;
+            
+            return {
+                name,    // 기존 이름 유지
+                score,   // 기존 점수 유지
+                grade,   // 새로 계산된 등급
+                passed   // 합격 여부
+            };
+        });
+        
+        console.log("가공된 사용자 데이터:", processedUsers);
+        
+        alert("콘솔에서 속성 단축 표기 결과를 확인하세요!");
+    }
+    
+    function computedProperty() {
+        console.log("=== 계산된 속성명 ===");
+        
+        // 🔍 대괄호 []를 사용해서 동적으로 속성명 결정
+        // 변수나 표현식의 값을 속성명으로 사용할 수 있음
+        // 런타임에 결정되는 키로 객체를 구성할 때 매우 유용
+        
+        const fieldName = "userName";
+        const prefix = "data";
+        const index = 1;
+        
+        // ✨ 계산된 속성명으로 동적 객체 생성
+        const dynamicObject = {
+            [fieldName]: "김철수",           // userName: "김철수"
+            [prefix + "Id"]: 123,           // dataId: 123
+            [`${prefix}_${index}`]: "값1",   // data_1: "값1"
+            ["user" + "Email"]: "kim@example.com" // userEmail: "kim@example.com"
+        };
+        
+        console.log("동적 객체:", dynamicObject);
+        
+        // 💼 실무 활용: 폼 데이터 처리
+        // HTML 폼에서 동적으로 생성되는 필드들을 처리할 때 사용
+        function createFormData(formFields) {
+            const result = {};
+            
+            formFields.forEach(field => {
+                const { name, value, type } = field;
+                
+                // 필드 타입에 따라 다른 처리
+                result[name] = type === "number" ? Number(value) : value;
+                
+                // 유효성 검사 결과도 동적으로 추가
+                result[name + "_valid"] = value && value.trim().length > 0;
+            });
+            
+            return result;
+        }
+        
+        const formFields = [
+            { name: "name", value: "김철수", type: "text" },
+            { name: "age", value: "25", type: "number" },
+            { name: "email", value: "kim@example.com", type: "email" }
+        ];
+        
+        const formData = createFormData(formFields);
+        console.log("폼 데이터:", formData);
+        
+        // 🎯 메서드와 계산된 속성명 조합
+        // API 엔드포인트별로 다른 처리 로직을 가진 객체
+        const apiService = {
+            baseUrl: "https://api.example.com",
+            
+            // 동적 메서드 생성을 위한 헬퍼
+            createEndpoint(resource) {
+                return {
+                    [`get${resource}`]() {
+                        return `GET ${this.baseUrl}/${resource.toLowerCase()}`;
+                    },
+                    
+                    [`create${resource}`](data) {
+                        return `POST ${this.baseUrl}/${resource.toLowerCase()} with ${JSON.stringify(data)}`;
+                    },
+                    
+                    [`update${resource}`](id, data) {
+                        return `PUT ${this.baseUrl}/${resource.toLowerCase()}/${id} with ${JSON.stringify(data)}`;
+                    },
+                    
+                    [`delete${resource}`](id) {
+                        return `DELETE ${this.baseUrl}/${resource.toLowerCase()}/${id}`;
+                    }
+                };
+            }
+        };
+        
+        // 사용자 관련 API 엔드포인트 생성
+        const userApi = {
+            ...apiService,
+            ...apiService.createEndpoint("User")
+        };
+        
+        console.log("사용자 조회:", userApi.getUser());
+        console.log("사용자 생성:", userApi.createUser({ name: "김철수" }));
+        
+        // 🔧 실무 팁: 설정 객체 동적 생성
+        function createConfig(environment, options = {}) {
+            const envPrefix = environment.toUpperCase();
+            
+            return {
+                [`${envPrefix}_API_URL`]: options.apiUrl || "http://localhost:3000",
+                [`${envPrefix}_DEBUG`]: environment === "development",
+                [`is${envPrefix.charAt(0) + envPrefix.slice(1).toLowerCase()}`]: true,
+                
+                // 환경별 특수 설정
+                ...(environment === "production" && {
+                    [`${envPrefix}_CACHE_TTL`]: 3600,
+                    [`${envPrefix}_LOG_LEVEL`]: "error"
+                }),
+                
+                ...(environment === "development" && {
+                    [`${envPrefix}_HOT_RELOAD`]: true,
+                    [`${envPrefix}_LOG_LEVEL`]: "debug"
+                })
+            };
+        }
+        
+        const devConfig = createConfig("development");
+        const prodConfig = createConfig("production", { apiUrl: "https://api.prod.com" });
+        
+        console.log("개발 설정:", devConfig);
+        console.log("운영 설정:", prodConfig);
+        
+        alert("콘솔에서 계산된 속성명 결과를 확인하세요!");
+    }
+    
+    function springExample() {
+        console.log("=== Spring 연동 실무 예제 ===");
+        
+        // 🌱 Spring Boot Controller와 통신하는 프론트엔드 코드 패턴
+        // 실제 업무에서 자주 사용하는 패턴들을 정리
+        
+        // 1️⃣ 요청 데이터 생성 (DTO 패턴)
+        // Spring Controller의 @RequestBody로 전송할 데이터 구성
+        function createUserRequest(formData) {
+            const { name, email, age, department } = formData;
+            const timestamp = new Date().toISOString();
+            const requestId = Date.now().toString();
+            
+            // 단축 표기로 요청 객체 구성
+            return {
+                name,        // name: name
+                email,       // email: email
+                age,         // age: age
+                department,  // department: department
+                timestamp,   // timestamp: timestamp
+                requestId,   // requestId: requestId
+                
+                // 메서드도 함께 전송하는 경우
+                validate() {
+                    return this.name && this.email && this.age > 0;
+                },
+                
+                toJson() {
+                    const { name, email, age, department, timestamp, requestId } = this;
+                    return { name, email, age, department, timestamp, requestId };
+                }
+            };
+        }
+        
+        // 2️⃣ 응답 데이터 처리 (Response 처리)
+        // Spring Controller에서 받은 JSON 응답을 가공
+        const springApiService = {
+            baseUrl: "/api",
+            
+            // 사용자 목록 조회
+            async getUsers(page = 1, size = 10) {
+                // 실제로는 fetch() 호출
+                const mockResponse = {
+                    status: "success",
+                    data: {
+                        users: [
+                            { id: 1, name: "김철수", email: "kim@example.com" },
+                            { id: 2, name: "이영희", email: "lee@example.com" }
+                        ],
+                        totalElements: 2,
+                        totalPages: 1
+                    }
+                };
+                
+                // 응답 데이터를 프론트엔드에서 사용하기 좋게 가공
+                const { status, data } = mockResponse;
+                const { users, totalElements, totalPages } = data;
+                
+                return {
+                    status,
+                    users,
+                    totalElements,
+                    totalPages,
+                    
+                    // 추가 메서드
+                    hasNextPage() {
+                        return page < totalPages;
+                    },
+                    
+                    isEmpty() {
+                        return users.length === 0;
+                    }
+                };
+            },
+            
+            // 사용자 생성
+            async createUser(userData) {
+                const request = createUserRequest(userData);
+                
+                if (!request.validate()) {
+                    throw new Error("유효하지 않은 사용자 데이터");
+                }
+                
+                // 실제로는 fetch() POST 요청
+                const mockResponse = {
+                    status: "created",
+                    data: { id: 3, ...request.toJson() }
+                };
+                
+                const { status, data } = mockResponse;
+                const { id, name, email } = data;
+                
+                return {
+                    status,
+                    user: { id, name, email },
+                    
+                    isSuccess() {
+                        return status === "created";
+                    }
+                };
+            }
+        };
+        
+        // 3️⃣ 폼 처리와 유효성 검사
+        const formHandler = {
+            // 폼 데이터 수집
+            collectFormData(formElement) {
+                // 실제로는 FormData나 DOM에서 수집
+                const mockFormData = {
+                    name: "박신입",
+                    email: "new@example.com",
+                    age: "24",
+                    department: "개발팀"
+                };
+                
+                const { name, email, age, department } = mockFormData;
+                
+                return {
+                    name: name.trim(),
+                    email: email.toLowerCase(),
+                    age: parseInt(age),
+                    department,
+                    
+                    // 유효성 검사 메서드
+                    isValid() {
+                        return this.name.length > 0 && 
+                               this.email.includes("@") && 
+                               this.age > 0;
+                    },
+                    
+                    getErrors() {
+                        const errors = [];
+                        if (!this.name) errors.push("이름은 필수입니다");
+                        if (!this.email.includes("@")) errors.push("유효한 이메일이 아닙니다");
+                        if (this.age <= 0) errors.push("나이는 양수여야 합니다");
+                        return errors;
+                    }
+                };
+            },
+            
+            // 폼 제출 처리
+            async handleSubmit(formData) {
+                const data = this.collectFormData(formData);
+                
+                if (!data.isValid()) {
+                    return {
+                        success: false,
+                        errors: data.getErrors()
+                    };
+                }
+                
+                try {
+                    const result = await springApiService.createUser(data);
+                    const { status, user } = result;
+                    
+                    return {
+                        success: result.isSuccess(),
+                        status,
+                        user,
+                        message: "사용자가 성공적으로 생성되었습니다"
+                    };
+                } catch (error) {
+                    return {
+                        success: false,
+                        error: error.message
+                    };
+                }
+            }
+        };
+        
+        // 4️⃣ 테스트 실행
+        async function testSpringIntegration() {
+            console.log("=== Spring 연동 테스트 ===");
+            
+            // 사용자 목록 조회
+            const userList = await springApiService.getUsers(1, 10);
+            console.log("사용자 목록:", userList.users);
+            console.log("다음 페이지 있음:", userList.hasNextPage());
+            
+            // 폼 제출 테스트
+            const submitResult = await formHandler.handleSubmit();
+            console.log("제출 결과:", submitResult);
+            
+            if (submitResult.success) {
+                console.log("생성된 사용자:", submitResult.user);
+            } else {
+                console.log("오류:", submitResult.errors || submitResult.error);
+            }
+        }
+        
+        // 테스트 실행
+        testSpringIntegration();
+        
+        // 💡 실무 팁: 자주 사용하는 패턴들
+        console.log("=== 💡 실무 팁 ===");
+        console.log("• 속성 단축: API 응답 데이터 가공 시 필수");
+        console.log("• 메서드 단축: 서비스 객체 구성 시 가독성 향상");
+        console.log("• 계산된 속성: 동적 폼 필드, 다국어 키 등에 활용");
+        console.log("• Spring DTO와 완벽 호환되는 객체 구성 가능");
+        console.log("• React props 전달할 때도 동일한 패턴 사용");
+        
+        alert("콘솔에서 Spring 연동 예제를 확인하세요!");
+    }
+</script>
+</body>
+</html>

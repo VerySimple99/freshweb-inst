@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>ES6+ Promise, async/await, fetch 기초</title>
+</head>
+<body>
+ES6+ 비동기 처리: Promise → async/await → fetch로 깔끔한 비동기 코드 작성
+<br><br>
+
+<button onclick="promiseBasic()">Promise 기초</button>
+<button onclick="asyncAwaitBasic()">async/await 기초</button>
+<button onclick="fetchBasic()">fetch 기초</button>
+<button onclick="springApiExample()">Spring API 연동</button>
+
+<script>
+    // 🎯 학습 목표: 비동기 처리 방식의 진화 과정 이해하기
+    // 💡 핵심 개념:
+    // - Promise: 콜백 지옥을 해결하고 비동기 작업의 성공/실패를 명확히 처리
+    // - async/await: Promise를 더 직관적으로 사용할 수 있는 문법적 설탕
+    // - fetch: XMLHttpRequest를 대체하는 현대적인 HTTP 통신 API
+    // - Spring Boot와 프론트엔드 연동의 핵심 기술
+
+    function promiseBasic() {
+        console.log("=== Promise 기초 ===");
+        
+        // 🔍 Promise란 무엇인가?
+        // 비동기 작업의 "약속"을 나타내는 객체
+        // 3가지 상태: pending(대기) → fulfilled(성공) or rejected(실패)
+        // 콜백 지옥을 해결하고 비동기 코드를 더 읽기 쉽게 만듦
+        
+        // 1️⃣ Promise 생성: new Promise((resolve, reject) => {})
+        // resolve: 성공 시 호출, reject: 실패 시 호출
+        // 실무에서는 직접 생성보다는 fetch, axios 등이 반환하는 Promise 사용
+        const simplePromise = new Promise((resolve, reject) => {
+            // 비동기 작업 시뮬레이션 (예: 서버 응답 대기)
+            setTimeout(() => {
+                const success = Math.random() > 0.3; // 70% 성공 확률
+                
+                if (success) {
+                    resolve("데이터 로딩 성공!"); // 성공 시 결과값 전달
+                } else {
+                    reject(new Error("네트워크 오류 발생")); // 실패 시 에러 전달
+                }
+            }, 1000);
+        });
+        
+        // 2️⃣ Promise 사용: .then()과 .catch()
+        // .then(): 성공했을 때 실행할 함수 (resolve의 값을 받음)
+        // .catch(): 실패했을 때 실행할 함수 (reject의 에러를 받음)
+        // .finally(): 성공/실패와 관계없이 항상 실행 (정리 작업용)
+        simplePromise
+            .then(result => {
+                console.log("✅ 성공:", result);
+                return "처리 완료"; // 다음 then으로 값 전달 가능
+            })
+            .then(nextResult => {
+                console.log("✅ 연속 처리:", nextResult);
+            })
+            .catch(error => {
+                console.log("❌ 실패:", error.message);
+            })
+            .finally(() => {
+                console.log("🔄 작업 완료 (성공/실패 무관)");
+            });
+        
+        // 3️⃣ 실무 시뮬레이션: 사용자 데이터 가져오기
+        // 실제로는 서버 API를 호출하지만, 여기서는 시뮬레이션
+        function fetchUserData(userId) {
+            return new Promise((resolve, reject) => {
+                console.log(`👤 사용자 ${userId} 데이터 요청 중...`);
+                
+                setTimeout(() => {
+                    if (userId <= 0) {
+                        reject(new Error("유효하지 않은 사용자 ID"));
+                        return;
+                    }
+                    
+                    // 가짜 사용자 데이터 반환
+                    const userData = {
+                        id: userId,
+                        name: `사용자${userId}`,
+                        email: `user${userId}@example.com`,
+                        joinDate: new Date().toISOString()
+                    };
+                    
+                    resolve(userData);
+                }, 800);
+            });
+        }
+        
+        // Promise 체이닝: 여러 비동기 작업을 순차적으로 처리
+        fetchUserData(1)
+            .then(user => {
+                console.log("📋 사용자 정보:", user);
+                // 사용자 정보를 바탕으로 추가 데이터 요청
+                return fetchUserData(user.id + 1); // 다음 사용자 정보도 요청
+            })
+            .then(nextUser => {
+                console.log("📋 다음 사용자:", nextUser);
+            })
+            .catch(error => {
+                console.log("🚨 사용자 조회 실패:", error.message);
+            });
+        
+        // 4️⃣ Promise.all(): 여러 Promise를 동시에 실행
+        // 모든 Promise가 성공해야 성공, 하나라도 실패하면 실패
+        // 여러 API를 동시에 호출할 때 매우 유용 (성능 향상)
+        const users = Promise.all([
+            fetchUserData(1),
+            fetchUserData(2),
+            fetchUserData(3)
+        ]);
+        
+        users
+            .then(allUsers => {
+                console.log("👥 모든 사용자:", allUsers);
+                console.log(`총 ${allUsers.length}명의 사용자 조회 완료`);
+            })
+            .catch(error => {
+                console.log("🚨 일부 사용자 조회 실패:", error.message);
+            });
+        
+        alert("콘솔에서 Promise 동작을 확인하세요! (1초 후 결과 표시)");
+    }
+    
+    function asyncAwaitBasic() {
+        console.log("=== async/await 기초 ===");
+        
+        // 🔍 async/await란?
+        // Promise를 더 읽기 쉽게 사용할 수 있는 ES2017 문법
+        // async 함수 안에서 await 키워드로 Promise를 동기 코드처럼 작성
+        // try-catch로 에러 처리가 가능해져서 더 직관적
+        
+        // 이전 예제의 사용자 데이터 함수 재사용
+        function fetchUserData(userId) {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    if (userId <= 0) {
+                        reject(new Error("유효하지 않은 사용자 ID"));
+                        return;
+                    }
+                    
+                    resolve({
+                        id: userId,
+                        name: `사용자${userId}`,
+                        email: `user${userId}@example.com`,
+                        department: userId % 2 === 0 ? "개발팀" : "디자인팀"
+                    });
+                }, 500);
+            });
+        }
+        
+        // 1️⃣ async 함수 선언: function 앞에 async 키워드
+        // async 함수는 항상 Promise를 반환함
+        // 내부에서 return한 값은 자동으로 resolve됨
+        async function getUserInfo(userId) {
+            try {
+                console.log(`🔍 사용자 ${userId} 조회 시작`);
+                
+                // await: Promise가 완료될 때까지 기다림 (마치 동기 코드처럼!)
+                // .then() 없이도 Promise의 결과값을 바로 변수에 할당
+                const user = await fetchUserData(userId);
+                console.log("✅ 사용자 조회 완료:", user.name);
+                
+                return user; // 이 값은 Promise.resolve(user)와 동일
+                
+            } catch (error) {
+                // Promise가 reject되면 여기서 catch됨
+                console.log("❌ 사용자 조회 실패:", error.message);
+                throw error; // 에러를 다시 던져서 호출자가 처리할 수 있게 함
+            }
+        }
+        
+        // 2️⃣ async 함수 호출: 여전히 Promise를 반환하므로 await 또는 .then() 사용
+        async function demonstrateAsyncAwait() {
+            try {
+                // 순차적 처리: 하나씩 차례대로 실행
+                console.log("=== 순차적 사용자 조회 ===");
+                const user1 = await getUserInfo(1);
+                const user2 = await getUserInfo(2);
+                
+                console.log("🎯 조회 완료:", user1.name, user2.name);
+                
+                // 병렬 처리: 동시에 여러 작업 실행 (더 빠름!)
+                console.log("=== 병렬 사용자 조회 ===");
+                const [user3, user4, user5] = await Promise.all([
+                    getUserInfo(3),
+                    getUserInfo(4),
+                    getUserInfo(5)
+                ]);
+                
+                console.log("🚀 병렬 조회 완료:", user3.name, user4.name, user5.name);
+                
+            } catch (error) {
+                console.log("🚨 전체 작업 실패:", error.message);
+            }
+        }
+        
+        // 3️⃣ 실무 패턴: 데이터 가공과 에러 처리
+        async function processUserData() {
+            try {
+                console.log("=== 사용자 데이터 가공 ===");
+                
+                // 1단계: 사용자 목록 조회
+                const userIds = [1, 2, 3];
+                const users = await Promise.all(
+                    userIds.map(id => getUserInfo(id))
+                );
+                
+                // 2단계: 데이터 가공 (부서별 그룹화)
+                const groupedUsers = users.reduce((groups, user) => {
+                    const dept = user.department;
+                    if (!groups[dept]) groups[dept] = [];
+                    groups[dept].push(user);
+                    return groups;
+                }, {});
+                
+                console.log("📊 부서별 사용자:", groupedUsers);
+                
+                // 3단계: 통계 계산
+                const stats = Object.entries(groupedUsers).map(([dept, members]) => ({
+                    department: dept,
+                    count: members.length,
+                    members: members.map(u => u.name)
+                }));
+                
+                console.log("📈 부서별 통계:", stats);
+                
+                return { users, groupedUsers, stats };
+                
+            } catch (error) {
+                console.log("🚨 데이터 처리 실패:", error.message);
+                return null;
+            }
+        }
+        
+        // 4️⃣ 화살표 함수와 async/await
+        // 화살표 함수에서도 async 사용 가능 (React에서 자주 사용하는 패턴)
+        const quickUserCheck = async (userId) => {
+            try {
+                const user = await getUserInfo(userId);
+                return `${user.name}님 (${user.department})`;
+            } catch (error) {
+                return `사용자 ${userId} 조회 실패`;
+            }
+        };
+        
+        // 모든 함수 실행
+        demonstrateAsyncAwait();
+        processUserData();
+        
+        // 화살표 함수 테스트
+        quickUserCheck(1).then(result => console.log("🎯 빠른 조회:", result));
+        
+        alert("콘솔에서 async/await 동작을 확인하세요!");
+    }
+    
+    function fetchBasic() {
+        console.log("=== fetch 기초 ===");
+        
+        // 🔍 fetch란?
+        // 브라우저 내장 API로 HTTP 요청을 보내는 현대적인 방법
+        // XMLHttpRequest를 대체하며, Promise 기반으로 더 깔끔한 코드 작성
+        // Spring Boot Controller와 통신할 때 가장 많이 사용하는 방법
+        
+        // 1️⃣ 기본 GET 요청
+        // fetch()는 항상 Promise를 반환
+        // 응답 객체(Response)를 받은 후 .json(), .text() 등으로 데이터 추출
+        async function basicFetchExample() {
+            try {
+                console.log("=== 기본 fetch 사용법 ===");
+                
+                // 공개 API를 사용한 실제 예제 (JSONPlaceholder)
+                const response = await fetch('https://jsonplaceholder.typicode.com/users/1');
+                
+                // 🔍 Response 객체 확인
+                console.log("📡 응답 상태:", response.status); // 200, 404, 500 등
+                console.log("📡 응답 성공 여부:", response.ok); // 200-299 범위면 true
+                
+                // 응답이 성공적이지 않으면 에러 발생시키기
+                if (!response.ok) {
+                    throw new Error(`HTTP 오류! 상태: ${response.status}`);
+                }
+                
+                // JSON 데이터 추출 (Spring Controller의 @ResponseBody와 동일)
+                const user = await response.json();
+                console.log("👤 받은 사용자 데이터:", user);
+                
+                return user;
+                
+            } catch (error) {
+                console.log("🚨 fetch 실패:", error.message);
+                return null;
+            }
+        }
+        
+        // 2️⃣ POST 요청 (Spring Controller로 데이터 전송)
+        // 두 번째 매개변수에 옵션 객체를 전달해서 HTTP 메서드, 헤더, 바디 설정
+        async function postData(userData) {
+            try {
+                console.log("=== POST 요청 (데이터 전송) ===");
+                
+                const response = await fetch('https://jsonplaceholder.typicode.com/users', {
+                    method: 'POST', // HTTP 메서드 지정
+                    headers: {
+                        'Content-Type': 'application/json', // Spring @RequestBody와 매칭
+                        'Accept': 'application/json'        // JSON 응답 요청
+                    },
+                    body: JSON.stringify(userData) // 객체를 JSON 문자열로 변환
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`POST 실패: ${response.status}`);
+                }
+                
+                const result = await response.json();
+                console.log("📤 전송 성공:", result);
+                
+                return result;
+                
+            } catch (error) {
+                console.log("🚨 POST 실패:", error.message);
+                throw error;
+            }
+        }
+        
+        // 3️⃣ PUT/DELETE 요청 (RESTful API 패턴)
+        async function updateUser(userId, updates) {
+            try {
+                const response = await fetch(`https://jsonplaceholder.typicode.com/users/${userId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(updates)
+                });
+                
+                const result = await response.json();
+                console.log("📝 업데이트 성공:", result);
+                return result;
+                
+            } catch (error) {
+                console.log("🚨 업데이트 실패:", error.message);
+            }
+        }
+        
+        async function deleteUser(userId) {
+            try {
+                const response = await fetch(`https://jsonplaceholder.typicode.com/users/${userId}`, {
+                    method: 'DELETE'
+                });
+                
+                if (response.ok) {
+                    console.log(`🗑️ 사용자 ${userId} 삭제 성공`);
+                }
+                
+            } catch (error) {
+                console.log("🚨 삭제 실패:", error.message);
+            }
+        }
+        
+        // 4️⃣ 실무 패턴: API 서비스 클래스
+        class ApiService {
+            constructor(baseUrl) {
+                this.baseUrl = baseUrl;
+            }
+            
+            // 공통 fetch 래퍼 메서드
+            async request(endpoint, options = {}) {
+                const url = `${this.baseUrl}${endpoint}`;
+                
+                // 기본 옵션 설정
+                const config = {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        ...options.headers // 추가 헤더 병합
+                    },
+                    ...options
+                };
+                
+                try {
+                    console.log(`🌐 API 요청: ${config.method || 'GET'} ${url}`);
+                    
+                    const response = await fetch(url, config);
+                    
+                    if (!response.ok) {
+                        throw new Error(`API 오류: ${response.status} ${response.statusText}`);
+                    }
+                    
+                    // 응답이 JSON인지 확인 후 파싱
+                    const contentType = response.headers.get('content-type');
+                    if (contentType && contentType.includes('application/json')) {
+                        return await response.json();
+                    } else {
+                        return await response.text();
+                    }
+                    
+                } catch (error) {
+                    console.log(`🚨 API 요청 실패: ${error.message}`);
+                    throw error;
+                }
+            }
+            
+            // CRUD 메서드들
+            async get(endpoint) {
+                return this.request(endpoint);
+            }
+            
+            async post(endpoint, data) {
+                return this.request(endpoint, {
+                    method: 'POST',
+                    body: JSON.stringify(data)
+                });
+            }
+            
+            async put(endpoint, data) {
+                return this.request(endpoint, {
+                    method: 'PUT',
+                    body: JSON.stringify(data)
+                });
+            }
+            
+            async delete(endpoint) {
+                return this.request(endpoint, {
+                    method: 'DELETE'
+                });
+            }
+        }
+        
+        // 5️⃣ API 서비스 사용 예제
+        async function demonstrateApiService() {
+            const api = new ApiService('https://jsonplaceholder.typicode.com');
+            
+            try {
+                // 사용자 목록 조회
+                const users = await api.get('/users');
+                console.log(`📋 사용자 ${users.length}명 조회됨`);
+                
+                // 새 사용자 생성
+                const newUser = await api.post('/users', {
+                    name: '김개발',
+                    email: 'dev@example.com',
+                    phone: '010-1234-5678'
+                });
+                console.log("✨ 새 사용자 생성:", newUser);
+                
+                // 사용자 정보 수정
+                const updatedUser = await api.put('/users/1', {
+                    name: '김수정',
+                    email: 'updated@example.com'
+                });
+                console.log("📝 사용자 정보 수정:", updatedUser);
+                
+            } catch (error) {
+                console.log("🚨 API 서비스 오류:", error.message);
+            }
+        }
+        
+        // 모든 예제 실행
+        basicFetchExample();
+        
+        // POST 예제
+        postData({
+            name: '박신입',
+            email: 'new@example.com',
+            website: 'new-dev.com'
+        });
+        
+        // API 서비스 예제
+        demonstrateApiService();
+        
+        alert("콘솔에서 fetch API 동작을 확인하세요! (실제 HTTP 요청 발생)");
+    }
+    
+    function springApiExample() {
+        console.log("=== Spring Boot API 연동 실무 예제 ===");
+        
+        // 🌱 실제 Spring Boot 프로젝트와 연동하는 패턴
+        // Controller, Service, Repository 구조를 고려한 프론트엔드 코드
+        
+        // 1️⃣ Spring Boot API 서비스 클래스
+        class SpringApiService {
+            constructor() {
+                // 실제 Spring Boot 서버 주소 (개발환경 기준)
+                this.baseUrl = 'http://localhost:8080/api';
+                this.defaultHeaders = {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                };
+            }
+            
+            // Spring Security JWT 토큰 헤더 추가
+            getAuthHeaders() {
+                const token = localStorage.getItem('jwt-token'); // 실제로는 사용 금지
+                return token ? {
+                    ...this.defaultHeaders,
+                    'Authorization': `Bearer ${token}`
+                } : this.defaultHeaders;
+            }
+            
+            // 공통 에러 처리
+            async handleResponse(response) {
+                if (!response.ok) {
+                    // Spring Boot의 GlobalExceptionHandler 응답 형식
+                    const errorData = await response.json().catch(() => ({}));
+                    const error = new Error(errorData.message || `HTTP ${response.status}`);
+                    error.status = response.status;
+                    error.data = errorData;
+                    throw error;
+                }
+                
+                // 응답 타입에 따른 처리
+                const contentType = response.headers.get('content-type');
+                if (contentType?.includes('application/json')) {
+                    return response.json();
+                }
+                return response.text();
+            }
+            
+            // 사용자 관련 API (@RestController UserController)
+            async getUsers(page = 0, size = 10, sort = 'id') {
+                try {
+                    // Spring Data JPA Pageable 파라미터
+                    const params = new URLSearchParams({ page, size, sort });
+                    const response = await fetch(`${this.baseUrl}/users?${params}`, {
+                        method: 'GET',
+                        headers: this.getAuthHeaders()
+                    });
+                    
+                    const data = await this.handleResponse(response);
+                    console.log("📋 사용자 목록 조회 성공:", data);
+                    return data;
+                    
+                } catch (error) {
+                    console.log("🚨 사용자 목록 조회 실패:", error.message);
+                    throw error;
+                }
+            }
+            
+            async createUser(userData) {
+                try {
+                    // Spring Controller의 @RequestBody로 전송
+                    const response = await fetch(`${this.baseUrl}/users`, {
+                        method: 'POST',
+                        headers: this.getAuthHeaders(),
+                        body: JSON.stringify(userData)
+                    });
+                    
+                    const result = await this.handleResponse(response);
+                    console.log("✨ 사용자 생성 성공:", result);
+                    return result;
+                    
+                } catch (error) {
+                    console.log("🚨 사용자 생성 실패:", error.message);
+                    throw error;
+                }
+            }
+            
+            async updateUser(userId, updates) {
+                try {
+                    const response = await fetch(`${this.baseUrl}/users/${userId}`, {
+                        method: 'PUT',
+                        headers: this.getAuthHeaders(),
+                        body: JSON.stringify(updates)
+                    });
+                    
+                    const result = await this.handleResponse(response);
+                    console.log("📝 사용자 업데이트 성공:", result);
+                    return result;
+                    
+                } catch (error) {
+                    console.log("🚨 사용자 업데이트 실패:", error.message);
+                    throw error;
+                }
+            }
+            
+            // 파일 업로드 (@RequestParam MultipartFile)
+            async uploadFile(file, userId) {
+                try {
+                    const formData = new FormData();
+                    formData.append('file', file);
+                    formData.append('userId', userId);
+                    
+                    const response = await fetch(`${this.baseUrl}/users/upload`, {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': this.getAuthHeaders().Authorization
+                            // Content-Type은 FormData 사용 시 자동 설정
+                        },
+                        body: formData
+                    });
+                    
+                    const result = await this.handleResponse(response);
+                    console.log("📁 파일 업로드 성공:", result);
+                    return result;
+                    
+                } catch (error) {
+                    console.log("🚨 파일 업로드 실패:", error.message);
+                    throw error;
+                }
+            }
+        }
+        
+        // 2️⃣ 폼 처리와 유효성 검사
+        class UserFormHandler {
+            constructor(apiService) {
+                this.api = apiService;
+            }
+            
+            // 폼 데이터 검증 (Spring Validation과 유사)
+            validateUser(userData) {
+                const errors = [];
+                
+                if (!userData.name || userData.name.trim().length < 2) {
+                    errors.push("이름은 2자 이상이어야 합니다");
+                }
+                
+                if (!userData.email || !userData.email.includes('@')) {
+                    errors.push("유효한 이메일 주소가 필요합니다");
+                }
+                
+                if (!userData.age || userData.age < 1 || userData.age > 150) {
+                    errors.push("나이는 1-150 사이여야 합니다");
+                }
+                
+                return {
+                    isValid: errors.length === 0,
+                    errors
+                };
+            }
+            
+            // 사용자 등록 처리
+            async handleUserRegistration(formData) {
+                try {
+                    console.log("=== 사용자 등록 처리 ===");
+                    
+                    // 1단계: 클라이언트 측 유효성 검사
+                    const validation = this.validateUser(formData);
+                    if (!validation.isValid) {
+                        return {
+                            success: false,
+                            errors: validation.errors
+                        };
+                    }
+                    
+                    // 2단계: 서버로 데이터 전송
+                    const result = await this.api.createUser(formData);
+                    
+                    return {
+                        success: true,
+                        data: result,
+                        message: "사용자가 성공적으로 등록되었습니다"
+                    };
+                    
+                } catch (error) {
+                    // Spring Boot 에러 응답 처리
+                    if (error.status === 400) {
+                        return {
+                            success: false,
+                            errors: ["서버 유효성 검사 실패"],
+                            serverErrors: error.data
+                        };
+                    } else if (error.status === 409) {
+                        return {
+                            success: false,
+                            errors: ["이미 존재하는 이메일입니다"]
+                        };
+                    } else {
+                        return {
+                            success: false,
+                            errors: ["서버 오류가 발생했습니다"]
+                        };
+                    }
+                }
+            }
+        }
+        
+        // 3️⃣ 실무 시나리오 시뮬레이션
+        async function demonstrateSpringIntegration() {
+            console.log("=== Spring Boot 연동 시뮬레이션 ===");
+            
+            const apiService = new SpringApiService();
+            const formHandler = new UserFormHandler(apiService);
+            
+            // 🔄 실제로는 서버가 없으므로 Mock API 사용
+            // 학습용으로 JSONPlaceholder 사용
+            const mockApi = new class {
+                async createUser(userData) {
+                    // 실제 Spring Boot 응답 형식 시뮬레이션
+                    return {
+                        id: Date.now(),
+                        ...userData,
+                        createdAt: new Date().toISOString(),
+                        updatedAt: new Date().toISOString()
+                    };
+                }
+                
+                async getUsers() {
+                    const response = await fetch('https://jsonplaceholder.typicode.com/users');
+                    return response.json();
+                }
+            };
+            
+            try {
+                // 사용자 목록 조회
+                const users = await mockApi.getUsers();
+                console.log(`📋 총 ${users.length}명의 사용자 조회됨`);
+                
+                // 새 사용자 등록 테스트
+                const newUserData = {
+                    name: "김스프링",
+                    email: "spring@example.com",
+                    age: 28,
+                    department: "백엔드팀"
+                };
+                
+                const registrationResult = await formHandler.handleUserRegistration(newUserData);
+                
+                if (registrationResult.success) {
+                    console.log("✅ 사용자 등록 성공:", registrationResult.data);
+                } else {
+                    console.log("❌ 사용자 등록 실패:", registrationResult.errors);
+                }
+                
+                // 유효성 검사 실패 케이스 테스트
+                const invalidUserData = {
+                    name: "",           // 빈 이름
+                    email: "invalid",   // 잘못된 이메일
+                    age: -5            // 잘못된 나이
+                };
+                
+                const invalidResult = await formHandler.handleUserRegistration(invalidUserData);
+                console.log("❌ 유효성 검사 실패 예제:", invalidResult.errors);
+                
+            } catch (error) {
+                console.log("🚨 전체 프로세스 실패:", error.message);
+            }
+        }
+        
+        // 4️⃣ 실무 팁과 Best Practice
+        console.log("=== 💡 Spring Boot 연동 실무 팁 ===");
+        console.log("1. API 기본 URL은 환경별로 분리 (dev, prod)");
+        console.log("2. 공통 에러 처리로 일관성 있는 사용자 경험");
+        console.log("3. Loading 상태 관리로 사용자에게 피드백 제공");
+        console.log("4. JWT 토큰 만료 시 자동 갱신 로직 구현");
+        console.log("5. API 응답 캐싱으로 성능 최적화");
+        console.log("6. TypeScript 사용 시 DTO 인터페이스 정의");
+        
+        // 5️⃣ 에러 처리 패턴
+        class ErrorHandler {
+            static handle(error) {
+                console.log("🔧 에러 처리:", error);
+                
+                switch (error.status) {
+                    case 400:
+                        return "입력 데이터를 확인해주세요";
+                    case 401:
+                        return "로그인이 필요합니다";
+                    case 403:
+                        return "권한이 없습니다";
+                    case 404:
+                        return "요청한 데이터를 찾을 수 없습니다";
+                    case 409:
+                        return "이미 존재하는 데이터입니다";
+                    case 500:
+                        return "서버 오류가 발생했습니다";
+                    default:
+                        return "네트워크 오류가 발생했습니다";
+                }
+            }
+        }
+        
+        // 6️⃣ 로딩 상태 관리
+        class LoadingManager {
+            constructor() {
+                this.loadingStates = new Map();
+            }
+            
+            setLoading(key, isLoading) {
+                this.loadingStates.set(key, isLoading);
+                console.log(`🔄 ${key} 로딩 상태:`, isLoading ? "시작" : "완료");
+            }
+            
+            isLoading(key) {
+                return this.loadingStates.get(key) || false;
+            }
+            
+            async withLoading(key, asyncFunction) {
+                try {
+                    this.setLoading(key, true);
+                    const result = await asyncFunction();
+                    return result;
+                } finally {
+                    this.setLoading(key, false);
+                }
+            }
+        }
+        
+        // 7️⃣ 종합 실무 예제
+        async function comprehensiveExample() {
+            const loadingManager = new LoadingManager();
+            
+            // 사용자 목록 조회 with 로딩 관리
+            const users = await loadingManager.withLoading('userList', async () => {
+                const response = await fetch('https://jsonplaceholder.typicode.com/users');
+                if (!response.ok) throw new Error('사용자 목록 조회 실패');
+                return response.json();
+            });
+            
+            console.log("📊 종합 예제 - 사용자 목록:", users.slice(0, 3));
+            
+            // 에러 처리 예제
+            try {
+                await fetch('https://invalid-url-that-will-fail.com/api');
+            } catch (error) {
+                const userMessage = ErrorHandler.handle(error);
+                console.log("🎯 사용자 친화적 에러 메시지:", userMessage);
+            }
+        }
+        
+        // 모든 예제 실행
+        demonstrateSpringIntegration();
+        comprehensiveExample();
+        
+        alert("콘솔에서 Spring Boot API 연동 패턴을 확인하세요!");
+    }
+</script>
+</body>
+</html>

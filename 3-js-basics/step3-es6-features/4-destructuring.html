@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>ES6 구조 분해 할당</title>
+</head>
+<body>
+ES6 구조 분해 할당: 배열이나 객체에서 값을 쉽게 추출하는 문법
+<br><br>
+
+<button onclick="arrayDestructuring()">배열 구조 분해</button>
+<button onclick="objectDestructuring()">객체 구조 분해</button>
+<button onclick="functionParams()">함수 매개변수</button>
+<button onclick="practicalUsage()">실무 활용</button>
+
+<script>
+    // 🎯 학습 목표: 구조 분해 할당으로 코드 간소화하기
+    // 💡 핵심 개념: 
+    // - 배열/객체의 내용을 개별 변수로 쉽게 추출
+    // - 기존 방식보다 훨씬 간결하고 직관적
+    // - React, Vue 등 모던 프레임워크에서 필수 문법
+    
+    function arrayDestructuring() {
+        console.log("=== 배열 구조 분해 할당 ===");
+        
+        const colors = ["빨강", "파랑", "초록", "노랑"];
+        
+        // 🔍 기존 방식: 인덱스로 하나씩 접근해야 함
+        const color1 = colors[0]; 
+        const color2 = colors[1];
+        const color3 = colors[2];
+        
+        // ✨ 구조 분해 할당: 한 번에 여러 변수에 할당
+        // 배열의 순서대로 변수에 대응됨 (순서가 중요!)
+        const [red, blue, green] = colors;
+        console.log("색상:", red, blue, green); // "빨강", "파랑", "초록"
+        
+        // 🎯 일부 요소 건너뛰기: 쉼표로 자리만 차지하고 건너뛸 수 있음
+        // 첫 번째와 세 번째 요소만 필요할 때 유용
+        const [primary, , secondary] = colors;
+        console.log("주색상:", primary, "보조색상:", secondary); // "빨강", "초록"
+        
+        // 🛡️ 기본값 설정: 배열 요소가 없거나 undefined일 때 기본값 사용
+        // 배열 길이보다 많은 변수를 선언해도 에러 없이 기본값 적용
+        const [c1, c2, c3, c4, c5 = "보라"] = colors;
+        console.log("기본값 적용:", c5); // "보라" (5번째 요소가 없으므로 기본값)
+        
+        // 📦 나머지 요소 수집: ...rest로 남은 모든 요소를 새 배열로 수집
+        // 첫 번째 요소만 따로 빼고 나머지는 배열로 묶고 싶을 때
+        const [first, ...rest] = colors;
+        console.log("첫 번째:", first, "나머지:", rest); // "빨강", ["파랑", "초록", "노랑"]
+        
+        // 🔄 변수 교환: 임시 변수 없이 한 줄로 두 변수 값 교환
+        // 기존에는 temp 변수가 필요했지만, 구조 분해로 간단해짐
+        let a = 10, b = 20;
+        console.log("교환 전:", a, b); // 10, 20
+        [a, b] = [b, a]; // 마법 같은 교환!
+        console.log("교환 후:", a, b); // 20, 10
+        
+        // 🎁 함수에서 여러 값 반환받기: 함수가 배열을 반환하면 바로 분해 가능
+        // Math.min/max를 한 번에 호출해서 최솟값, 최댓값을 각각 받기
+        function getMinMax(arr) {
+            return [Math.min(...arr), Math.max(...arr)];
+        }
+        const [min, max] = getMinMax([45, 12, 78, 34]);
+        console.log("최솟값:", min, "최댓값:", max); // 12, 78
+        
+        alert("콘솔에서 배열 구조 분해 결과를 확인하세요!");
+    }
+    
+    function objectDestructuring() {
+        console.log("=== 객체 구조 분해 할당 ===");
+        
+        const user = {
+            id: 123,
+            name: "김개발",
+            email: "dev@example.com",
+            age: 28
+        };
+        
+        // 🔍 기존 방식: 점 표기법으로 하나씩 접근
+        const name1 = user.name;
+        const email1 = user.email;
+        const age1 = user.age;
+        
+        // ✨ 구조 분해 할당: 객체의 속성명과 동일한 변수명으로 한 번에 추출
+        // 중괄호 {} 사용, 속성명 = 변수명이어야 함 (순서는 상관없음)
+        const { name, email, age } = user;
+        console.log("사용자:", name, email, age); // "김개발", "dev@example.com", 28
+        
+        // 🏷️ 변수명 변경 (별칭): 콜론(:)을 사용해서 다른 변수명으로 받기
+        // 기존 속성명이 마음에 들지 않거나 변수명 충돌을 피하고 싶을 때
+        const { name: userName, email: userEmail } = user;
+        console.log("별칭:", userName, userEmail); // "김개발", "dev@example.com"
+        
+        // 🛡️ 기본값 설정: 객체에 해당 속성이 없을 때 기본값 사용
+        // API 응답에서 선택적 필드를 안전하게 처리할 때 매우 유용
+        const { name: n, phone = "연락처 없음" } = user;
+        console.log("기본값:", n, phone); // "김개발", "연락처 없음"
+        
+        // 🎯 중첩 객체 구조 분해: 객체 안의 객체, 배열도 한 번에 분해 가능
+        // 복잡한 데이터 구조에서 필요한 부분만 깔끔하게 추출
+        const company = {
+            name: "테크회사",
+            address: { city: "서울", district: "강남구" },
+            employees: [
+                { name: "김팀장", role: "팀장" },
+                { name: "박대리", role: "개발자" }
+            ]
+        };
+        
+        // address 객체 내부의 city, district와 employees 배열의 첫 번째 요소까지 한 번에!
+        const {
+            name: companyName,
+            address: { city, district },
+            employees: [manager]
+        } = company;
+        
+        console.log("회사:", companyName, "위치:", city, district, "팀장:", manager.name);
+        // "테크회사", "서울", "강남구", "김팀장"
+        
+        // 📦 나머지 속성 수집: ...rest로 특정 속성만 제외하고 나머지를 새 객체로
+        // 민감한 정보(password 등)를 제외하고 안전한 데이터만 추출할 때 유용
+        const { id, ...userInfo } = user;
+        console.log("ID 제외 정보:", userInfo); 
+        // { name: "김개발", email: "dev@example.com", age: 28 }
+        
+        alert("콘솔에서 객체 구조 분해 결과를 확인하세요!");
+    }
+    
+    function functionParams() {
+        console.log("=== 함수 매개변수 구조 분해 ===");
+        
+        // 🎯 객체 매개변수 구조 분해: 함수가 많은 옵션을 받을 때 매우 유용
+        // 매개변수 순서를 신경 쓸 필요 없고, 필요한 것만 전달 가능
+        function createUser({ name, age, email, role = "user" }) {
+            // 전달받은 객체를 바로 분해해서 개별 변수로 사용
+            // role에는 기본값 설정으로 옵션 매개변수 구현
+            return { 
+                id: Date.now(), 
+                name, 
+                age, 
+                email, 
+                role 
+            };
+        }
+        
+        const newUser = createUser({
+            name: "이개발",
+            age: 30,
+            email: "lee@example.com"
+            // role은 전달하지 않아서 기본값 "user" 사용됨
+        });
+        console.log("새 사용자:", newUser);
+        
+        // 🎯 배열 매개변수 구조 분해: 좌표, 크기 등 순서가 있는 데이터 처리에 적합
+        // 두 점 사이의 거리 계산 - 각 점을 [x, y] 배열로 받아서 바로 분해
+        function calculateDistance([x1, y1], [x2, y2]) {
+            const dx = x2 - x1, dy = y2 - y1;
+            return Math.sqrt(dx * dx + dy * dy);
+        }
+        
+        const distance = calculateDistance([0, 0], [3, 4]);
+        console.log("거리:", distance); // 5 (3-4-5 직각삼각형)
+        
+        // 🎯 옵션 객체 패턴: 함수의 설정값들을 객체로 받는 일반적인 패턴
+        // 기본값 = {}로 설정해서 아예 옵션을 전달하지 않아도 에러 없음
+        function fetchData(url, { method = "GET", timeout = 5000 } = {}) {
+            // = {} 부분이 중요! 이게 없으면 fetchData("/api")처럼 호출할 때 에러
+            return `${method} 요청: ${url} (타임아웃: ${timeout}ms)`;
+        }
+        
+        console.log(fetchData("/api/users")); // 모든 기본값 사용
+        console.log(fetchData("/api/users", { method: "POST" })); // method만 변경
+        
+        alert("콘솔에서 함수 매개변수 결과를 확인하세요!");
+    }
+    
+    function practicalUsage() {
+        console.log("=== 실무 활용 예제 ===");
+        
+        // 🌐 API 응답 처리: 실제 백엔드에서 받는 복잡한 JSON 응답을 깔끔하게 처리
+        // 중첩된 구조에서 필요한 데이터만 한 번에 추출하는 실무 핵심 기술
+        const apiResponse = {
+            status: "success",
+            data: { 
+                users: [{ id: 1, name: "김철수" }], 
+                total: 1 
+            },
+            message: "조회 성공"
+        };
+        
+        // data 객체 내부의 users, total까지 한 번에 추출
+        const { 
+            status, 
+            data: { users, total },
+            message 
+        } = apiResponse;
+        console.log("API 결과:", status, "사용자 수:", total, "첫 사용자:", users[0].name);
+        
+        // 🔄 배열 메서드와 구조 분해 조합: 함수형 프로그래밍의 핵심 패턴
+        // filter, map 등의 콜백 함수에서 구조 분해를 사용하면 코드가 매우 깔끔해짐
+        const products = [
+            { id: 1, name: "노트북", price: 1000000, inStock: true },
+            { id: 2, name: "마우스", price: 30000, inStock: false },
+            { id: 3, name: "키보드", price: 80000, inStock: true }
+        ];
+        
+        // filter의 콜백에서 ({ inStock })로 inStock 속성만 바로 추출
+        // map의 콜백에서 ({ name, price })로 필요한 속성만 바로 추출
+        const availableProducts = products
+            .filter(({ inStock }) => inStock) // 재고 있는 것만
+            .map(({ name, price }) => ({ name, price })); // 이름과 가격만
+        
+        console.log("재고 있는 상품:", availableProducts);
+        
+        // ⚛️ React Hook 스타일 패턴: useState와 같은 Hook 패턴 구현
+        // 함수에서 배열을 반환하고, 구조 분해로 받아서 사용하는 React의 핵심 패턴
+        function useCounter(initialValue = 0) {
+            let count = initialValue;
+            return [
+                () => count,                    // getter 함수
+                () => ++count,                  // increment 함수
+                () => --count,                  // decrement 함수
+                () => count = initialValue      // reset 함수
+            ];
+        }
+        
+        // React의 const [count, setCount] = useState(0)와 비슷한 패턴
+        const [getCount, increment, decrement, reset] = useCounter(5);
+        console.log("초기값:", getCount()); // 5
+        increment(); 
+        increment();
+        console.log("증가 후:", getCount()); // 7
+        
+        // ⚙️ 설정 객체 병합: 기본 설정과 사용자 설정을 합치는 일반적인 패턴
+        // 전개 연산자와 구조 분해를 조합해서 설정값 관리
+        const defaultConfig = { theme: "light", language: "ko", notifications: true };
+        const userConfig = { theme: "dark" }; // 사용자는 테마만 변경
+        
+        // 합친 후 구조 분해로 필요한 설정값들을 개별 변수로 추출
+        const { theme, language, notifications } = { ...defaultConfig, ...userConfig };
+        console.log("최종 설정:", { theme, language, notifications });
+        // { theme: "dark", language: "ko", notifications: true }
+        
+        // 💡 실무 팁: 
+        // 1. API 응답 처리 시 구조 분해로 필요한 데이터만 추출
+        // 2. 함수 매개변수는 객체로 받고 구조 분해로 가독성 향상
+        // 3. 배열 메서드 콜백에서 구조 분해로 코드 간소화
+        // 4. React/Vue 컴포넌트에서 props 처리 시 필수
+        
+        alert("콘솔에서 실무 활용 예제를 확인하세요!");
+    }
+</script>
+</body>
+</html>

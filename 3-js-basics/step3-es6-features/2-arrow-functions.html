@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>ES6 화살표 함수</title>
+</head>
+<body>
+ES6 화살표 함수: function 키워드 없이 => 사용, 더 간결한 문법
+<br><br>
+
+<button onclick="basicSyntax()">기본 문법</button>
+<button onclick="parameterPatterns()">매개변수 패턴</button>
+<button onclick="arrayMethods()">배열 메서드 활용</button>
+<button onclick="thisBinding()">this 바인딩</button>
+
+<script>
+    // 🎯 학습 목표: 화살표 함수 문법과 특징 완전 이해
+    // 💡 핵심 개념:
+    // - 더 간결한 함수 문법으로 코드 가독성 향상
+    // - this 바인딩이 일반 함수와 다름 (렉시컬 this)
+    // - 배열 메서드와 조합 시 매우 강력한 함수형 프로그래밍 도구
+    // - React, Vue 등 모던 프레임워크에서 필수 문법
+    
+    function basicSyntax() {
+        console.log("=== 기본 문법 비교 ===");
+        
+        // 📚 기존 함수 선언 방식들과 화살표 함수 비교
+        // 모든 방식이 동일한 결과를 내지만 문법의 간결성에 차이가 있음
+        
+        // 1️⃣ 기존 함수 선언문 (function declaration)
+        // 호이스팅되어 선언 전에도 호출 가능, 함수명이 있어서 스택 추적 용이
+        function add1(a, b) {
+            return a + b;
+        }
+        
+        // 2️⃣ 기존 함수 표현식 (function expression)
+        // 변수에 할당되는 익명 함수, 호이스팅 안됨, 런타임에 생성
+        const add2 = function(a, b) {
+            return a + b;
+        };
+        
+        // 3️⃣ 화살표 함수 (블록 사용) - 기존 함수와 완전히 동일한 형태
+        // function 키워드 대신 => 사용, this 바인딩만 다름
+        const add3 = (a, b) => {
+            return a + b;
+        };
+        
+        // 4️⃣ 화살표 함수 (한 줄, return 생략) - 가장 간결한 형태
+        // 표현식이 하나면 중괄호와 return 키워드 생략 가능
+        // 함수형 프로그래밍에서 가장 많이 사용되는 패턴
+        const add4 = (a, b) => a + b;
+        
+        console.log("모든 함수 결과 동일:", add1(5, 3), add2(5, 3), add3(5, 3), add4(5, 3));
+        
+        // 🎯 다양한 화살표 함수 패턴들
+        console.log("=== 다양한 화살표 함수 패턴 ===");
+        
+        // 매개변수 1개일 때는 괄호 생략 가능 (선택사항, 팀 컨벤션에 따라)
+        const square = x => x * x;
+        const squareWithParens = (x) => x * x; // 괄호 있어도 됨
+        
+        // 매개변수 없을 때는 빈 괄호 필수
+        const greet = () => "안녕하세요!";
+        const random = () => Math.floor(Math.random() * 100);
+        
+        // 객체 반환 시 괄호로 감싸야 함 (중괄호를 블록으로 인식하지 않도록)
+        const getUser = id => ({ id, name: `사용자${id}`, active: true });
+        const getCoords = () => ({ x: 10, y: 20 }); // 매개변수 없으면 괄호 필수
+        
+        console.log("제곱 함수:", square(5), squareWithParens(6));
+        console.log("인사:", greet());
+        console.log("랜덤:", random());
+        console.log("사용자 객체:", getUser(123));
+        console.log("좌표 객체:", getCoords());
+        
+        // 🎨 문자열 템플릿과 조합 (매우 실용적인 패턴)
+        const createMessage = (name, age) => `안녕하세요, ${name}님! 나이는 ${age}세네요.`;
+        const formatPrice = price => `${price.toLocaleString()}원`;
+        const isAdult = age => age >= 18 ? "성인" : "미성년자";
+        
+        console.log("메시지:", createMessage("김철수", 25));
+        console.log("가격 포맷:", formatPrice(1500000));
+        console.log("성인 여부:", isAdult(17), isAdult(20));
+        
+        alert("콘솔에서 화살표 함수 문법을 확인하세요!");
+    }
+    
+    function parameterPatterns() {
+        console.log("=== 매개변수 패턴 ===");
+        
+        // 🎯 매개변수 개수별 화살표 함수 패턴
+        // 실무에서 가장 자주 사용되는 패턴들을 정리
+        
+        // 0️⃣ 매개변수 없음 - 괄호 필수
+        // 현재 시간, 랜덤 값, 고정 설정값 반환 등에서 사용
+        const getCurrentTime = () => new Date().toLocaleTimeString();
+        const getRandomId = () => Math.random().toString(36).substr(2, 9);
+        
+        // 1️⃣ 매개변수 1개 - 괄호 생략 가능 (하지만 팀 컨벤션 따르기)
+        // map, filter, find 등의 콜백에서 가장 많이 사용
+        const double = x => x * 2;
+        const isEven = n => n % 2 === 0;
+        const capitalize = str => str.charAt(0).toUpperCase() + str.slice(1);
+        
+        // 매개변수 1개여도 괄호를 쓰는 경우 (일관성을 위해)
+        const triple = (x) => x * 3;
+        const isPositive = (num) => num > 0;
+        
+        // 2️⃣ 매개변수 2개 이상 - 괄호 필수
+        // 계산, 비교, 조합 함수 등에서 주로 사용
+        const add = (a, b) => a + b;
+        const multiply = (a, b) => a * b;
+        const max = (a, b) => a > b ? a : b;
+        
+        // 🎁 기본값 매개변수 - ES6의 또 다른 기능과 조합
+        // 함수 호출 시 인수를 생략해도 안전하게 동작하도록 보장
+        const greetUser = (name = "손님", age = 0) => `안녕하세요, ${name}님! (${age}세)`;
+        const calculateTax = (price, rate = 0.1) => Math.round(price * rate);
+        
+        // 📦 나머지 매개변수 (...rest) - 가변 인수 처리
+        // 개수가 정해지지 않은 인수들을 배열로 받아서 처리
+        const sum = (...numbers) => numbers.reduce((total, num) => total + num, 0);
+        const findMax = (...values) => Math.max(...values);
+        const concatStrings = (...strings) => strings.join(' ');
+        
+        // 🧪 모든 패턴 테스트
+        console.log("=== 매개변수 패턴 테스트 ===");
+        console.log("현재 시간:", getCurrentTime());
+        console.log("랜덤 ID:", getRandomId());
+        console.log("2배:", double(10), "3배:", triple(10));
+        console.log("짝수 판별:", isEven(4), isEven(5));
+        console.log("대문자화:", capitalize("hello"));
+        console.log("양수 판별:", isPositive(-5), isPositive(10));
+        console.log("계산:", add(10, 5), multiply(4, 7), max(15, 8));
+        console.log("인사 (기본값):", greetUser());
+        console.log("인사 (값 전달):", greetUser("김철수", 25));
+        console.log("세금 계산:", calculateTax(10000), calculateTax(10000, 0.08));
+        console.log("합계:", sum(1, 2, 3, 4, 5));
+        console.log("최댓값:", findMax(45, 23, 67, 89, 12));
+        console.log("문자열 연결:", concatStrings("Hello", "World", "JavaScript"));
+        
+        // 💡 실무 팁: 매개변수 패턴 선택 가이드
+        console.log("=== 💡 실무 팁: 매개변수 패턴 선택 가이드 ===");
+        console.log("• 매개변수 0개: () => 괄호 필수");
+        console.log("• 매개변수 1개: x => 또는 (x) => 팀 컨벤션 따르기");
+        console.log("• 매개변수 2개 이상: (a, b) => 괄호 필수");
+        console.log("• 기본값 사용: (x = 0) => 안전한 함수 작성");
+        console.log("• 가변 인수: (...args) => 유연한 함수 설계");
+        
+        alert("콘솔에서 다양한 매개변수 패턴을 확인하세요!");
+    }
+    
+    function arrayMethods() {
+        console.log("=== 배열 메서드와 화살표 함수 ===");
+        
+        // 🎯 화살표 함수가 진정으로 빛나는 순간: 배열 메서드와의 조합
+        // 함수형 프로그래밍의 핵심 도구들과 화살표 함수의 만남
+        const products = [
+            { id: 1, name: "노트북", price: 1000000, category: "전자제품", inStock: true },
+            { id: 2, name: "마우스", price: 30000, category: "전자제품", inStock: false },
+            { id: 3, name: "키보드", price: 80000, category: "전자제품", inStock: true },
+            { id: 4, name: "모니터", price: 300000, category: "전자제품", inStock: true }
+        ];
+        
+        // 🗺️ map: 모든 요소를 변환 (1:1 대응)
+        // 기존 배열을 변경하지 않고 새로운 배열 생성
+        // 데이터 변환, 포맷팅, 계산에서 가장 많이 사용
+        
+        // 간단한 변환: 가격에 세금 10% 추가
+        const withTax = products.map(product => ({
+            ...product, // 기존 속성 모두 복사 (전개 연산자)
+            priceWithTax: Math.round(product.price * 1.1)
+        }));
+        console.log("세금 포함 가격:", withTax);
+        
+        // 특정 속성만 추출
+        const productNames = products.map(product => product.name);
+        const prices = products.map(p => p.price); // 매개변수명 단축 가능
+        console.log("상품명:", productNames);
+        console.log("가격:", prices);
+        
+        // 🔍 filter: 조건에 맞는 요소만 선택
+        // 배열에서 원하는 항목들만 골라내는 필터링
+        // 검색, 조건부 표시, 데이터 정제에서 핵심 기능
+        
+        // 재고 있는 상품만
+        const inStock = products.filter(product => product.inStock);
+        console.log("재고 있는 상품:", inStock);
+        
+        // 5만원 이상 고가 상품
+        const expensive = products.filter(p => p.price >= 50000);
+        console.log("고가 상품:", expensive);
+        
+        // 복합 조건: 재고 있으면서 10만원 이상
+        const premiumAvailable = products.filter(p => p.inStock && p.price >= 100000);
+        console.log("프리미엄 재고 상품:", premiumAvailable);
+        
+        // 🔎 find: 조건에 맞는 첫 번째 요소 찾기
+        // 특정 조건의 단일 항목을 찾을 때 사용 (없으면 undefined)
+        const mouse = products.find(product => product.name === "마우스");
+        const cheapest = products.find(p => p.price < 50000);
+        console.log("마우스 찾기:", mouse);
+        console.log("가장 저렴한 상품:", cheapest);
+        
+        // 🧮 reduce: 배열을 하나의 값으로 집계
+        // 합계, 평균, 최댓값, 객체 변환 등 가장 강력한 배열 메서드
+        
+        // 총 가격 계산
+        const totalPrice = products.reduce((sum, product) => sum + product.price, 0);
+        console.log("총 가격:", totalPrice.toLocaleString() + "원");
+        
+        // 카테고리별 개수 집계 (객체로 변환)
+        const countByCategory = products.reduce((acc, product) => {
+            acc[product.category] = (acc[product.category] || 0) + 1;
+            return acc;
+        }, {});
+        console.log("카테고리별 개수:", countByCategory);
+        
+        // 📊 sort: 배열 정렬 (원본 변경되므로 복사 후 정렬)
+        // 가격순, 이름순, 날짜순 등 다양한 정렬 기준 적용
+        
+        // 가격 낮은 순 정렬
+        const sortedByPrice = [...products].sort((a, b) => a.price - b.price);
+        console.log("가격순 정렬:", sortedByPrice.map(p => `${p.name}: ${p.price}`));
+        
+        // 이름 가나다순 정렬
+        const sortedByName = [...products].sort((a, b) => a.name.localeCompare(b.name));
+        console.log("이름순 정렬:", sortedByName.map(p => p.name));
+        
+        // 🔗 메서드 체이닝: 여러 메서드를 연결해서 복잡한 데이터 처리
+        // 함수형 프로그래밍의 꽃, 읽기 쉽고 효율적인 데이터 파이프라인
+        const result = products
+            .filter(p => p.inStock) // 재고 있는 것만
+            .map(p => ({ ...p, discountPrice: p.price * 0.9 })) // 10% 할인가 추가
+            .sort((a, b) => a.discountPrice - b.discountPrice) // 할인가 기준 정렬
+            .slice(0, 2); // 상위 2개만
+        
+        console.log("재고 있는 상품 중 할인가 기준 상위 2개:", result);
+        
+        // 🎯 실무에서 자주 사용하는 복합 패턴들
+        console.log("=== 실무 복합 패턴 ===");
+        
+        // 패턴 1: 검색 + 정렬 + 페이지네이션
+        const searchAndPaginate = (keyword, page = 1, limit = 2) => {
+            return products
+                .filter(p => p.name.includes(keyword))
+                .sort((a, b) => a.price - b.price)
+                .slice((page - 1) * limit, page * limit);
+        };
+        
+        console.log("'ㅏ' 검색 결과:", searchAndPaginate("ㅏ"));
+        
+        // 패턴 2: 그룹핑 + 통계
+        const getStatsByCategory = () => {
+            return products.reduce((stats, product) => {
+                const category = product.category;
+                if (!stats[category]) {
+                    stats[category] = { count: 0, totalPrice: 0, products: [] };
+                }
+                stats[category].count++;
+                stats[category].totalPrice += product.price;
+                stats[category].products.push(product.name);
+                return stats;
+            }, {});
+        };
+        
+        console.log("카테고리별 통계:", getStatsByCategory());
+        
+        // 패턴 3: 데이터 변환 + 유효성 검사
+        const formatForDisplay = () => {
+            return products
+                .filter(p => p.price > 0) // 유효한 가격만
+                .map(p => ({
+                    id: p.id,
+                    title: p.name.toUpperCase(),
+                    price: p.price.toLocaleString() + "원",
+                    status: p.inStock ? "구매 가능" : "품절",
+                    badge: p.price >= 100000 ? "PREMIUM" : "STANDARD"
+                }));
+        };
+        
+        console.log("화면 표시용 데이터:", formatForDisplay());
+        
+        // 💡 화살표 함수 + 배열 메서드 장점
+        console.log("=== 💡 화살표 함수 + 배열 메서드 장점 ===");
+        console.log("• 코드가 매우 간결하고 읽기 쉬움");
+        console.log("• 함수형 프로그래밍 패러다임에 최적");
+        console.log("• 메서드 체이닝으로 복잡한 로직도 직관적으로 표현");
+        console.log("• 불변성을 유지하면서 데이터 변환");
+        console.log("• React, Vue 등에서 필수적인 패턴");
+        
+        alert("콘솔에서 배열 처리 결과를 확인하세요!");
+    }
+    
+    function thisBinding() {
+        console.log("=== this 바인딩 차이점 ===");
+        
+        // 🎯 화살표 함수의 가장 중요한 특징: this 바인딩의 차이
+        // 일반 함수와 화살표 함수의 this는 완전히 다른 방식으로 결정됨
+        // 이 차이를 이해하지 못하면 예상치 못한 버그가 발생할 수 있음
+        
+        const testObject = {
+            name: "테스트 객체",
+            value: 42,
+            
+            // 🔵 일반 함수: this가 호출하는 객체(testObject)를 가리킨다
+            // 메서드로 호출되면 해당 객체가 this가 됨 (동적 바인딩)
+            normalMethod: function() {
+                console.log("=== 일반 함수 메서드 ===");
+                console.log("일반 함수 this.name:", this.name); // "테스트 객체"
+                console.log("일반 함수 this.value:", this.value); // 42
+                
+                // 📚 일반 함수의 내부 함수에서 this 문제 (고전적인 JavaScript 함정)
+                // setTimeout의 콜백은 전역에서 호출되므로 this가 window(또는 undefined)가 됨
+                console.log("--- setTimeout 내부 함수 테스트 ---");
+                
+                setTimeout(function() {
+                    console.log("일반 함수 내부 this.name:", this.name); // undefined (this가 window)
+                    console.log("일반 함수 내부 this:", this === window || this === undefined); // true
+                }, 100);
+                
+                // ✅ 화살표 함수로 해결: 상위 스코프의 this를 그대로 사용 (렉시컬 this)
+                // 화살표 함수는 자신만의 this를 생성하지 않고 상위 스코프의 this를 상속
+                setTimeout(() => {
+                    console.log("화살표 함수 내부 this.name:", this.name); // "테스트 객체" (정상!)
+                    console.log("화살표 함수 내부 this.value:", this.value); // 42 (정상!)
+                }, 200);
+                
+                // 🔧 기존 해결법: bind() 또는 변수에 this 저장
+                const self = this; // 과거에 자주 사용된 패턴
+                setTimeout(function() {
+                    console.log("self 변수 사용:", self.name); // "테스트 객체"
+                }, 300);
+                
+                // bind() 사용
+                setTimeout(function() {
+                    console.log("bind 사용:", this.name); // "테스트 객체"
+                }.bind(this), 400);
+            },
+            
+            // 🔴 화살표 함수: this가 상위 스코프(window 또는 전역)를 가리킨다
+            // 객체 메서드로 정의할 때는 주의 필요 (대부분 원하는 동작이 아님)
+            arrowMethod: () => {
+                console.log("=== 화살표 함수 메서드 ===");
+                console.log("화살표 함수 this.name:", this.name); // undefined (this가 window)
+                console.log("화살표 함수 this === window:", this === window); // true (브라우저에서)
+                console.log("화살표 함수는 객체 메서드로 부적합!");
+            },
+            
+            // ✅ 올바른 패턴: 일반 함수 메서드 + 내부에서 화살표 함수 콜백
+            processData: function() {
+                console.log("=== 권장 패턴: 일반 함수 + 화살표 함수 조합 ===");
+                const data = [1, 2, 3, 4, 5];
+                
+                // 배열 메서드의 콜백에서 화살표 함수 사용 (this 유지)
+                const result = data.map(item => {
+                    return {
+                        value: item,
+                        doubled: item * 2,
+                        fromObject: this.name // this가 testObject를 가리킴
+                    };
+                });
+                
+                console.log("데이터 처리 결과:", result);
+                
+                // filter + map 체이닝에서도 this 사용 가능
+                const filtered = data
+                    .filter(item => item > 2)
+                    .map(item => `${this.name}: ${item}`);
+                
+                console.log("필터링 결과:", filtered);
+            }
+        };
+        
+        // 🧪 테스트 실행
+        testObject.normalMethod();
+        testObject.arrowMethod();
+        testObject.processData();
+        
+        // 🎭 실무에서 자주 발생하는 this 관련 문제와 해결법
+        console.log("=== 실무 this 문제 해결법 ===");
+        
+        // 문제 상황 1: 이벤트 핸들러에서의 this
+        const button = document.createElement('button');
+        button.textContent = "클릭하세요";
+        
+        const component = {
+            name: "버튼 컴포넌트",
+            clickCount: 0,
+            
+            // ❌ 잘못된 방법: 화살표 함수로 메서드 정의
+            // handleClickWrong: () => {
+            //     this.clickCount++; // this가 component가 아님!
+            // },
+            
+            // ✅ 올바른 방법 1: 일반 함수 메서드 + bind
+            handleClickBind: function() {
+                this.clickCount++;
+                console.log(`${this.name} 클릭 횟수: ${this.clickCount}`);
+            },
+            
+            // ✅ 올바른 방법 2: 일반 함수 메서드에서 화살표 함수 반환
+            setupHandler: function() {
+                return () => {
+                    this.clickCount++;
+                    console.log(`${this.name} 클릭 횟수: ${this.clickCount}`);
+                };
+            }
+        };
+        
+        // 이벤트 리스너 등록 예시 (실제로는 DOM에 추가되지 않음)
+        console.log("이벤트 핸들러 바인딩 예시:");
+        // button.addEventListener('click', component.handleClickBind.bind(component));
+        // button.addEventListener('click', component.setupHandler());
+        
+        // 문제 상황 2: 클래스에서의 this (ES6 클래스와 화살표 함수)
+        class UserComponent {
+            constructor(name) {
+                this.name = name;
+                this.count = 0;
+            }
+            
+            // 일반 메서드: this 바인딩 필요
+            incrementNormal() {
+                this.count++;
+                console.log(`${this.name} 카운트: ${this.count}`);
+            }
+            
+            // 화살표 함수 필드: this 자동 바인딩 (현대적 패턴)
+            incrementArrow = () => {
+                this.count++;
+                console.log(`${this.name} 카운트: ${this.count}`);
+            }
+        }
+        
+        const userComp = new UserComponent("사용자 컴포넌트");
+        
+        // 메서드를 변수에 할당해서 호출 (this 바인딩 테스트)
+        const normalMethod = userComp.incrementNormal;
+        const arrowMethod = userComp.incrementArrow;
+        
+        console.log("=== 클래스 메서드 this 바인딩 테스트 ===");
+        // normalMethod(); // 에러! this가 undefined
+        arrowMethod(); // 정상 작동! this가 userComp
+        
+        // 📋 this 바인딩 규칙 정리
+        console.log("=== 📋 this 바인딩 규칙 정리 ===");
+        console.log("🔵 일반 함수:");
+        console.log("  • 호출하는 객체가 this가 됨 (동적 바인딩)");
+        console.log("  • 객체 메서드로 적합");
+        console.log("  • 내부 함수에서 this가 바뀔 수 있음");
+        console.log("");
+        console.log("🟡 화살표 함수:");
+        console.log("  • 선언된 곳의 상위 스코프 this 사용 (렉시컬 바인딩)");
+        console.log("  • 객체 메서드로 부적합");
+        console.log("  • 콜백 함수로 매우 적합");
+        console.log("  • 클래스 필드로 사용 시 자동 바인딩");
+        console.log("");
+        console.log("💡 실무 권장사항:");
+        console.log("  • 객체 메서드: 일반 함수 사용");
+        console.log("  • 배열 메서드 콜백: 화살표 함수 사용");
+        console.log("  • 이벤트 핸들러: 화살표 함수 필드 또는 bind() 사용");
+        console.log("  • React 컴포넌트: 화살표 함수 메서드 권장");
+        
+        alert("콘솔에서 this 바인딩 차이를 확인하세요!");
+    }
+</script>
+</body>
+</html>
