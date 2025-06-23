@@ -1,0 +1,58 @@
+<!-- 
+변수
+::
+전역변수
+멤버변수
+지역변수
+상수
+::
+var
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+<script type="text/javascript">
+	var name = "Peter";
+	myName ="James"; //var안붙였다.자동으로 전역변수가 된다.
+	
+	console.log(name);
+	console.log(myName);
+	
+	showInfo();
+	function showInfo() {
+		var age = 33; //지역변수
+		myAge =  22; //지역변수X, 전역변수 사용
+		//console.log("name ," +name+", "+age);
+		//console.log("name, " +myName+", "+myAge);
+	}
+	
+	//console.log(age);이건 에러남
+	console.log(myAge); //이건 에러 안남
+</script>
+</head>
+<body>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,52 @@
+<!-- 
+선택자의 속성
+id 속성 : 특정 한부분에 고유한 스타일을 지정 #~
+class 속성 : 공통적인 부분에 스타일을 지정  .~
+ -->
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+<title>Insert title here</title>
+<style type="text/css">
+	.accent{
+		color: crimson;
+		
+	}
+	.larger{
+		font-size: 20px;
+	}
+</style>
+</head>
+<body>
+<h2>State Attribute</h2>
+<form action="A">
+	<h3 id="box">Enabled</h3>
+	<input type="text" name="name"/>
+	
+	<h3>Disabled</h3>
+	<input type="text" disabled="disabled">
+	
+	<h3>Readonly</h3>
+	<input type="text" name="title" value="KOSTA" readonly="readonly">
+	
+	<h3>Required</h3>
+	<input type="text"   name="number"  required="required">
+	<input type="submit" value="SEND">
+	
+	<input type="button" value="Button" onclick="push()">	
+	<!-- 위 버튼과 작동방법이 다르다. -->
+	<button>Button2</button>
+</form>
+<hr>
+<h1 class="accent">This heading will not be affected</h1>
+<p class="accent">This paragraph will be red and center-aligned.</p>
+<p class="accent">This paragraph will be red, center-aligned, and in a large font-size.</p> 
+<p class="accent larger">According to W3C's HTML documentation: "A section is a thematic typically with a heading."</p> 
+</body>
+</html>
+
+
+

@@ -1,0 +1,67 @@
+<!--  
+브라우저에 데이타를 저장하는 저장소
+WebStorage
+데이타가 저장되는  Scope에 따라서 나뉜다.
+1)Local Storage - 동일한 디바이스, 동일한 브라우저라면 만료기한이 따로 없다
+                  웹 페이지가 닫혀지는 것과 무관하다.
+   
+   API
+   ---------------------------------------------------
+   저장      localStorage.setItem("key", "value")
+   삭제      localStorage.removeItem("key")
+   모두삭제   localStorage.clear()
+   조회      localStorage.getItem("key")  
+            localStorage.length
+   ----------------------------------------------------
+               
+2)Session Storage - 웹 페이지가 닫혀지면 데이타도 없어진다.
+::
+웹 스토리지를 사용할 때 주의해야 할 부분이 하나 있는데요. 오직 문자형(string) 데이터 타입만 지원한다는 것입니다.
+이러한 웹 스토리지의 성질 때문에 객체형 데이터를 저장할 때 다음과 같이 큰 낭패를 보게 될 수도 있습니다.
+웹 스토리지를 사용할 때 위와 같은 문제를 피하기 위해서 많이 사용하는 방법이 JSON 형태로 데이터를 읽고 쓰는 것입니다.
+로컬 스토리지에 쓸 데이터를 JSON 형태로 직렬화(serialization)하고, ::: JSON.stringify(userInfo)
+읽은 데이터를 JSON 형태로 역직렬화(deserialization)해주면 원본의 데이터를 그대로 얻을 수 있습니다.::JSON.parse
+-->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+<script type="text/javascript">
+	function saveBtn() {
+		localStorage.setItem("key1","안녕");
+		localStorage.setItem("key2","HELLO");
+		localStorage.setItem("key3","HI");
+	}
+	function delBtn() {
+		localStorage.removeItem("key2");
+	}
+	function delAllBtn() {
+		localStorage.clear();
+	}
+	function showBtn() {
+		localStorage.getItem("key1")+", "+
+		localStorage.getItem("key2")+", "+
+		localStorage.getItem("key3");
+	}	
+</script>
+</head>
+<body>
+	<button id="saveBtn" onclick="saveBtn()">저장</button>
+	<button id="delBtn" onclick="delBtn()">삭제</button>
+	<button id="delAllBtn" onclick="delAllBtn()">모두삭제</button>
+	<button id="showBtn" onclick="showBtn()">조회하기</button>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

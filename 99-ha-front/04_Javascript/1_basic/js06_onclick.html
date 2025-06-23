@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+<script type="text/javascript">
+	function showButton() {
+		document.querySelector('.alert-box').style.display='block';
+	}
+	
+	function closeButton() {
+		document.getElementById('alert').style.display='none';
+	}
+</script>
+<link rel="stylesheet" href="../css/main.css">
+</head>
+<body>
+<h2>Display</h2>
+<div id="alert" class="alert-box">Alert Box</div>
+<br>
+<button onclick="showButton()">버튼</button>
+<button onclick="closeButton()">닫기</button>
+</body>
+</html>

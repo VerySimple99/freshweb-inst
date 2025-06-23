@@ -1,0 +1,77 @@
+<!-- 
+flex-direction으로 요소의 방향을 지정한다. row가 기본
+이때 기본축 방향으로는 순서대로 배치되고
+교차축 방향으로는 꽉 채워서 배치된다.
+
+요소들의 정렬
+justify-content
+ -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+	*{
+		box-sizing: border-box;
+	}
+	body{
+		background-color: #f9fafc;
+		margin: 60px;
+	}
+	.container{
+		border: 5px dashed #cacfd9;
+		width: 500px;
+		height: 500px;
+		
+		/*
+		1.
+		기본축 : 중앙정렬
+		
+		요소검사
+		flex-end    기본축에서 가장 마지막에 정렬
+		flex-start  기본축에서 가장 처음에 정렬
+		space-around 기본축 공간을 나누어서 정렬. 양 끝쪽에 모두 같은 공간의 여백을 가짐
+		space-between 기본축 방향으로 양 끝을 늘려서 배치..가장 많이 사용됨
+		space-evenly  빈 공간의 크기가 모두 같도록 배치
+		
+		2.
+		교차축 : 중앙정렬 
+		
+		*/
+		
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		
+		
+		
+		
+		
+			
+	}
+	.box{
+		border-radius: 15px;
+		color: #f9fafc;
+		padding: 30px;
+	}
+	.red{
+		background-color: Tomato;
+	}
+	.green{
+	 	background-color: MediumSeaGreen;
+	 	
+	 }
+	 .blue{
+	 	background-color: DodgerBlue;
+	 }
+</style>
+</head>
+<body>
+<div class="container">
+	<div class="red box">RED</div>
+	<div class="green box">GREEN</div>
+	<div class="blue box">BLUE</div>
+</div>
+</body>
+</html>

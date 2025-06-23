@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>많이 사용하는 폼태그</title>
+<style type="text/css">
+	#frm{
+		width: 600px;
+		margin: auto;
+		padding: 30px;
+	}
+	
+	h2{
+		text-align: center;
+		color: fuchsia;
+		font-size: 42px;
+	}
+	
+	legend {
+		color: maroon;
+		font-size: 30px;
+		font-style: oblique;
+	}
+	
+	fieldset{
+		padding: 50px;
+	}
+
+</style>
+</head>
+<body>
+<h2>HTML Form Tags...</h2>
+<!--  form 태그에는 입력값을 어디로 전송할지에 대한 파일의 이름이 필요-->
+<form id="frm" action="#">
+<fieldset>
+	<legend>Employee FormData</legend>
+		ID : <input type="text" name="id" id="id" value="KOSTA" readonly="readonly"><br><br>
+		PASS : <input type="password" name="pass" id="pass"required="required"><br><br>
+		Gender
+		<input type="radio" name="gender" value="Female">F
+		<input type="radio" name="gender" value="Male">M
+		<br><br>
+		Today : <input type="date" name="date"><br><br>
+		NUMBER : <input type="number"  name=number"><br><br>
+		Guest Memo ::
+		<textarea rows="5" cols="50">
+		intro memo...
+		</textarea>
+		<br><br>
+		
+		<input type="submit" value="SendData">	
+</fieldset>
+</form>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

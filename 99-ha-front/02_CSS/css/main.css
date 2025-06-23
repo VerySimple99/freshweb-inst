@@ -1,0 +1,11 @@
+@charset "EUC-KR";
+*{
+		
+		margin: 100px 200px;
+}
+
+h2, h4{
+		width: 45%;
+		border: 1px solid green;
+		padding: 80px 30px;
+}

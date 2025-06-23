@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script type="text/javascript">
+//html모든 요소들이 메모리 올라가서나서 이부분이 실행되도록...Jquery
+$(document).ready(function() {
+	var list = '';
+	//1.복합연산자
+	list += '<ul>';
+	list += '<li>아메리카노</li>';
+	list += '<li>까페라떼</li>';
+	list += '<li>까페모카</li>';
+	list += '<li>카라멜마끼아또</li>';
+	list += '</ul>';
+	
+	//2. document특정 엘레먼트를 찾아서	
+	//document.getElementById("wrap").innerHTML = list;
+	document.querySelector("#wrap").innerHTML = list;
+});	
+</script>
+<h2 align="center">=============== onload =================</h2>
+<div id="wrap">
+</div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

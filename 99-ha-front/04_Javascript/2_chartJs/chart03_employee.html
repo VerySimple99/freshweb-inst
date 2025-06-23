@@ -1,0 +1,101 @@
+<!-- 
+앞에서 했던 코드부분 다 지우고 다시해보자.
+  new Chart(ctx, {   
+  });
+  
+이 부분만 남긴다..
+ -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+<style type="text/css">
+/* 
+2. 
+canvas 에는 css적용이 안된다.
+사이즈 줄어들지 않는다.
+
+canvas의 부모요소를 만들고 이곳에 css 적용해야 한다.
+
+.line-chart{
+	width: 200px;
+	height: 200px;
+} 
+*/
+
+/*  3. */
+.chart-container{
+	width:  500px;
+	height: 500px;
+	margin: 0 auto;
+	padding-top: 140px;
+	/* 4. 
+	   background-color: yellow; 해보면 
+	   maintainAspectRatio:false 지정해야 하는 이유가 보임
+	   그래프의 비율을 유지하면서 배경색 지정되도록
+	*/
+}
+</style>
+<!-- ChartJS CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="chart-container">	
+	<canvas id="line-chart"></canvas>
+</div>
+<script type="text/javascript">
+const ctx = document.querySelector("#line-chart");
+new Chart(ctx, {
+	type:'bar',
+	data:{
+		labels:['SMITH','FORD','TURNER','KING','ADAMS' ],
+		datasets:[
+			{
+				label:'Employee Salary',
+				data:[1200,3000,2400, 5000, 2600 ],
+				
+				//6. 그래프의 배경색과 선색을 지정...
+				backgroundColor:'rgba(255,0,0,0.4)',
+			   	borderColor:'rgb(200,0,0)',
+				borderWidth:2,  //추가
+			},		
+			
+			//1. 하나의 데이타 묶음을 더 추가
+			{
+				label:'Employee Bonus',
+				data:[300,150,150, 0, 170],
+				
+				//6. 그래프의 배경색과 선색을 지정...
+				backgroundColor:'rgba(0,0,255,0.5)',
+			   	borderColor:'rgb(0,0,200)',
+				borderWidth:2,//추가
+			}
+		]
+	},
+	options:{
+		maintainAspectRatio:false,/* 5 */
+	}
+});
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
