@@ -1,49 +1,52 @@
-
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>접근성 친화적 이미지</title>
-</head>
-<body>
+  </head>
+  <body>
     <h1>웹 접근성을 고려한 이미지</h1>
 
     <!-- 의미있는 이미지: 설명적인 alt 텍스트 -->
     <h2>제품 소개</h2>
-    <img src="resources/images/notebook.jpg"
-         alt="15인치 LG Gram, 실버 색상, 키보드가 열린 상태">
+    <img
+      src="./resources/images/notebook.jpg"
+      alt="15인치 LG Gram, 실버 색상, 키보드가 열린 상태"
+    />
     <p>최신 Gram으로 업무 효율성을 높여보세요.</p>
 
     <!-- 장식용 이미지: 빈 alt 속성 -->
     <h2>회사 소개</h2>
-    <img src="decoration-line.png" alt="">
+    <img src="./resources/images/deco-line.jpg" alt="" />
     <!-- alt=""는 이 이미지가 순전히 장식용임을 스크린 리더에게 알림 -->
     <p>저희 회사는 혁신적인 기술로 고객의 꿈을 실현합니다.</p>
 
     <!-- 복잡한 이미지: 자세한 설명 -->
     <h2>매출 차트</h2>
-    <img src="resources/images/chart.jpg"
-         alt="2024년 분기별 매출 차트: 1분기 100만원, 2분기 150만원, 3분기 200만원, 4분기 180만원">
+    <img
+      src="./resources/images/chart.jpg"
+      alt="2024년 분기별 매출 차트: 1분기 100만원, 2분기 150만원, 3분기 200만원, 4분기 180만원"
+    />
     <p>위 차트는 2024년 우리 회사의 분기별 매출 현황을 보여줍니다.</p>
 
     <!-- 이미지가 로드되지 않는 경우 -->
     <h2>이미지 로드 실패 예시</h2>
-    <img src="nonexistent-image.jpg"
-         alt="존재하지 않는 이미지입니다">
+    <img src="nonexistent-image.jpg" alt="존재하지 않는 이미지입니다" />
     <p>위의 이미지가 보이지 않으면 alt 텍스트가 표시됩니다.</p>
 
     <!-- 이미지와 설명을 함께 그룹화 -->
     <h2>이미지와 설명 그룹</h2>
     <figure>
-        <!-- figure: 이미지, 표, 코드 등을 설명과 함께 그룹화 -->
-        <img src="team-photo.jpg"
-             alt="개발팀 단체사진, 6명이 회의실에서 웃고 있는 모습"
-             width="400">
-        <figcaption>
-            <!-- figcaption: figure의 설명(캡션) -->
-            우리 개발팀의 2024년 신년회 사진
-        </figcaption>
+      <!-- figure: 이미지, 표, 코드 등을 설명과 함께 그룹화 -->
+      <img
+        src="./resources/images/team-photo.jpg"
+        alt="개발팀 단체사진, 6명이 회의실에서 웃고 있는 모습"
+        width="400"
+      />
+      <figcaption>
+        <!-- figcaption: figure의 설명(캡션) -->
+        우리 개발팀의 2024년 신년회 사진
+      </figcaption>
     </figure>
-
-</body>
+  </body>
 </html>
