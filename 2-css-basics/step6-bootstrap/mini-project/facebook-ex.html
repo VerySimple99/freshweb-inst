@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bootstrap 4 종합실습 가이드 - 개인 명함 사이트</title>
+    
+    <!-- Bootstrap 4 CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        .guide-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 0;
+        }
+        
+        .step-card {
+            border-left: 4px solid #007bff;
+            margin-bottom: 20px;
+        }
+        
+        .code-block {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+        
+        .highlight {
+            background-color: #fff3cd;
+            padding: 10px;
+            border-radius: 5px;
+            border-left: 4px solid #ffc107;
+        }
+        
+        .checkpoint {
+            background-color: #d1ecf1;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #17a2b8;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- 가이드 헤더 -->
+    <div class="guide-header">
+        <div class="container text-center">
+            <h1 class="display-4">🎯 Bootstrap 4 종합실습</h1>
+            <p class="lead">개인 명함 사이트 만들기 - 완벽 가이드</p>
+            <p class="mb-0">예제 0~3의 모든 학습을 하나로 통합하는 실전 프로젝트</p>
+        </div>
+    </div>
+
+    <div class="container my-5">
+        <!-- 프로젝트 개요 -->
+        <section class="mb-5">
+            <h2 class="text-primary mb-4">📋 프로젝트 개요</h2>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0">🎯 프로젝트 목표</h5>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-unstyled">
+                                <li class="mb-2">✅ 반응형 네비게이션 구현</li>
+                                <li class="mb-2">✅ Bootstrap 그리드 시스템 활용</li>
+                                <li class="mb-2">✅ 카드 컴포넌트로 정보 구성</li>
+                                <li class="mb-2">✅ 모바일/태블릿/데스크톱 최적화</li>
+                                <li class="mb-0">✅ 실무에서 사용 가능한 완성도</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-header bg-success text-white">
+                            <h5 class="mb-0">📱 완성 후 결과물</h5>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-unstyled">
+                                <li class="mb-2">🏠 <strong>네비게이션:</strong> 이름 + 메뉴 + 모바일 토글</li>
+                                <li class="mb-2">🎪 <strong>히어로 섹션:</strong> 소개 + CTA 버튼</li>
+                                <li class="mb-2">👤 <strong>소개 카드:</strong> 프로필 + 스킬 + 경력</li>
+                                <li class="mb-2">📞 <strong>연락처 카드:</strong> 이메일 + SNS 링크</li>
+                                <li class="mb-0">📱 <strong>완전 반응형:</strong> 모든 기기 최적화</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 단계별 가이드 -->
+        <section class="mb-5">
+            <h2 class="text-primary mb-4">🚀 단계별 구현 가이드</h2>
+            
+            <!-- 1단계: 기본 구조 -->
+            <div class="card step-card">
+                <div class="card-header">
+                    <h4 class="mb-0">1단계: HTML 기본 구조 만들기 (5분)</h4>
+                </div>
+                <div class="card-body">
+                    <p><strong>🎯 목표:</strong> Bootstrap CDN 연결 및 기본 HTML 구조 완성</p>
+                    
+                    <div class="highlight">
+                        <strong>💡 핵심 포인트:</strong> DOCTYPE → head 설정 → body 구조 순서로 차근차근
+                    </div>
+                    
+                    <h6 class="text-info mt-3">📝 코드 템플릿:</h6>
+                    <div class="code-block">
+&lt;!DOCTYPE html&gt;
+&lt;html lang="ko"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;홍길동 - 웹 개발자&lt;/title&gt;
+    
+    &lt;!-- 🎯 Bootstrap 4 CDN --&gt;
+    &lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"&gt;
+    &lt;!-- 🎨 Font Awesome (아이콘용) --&gt;
+    &lt;link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;!-- 여기에 내용 작성 --&gt;
+    
+    &lt;!-- 🔧 Bootstrap JavaScript --&gt;
+    &lt;script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"&gt;&lt;/script&gt;
+    &lt;script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+                    </div>
+                    
+                    <div class="checkpoint">
+                        <strong>✅ 체크포인트:</strong> 파일을 저장하고 브라우저에서 열어보세요. 빈 페이지가 정상적으로 표시되면 성공!
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2단계: 네비게이션 -->
+            <div class="card step-card">
+                <div class="card-header">
+                    <h4 class="mb-0">2단계: 네비게이션 바 만들기 (10분)</h4>
+                </div>
+                <div class="card-body">
+                    <p><strong>🎯 목표:</strong> 이름(브랜드) + 메뉴 + 모바일 햄버거 메뉴 완성</p>
+                    
+                    <div class="highlight">
+                        <strong>💡 핵심 포인트:</strong> .navbar → .container → .navbar-brand + .navbar-toggler + .navbar-collapse
+                    </div>
+                    
+                    <h6 class="text-info mt-3">📝 코드 템플릿:</h6>
+                    <div class="code-block">
+&lt;!-- 🧭 네비게이션 바 --&gt;
+&lt;nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm"&gt;
+    &lt;div class="container"&gt;
+        &lt;!-- 📛 브랜드/이름 --&gt;
+        &lt;a class="navbar-brand font-weight-bold text-primary" href="#"&gt;
+            홍길동
+        &lt;/a&gt;
+        
+        &lt;!-- 🍔 모바일 토글 버튼 --&gt;
+        &lt;button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"&gt;
+            &lt;span class="navbar-toggler-icon"&gt;&lt;/span&gt;
+        &lt;/button&gt;
+        
+        &lt;!-- 📱 반응형 메뉴 --&gt;
+        &lt;div class="collapse navbar-collapse" id="navbarNav"&gt;
+            &lt;ul class="navbar-nav ml-auto"&gt;
+                &lt;li class="nav-item active"&gt;
+                    &lt;a class="nav-link" href="#home"&gt;홈&lt;/a&gt;
+                &lt;/li&gt;
+                &lt;li class="nav-item"&gt;
+                    &lt;a class="nav-link" href="#about"&gt;소개&lt;/a&gt;
+                &lt;/li&gt;
+                &lt;li class="nav-item"&gt;
+                    &lt;a class="nav-link" href="#contact"&gt;연락처&lt;/a&gt;
+                &lt;/li&gt;
+                &lt;li class="nav-item"&gt;
+                    &lt;a class="nav-link btn btn-outline-primary ml-2 px-3" href="#"&gt;이력서 다운로드&lt;/a&gt;
+                &lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/nav&gt;
+                    </div>
+                    
+                    <div class="alert alert-info">
+                        <strong>🔍 주의사항:</strong>
+                        <ul class="mb-0 mt-2">
+                            <li>data-target="#navbarNav"와 id="navbarNav"가 일치해야 함</li>
+                            <li>브라우저 창 크기를 조절하며 모바일 메뉴 동작 확인</li>
+                            <li>본인 이름으로 "홍길동" 부분 변경하기</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="checkpoint">
+                        <strong>✅ 체크포인트:</strong> 브라우저 창을 좁혀서 햄버거 메뉴가 나타나는지 확인하고, 클릭했을 때 메뉴가 펼쳐지는지 테스트해보세요.
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3단계: 히어로 섹션 -->
+            <div class="card step-card">
+                <div class="card-header">
+                    <h4 class="mb-0">3단계: 히어로 섹션 만들기 (10분)</h4>
+                </div>
+                <div class="card-body">
+                    <p><strong>🎯 목표:</strong> 임팩트 있는 자기소개 + 행동 유도 버튼</p>
+                    
+                    <div class="highlight">
+                        <strong>💡 핵심 포인트:</strong> .container → .row → .col → 중앙 정렬 + 큰 텍스트 + 버튼
+                    </div>
+                    
+                    <h6 class="text-info mt-3">📝 코드 템플릿:</h6>
+                    <div class="code-block">
+&lt;!-- 🎪 히어로 섹션 --&gt;
+&lt;section id="home" class="py-5" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"&gt;
+    &lt;div class="container"&gt;
+        &lt;div class="row min-vh-50 align-items-center"&gt;
+            &lt;div class="col-12 text-center text-white"&gt;
+                &lt;h1 class="display-3 font-weight-bold mb-3"&gt;안녕하세요! 👋&lt;/h1&gt;
+                &lt;h2 class="h1 mb-4"&gt;저는 &lt;span class="text-warning"&gt;홍길동&lt;/span&gt;입니다&lt;/h2&gt;
+                &lt;p class="lead mb-4"&gt;
+                    사용자 중심의 웹 서비스를 만드는 &lt;strong&gt;프론트엔드 개발자&lt;/strong&gt;입니다.&lt;br&gt;
+                    React와 Vue.js로 혁신적인 사용자 경험을 구현합니다.
+                &lt;/p&gt;
+                &lt;div class="mt-4"&gt;
+                    &lt;a href="#about" class="btn btn-warning btn-lg mr-3"&gt;
+                        &lt;i class="fas fa-user mr-2"&gt;&lt;/i&gt;더 알아보기
+                    &lt;/a&gt;
+                    &lt;a href="#contact" class="btn btn-outline-light btn-lg"&gt;
+                        &lt;i class="fas fa-envelope mr-2"&gt;&lt;/i&gt;연락하기
+                    &lt;/a&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/section&gt;
+                    </div>
+                    
+                    <div class="alert alert-warning">
+                        <strong>🎨 커스터마이징 팁:</strong>
+                        <ul class="mb-0 mt-2">
+                            <li><strong>이름과 직업:</strong> 본인 정보로 변경</li>
+                            <li><strong>소개글:</strong> 본인의 강점이나 관심 분야로 수정</li>
+                            <li><strong>색상:</strong> text-warning를 text-info, text-success 등으로 변경 가능</li>
+                            <li><strong>배경:</strong> 그라데이션 색상을 본인 취향으로 조정</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="checkpoint">
+                        <strong>✅ 체크포인트:</strong> 히어로 섹션이 화면 가득 채워지고, 버튼이 제대로 보이는지 확인해보세요. 모바일에서도 텍스트가 읽기 쉬운지 체크!
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4단계: 소개 카드 -->
+            <div class="card step-card">
+                <div class="card-header">
+                    <h4 class="mb-0">4단계: 소개 카드 섹션 만들기 (15분)</h4>
+                </div>
+                <div class="card-body">
+                    <p><strong>🎯 목표:</strong> 프로필 사진 + 상세 소개 + 스킬 정보를 카드로 구성</p>
+                    
+                    <div class="highlight">
+                        <strong>💡 핵심 포인트:</strong> .container → .row → .col-md-4 + .col-md-8 (1:2 비율)
+                    </div>
+                    
+                    <h6 class="text-info mt-3">📝 코드 템플릿:</h6>
+                    <div class="code-block">
+&lt;!-- 👤 소개 섹션 --&gt;
+&lt;section id="about" class="py-5 bg-light"&gt;
+    &lt;div class="container"&gt;
+        &lt;div class="row"&gt;
+            &lt;div class="col-12 text-center mb-5"&gt;
+                &lt;h2 class="display-4 text-primary"&gt;About Me&lt;/h2&gt;
+                &lt;p class="lead text-muted"&gt;저를 좀 더 자세히 소개해드릴게요&lt;/p&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        
+        &lt;div class="row"&gt;
+            &lt;!-- 👤 프로필 카드 --&gt;
+            &lt;div class="col-md-4 mb-4"&gt;
+                &lt;div class="card h-100 shadow-sm"&gt;
+                    &lt;div class="card-body text-center"&gt;
+                        &lt;img src="https://via.placeholder.com/150x150/007bff/ffffff?text=Profile" 
+                             class="rounded-circle mb-3" 
+                             alt="프로필 사진" width="150" height="150"&gt;
+                        &lt;h4 class="card-title"&gt;홍길동&lt;/h4&gt;
+                        &lt;h6 class="card-subtitle mb-3 text-muted"&gt;Frontend Developer&lt;/h6&gt;
+                        &lt;p class="card-text"&gt;
+                            📍 서울, 대한민국&lt;br&gt;
+                            💼 3년 경력&lt;br&gt;
+                            🎓 컴퓨터공학과 졸업
+                        &lt;/p&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+            
+            &lt;!-- 📝 상세 소개 카드 --&gt;
+            &lt;div class="col-md-8 mb-4"&gt;
+                &lt;div class="card h-100 shadow-sm"&gt;
+                    &lt;div class="card-body"&gt;
+                        &lt;h4 class="card-title text-primary"&gt;
+                            &lt;i class="fas fa-user-tie mr-2"&gt;&lt;/i&gt;소개
+                        &lt;/h4&gt;
+                        &lt;p class="card-text mb-4"&gt;
+                            안녕하세요! 사용자 경험을 최우선으로 생각하는 프론트엔드 개발자 홍길동입니다.
+                            3년간 다양한 웹 프로젝트를 통해 React, Vue.js, JavaScript ES6+를 활용한 
+                            모던 웹 애플리케이션 개발 경험을 쌓았습니다.
+                        &lt;/p&gt;
+                        
+                        &lt;h5 class="text-primary"&gt;
+                            &lt;i class="fas fa-code mr-2"&gt;&lt;/i&gt;주요 기술 스택
+                        &lt;/h5&gt;
+                        &lt;div class="row"&gt;
+                            &lt;div class="col-md-6"&gt;
+                                &lt;ul class="list-unstyled"&gt;
+                                    &lt;li class="mb-2"&gt;&lt;span class="badge badge-primary mr-2"&gt;JavaScript&lt;/span&gt; ⭐⭐⭐⭐⭐&lt;/li&gt;
+                                    &lt;li class="mb-2"&gt;&lt;span class="badge badge-info mr-2"&gt;React&lt;/span&gt; ⭐⭐⭐⭐☆&lt;/li&gt;
+                                    &lt;li class="mb-2"&gt;&lt;span class="badge badge-success mr-2"&gt;Vue.js&lt;/span&gt; ⭐⭐⭐⭐☆&lt;/li&gt;
+                                &lt;/ul&gt;
+                            &lt;/div&gt;
+                            &lt;div class="col-md-6"&gt;
+                                &lt;ul class="list-unstyled"&gt;
+                                    &lt;li class="mb-2"&gt;&lt;span class="badge badge-warning mr-2"&gt;HTML/CSS&lt;/span&gt; ⭐⭐⭐⭐⭐&lt;/li&gt;
+                                    &lt;li class="mb-2"&gt;&lt;span class="badge badge-secondary mr-2"&gt;Bootstrap&lt;/span&gt; ⭐⭐⭐⭐☆&lt;/li&gt;
+                                    &lt;li class="mb-2"&gt;&lt;span class="badge badge-dark mr-2"&gt;Git&lt;/span&gt; ⭐⭐⭐⭐☆&lt;/li&gt;
+                                &lt;/ul&gt;
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/section&gt;
+                    </div>
+                    
+                    <div class="alert alert-info">
+                        <strong>🖼️ 프로필 사진 교체 방법:</strong>
+                        <ol class="mb-0 mt-2">
+                            <li>본인 사진을 "profile.jpg" 파일명으로 저장</li>
+                            <li>HTML 파일과 같은 폴더에 업로드</li>
+                            <li>src="https://via.placeholder.com/..." 부분을 src="profile.jpg"로 변경</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="checkpoint">
+                        <strong>✅ 체크포인트:</strong> 프로필 카드와 소개 카드가 데스크톱에서는 나란히, 모바일에서는 세로로 배치되는지 확인해보세요.
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5단계: 연락처 카드 -->
+            <div class="card step-card">
+                <div class="card-header">
+                    <h4 class="mb-0">5단계: 연락처 카드 섹션 만들기 (10분)</h4>
+                </div>
+                <div class="card-body">
+                    <p><strong>🎯 목표:</strong> 이메일, SNS 링크, 포트폴리오 링크 등 연락 방법 제공</p>
+                    
+                    <div class="highlight">
+                        <strong>💡 핵심 포인트:</strong> 카드 2개를 col-md-6씩 배치하여 균형잡힌 레이아웃
+                    </div>
+                    
+                    <h6 class="text-info mt-3">📝 코드 템플릿:</h6>
+                    <div class="code-block">
+&lt;!-- 📞 연락처 섹션 --&gt;
+&lt;section id="contact" class="py-5"&gt;
+    &lt;div class="container"&gt;
+        &lt;div class="row"&gt;
+            &lt;div class="col-12 text-center mb-5"&gt;
+                &lt;h2 class="display-4 text-primary"&gt;Contact Me&lt;/h2&gt;
+                &lt;p class="lead text-muted"&gt;언제든 연락주세요! 빠르게 답변드리겠습니다&lt;/p&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        
+        &lt;div class="row"&gt;
+            &lt;!-- 📧 연락 정보 카드 --&gt;
+            &lt;div class="col-md-6 mb-4"&gt;
+                &lt;div class="card h-100 shadow-sm"&gt;
+                    &lt;div class="card-body text-center"&gt;
+                        &lt;div class="mb-3"&gt;
+                            &lt;i class="fas fa-envelope fa-3x text-primary"&gt;&lt;/i&gt;
+                        &lt;/div&gt;
+                        &lt;h4 class="card-title"&gt;연락하기&lt;/h4&gt;
+                        &lt;p class="card-text mb-4"&gt;
+                            프로젝트 문의나 협업 제안을 
+                            언제든 편하게 보내주세요!
+                        &lt;/p&gt;
+                        &lt;div class="mb-3"&gt;
+                            &lt;h6 class="text-muted"&gt;📧 이메일&lt;/h6&gt;
+                            &lt;a href="mailto:hong@example.com" class="btn btn-outline-primary"&gt;
+                                hong@example.com
+                            &lt;/a&gt;
+                        &lt;/div&gt;
+                        &lt;div&gt;
+                            &lt;h6 class="text-muted"&gt;📱 전화&lt;/h6&gt;
+                            &lt;a href="tel:010-1234-5678" class="btn btn-outline-success"&gt;
+                                010-1234-5678
+                            &lt;/a&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+            
+            &lt;!-- 🌐 소셜 미디어 카드 --&gt;
+            &lt;div class="col-md-6 mb-4"&gt;
+                &lt;div class="card h-100 shadow-sm"&gt;
+                    &lt;div class="card-body text-center"&gt;
+                        &lt;div class="mb-3"&gt;
+                            &lt;i class="fas fa-share-alt fa-3x text-success"&gt;&lt;/i&gt;
+                        &lt;/div&gt;
+                        &lt;h4 class="card-title"&gt;소셜 미디어&lt;/h4&gt;
+                        &lt;p class="card-text mb-4"&gt;
+                            다양한 플랫폼에서 제 작업과 
+                            생각을 확인해보세요!
+                        &lt;/p&gt;
+                        &lt;div class="d-flex justify-content-center flex-wrap"&gt;
+                            &lt;a href="https://github.com/hong" class="btn btn-dark m-2" target="_blank"&gt;
+                                &lt;i class="fab fa-github mr-2"&gt;&lt;/i&gt;GitHub
+                            &lt;/a&gt;
+                            &lt;a href="https://linkedin.com/in/hong" class="btn btn-primary m-2" target="_blank"&gt;
+                                &lt;i class="fab fa-linkedin mr-2"&gt;&lt;/i&gt;LinkedIn
+                            &lt;/a&gt;
+                            &lt;a href="https://blog.hong.com" class="btn btn-info m-2" target="_blank"&gt;
+                                &lt;i class="fas fa-blog mr-2"&gt;&lt;/i&gt;Blog
+                            &lt;/a&gt;
+                            &lt;a href="https://portfolio.hong.com" class="btn btn-warning m-2" target="_blank"&gt;
+                                &lt;i class="fas fa-briefcase mr-2"&gt;&lt;/i&gt;Portfolio
+                            &lt;/a&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        
+        &lt;!-- 📋 추가 액션 --&gt;
+        &lt;div class="row mt-4"&gt;
+            &lt;div class="col-12 text-center"&gt;
+                &lt;div class="card bg-primary text-white"&gt;
+                    &lt;div class="card-body"&gt;
+                        &lt;h4 class="card-title"&gt;🚀 함께 프로젝트를 만들어보아요!&lt;/h4&gt;
+                        &lt;p class="card-text mb-4"&gt;
+                            새로운 아이디어와 도전을 기다리고 있습니다.
+                        &lt;/p&gt;
+                        &lt;a href="mailto:hong@example.com?subject=프로젝트 문의" class="btn btn-light btn-lg"&gt;
+                            &lt;i class="fas fa-rocket mr-2"&gt;&lt;/i&gt;프로젝트 문의하기
+                        &lt;/a&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/section&gt;
+                    </div>
+                    
+                    <div class="alert alert-success">
+                        <strong>🔗 링크 수정 가이드:</strong>
+                        <ul class="mb-0 mt-2">
+                            <li><strong>이메일:</strong> hong@example.com을 본인 이메일로 변경</li>
+                            <li><strong>전화번호:</strong> 010-1234-5678을 본인 번호로 변경</li>
+                            <li><strong>GitHub:</strong> https://github.com/본인아이디</li>
+                            <li><strong>기타 SNS:</strong> 본인 계정 링크로 수정</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="checkpoint">
+                        <strong>✅ 체크포인트:</strong> 모든 링크가 올바르게 작동하는지 확인하고, 이메일 링크 클릭 시 메일 앱이 열리는지 테스트해보세요.
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6단계: 푸터 -->
+            <div class="card step-card">
+                <div class="card-header">
+                    <h4 class="mb-0">6단계: 푸터 추가하기 (5분)</h4>
+                </div>
+                <div class="card-body">
+                    <p><strong>🎯 목표:</strong> 저작권 정보와 마지막 인사말로 페이지 마무리</p>
+                    
+                    <h6 class="text-info mt-3">📝 코드 템플릿:</h6>
+                    <div class="code-block">
+&lt;!-- 👣 푸터 --&gt;
+&lt;footer class="bg-dark text-white py-4"&gt;
+    &lt;div class="container"&gt;
+        &lt;div class="row"&gt;
+            &lt;div class="col-md-6"&gt;
+                &lt;h5&gt;홍길동&lt;/h5&gt;
+                &lt;p class="mb-0"&gt;Frontend Developer&lt;/p&gt;
+                &lt;small class="text-muted"&gt;사용자를 생각하는 개발자&lt;/small&gt;
+            &lt;/div&gt;
+            &lt;div class="col-md-6 text-md-right"&gt;
+                &lt;p class="mb-1"&gt;&copy; 2025 홍길동. All rights reserved.&lt;/p&gt;
+                &lt;small class="text-muted"&gt;Made with ❤️ and Bootstrap&lt;/small&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/footer&gt;
+                    </div>
+                    
+                    <div class="checkpoint">
+                        <strong>✅ 최종 체크포인트:</strong> 전체 페이지를 위에서 아래로 스크롤하며 모든 섹션이 올바르게 표시되는지 확인해보세요!
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 완성 체크리스트 -->
+        <section class="mb-5">
+            <h2 class="text-primary mb-4">✅ 완성 체크리스트</h2>
+            
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">🎯 최종 점검 사항</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6 class="text-success">📱 반응형 테스트</h6>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="check1">
+                                <label class="form-check-label" for="check1">
+                                    데스크톱에서 정상 표시
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="check2">
+                                <label class="form-check-label" for="check2">
+                                    태블릿에서 정상 표시
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="check3">
+                                <label class="form-check-label" for="check3">
+                                    모바일에서 정상 표시
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="check4">
+                                <label class="form-check-label" for="check4">
+                                    모바일 메뉴 토글 작동
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="text-success">🔧 기능 테스트</h6>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="check5">
+                                <label class="form-check-label" for="check5">
+                                    모든 링크 정상 작동
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="check6">
+                                <label class="form-check-label" for="check6">
+                                    이메일 링크 작동
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="check7">
+                                <label class="form-check-label" for="check7">
+                                    개인 정보 모두 수정
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="check8">
+                                <label class="form-check-label" for="check8">
+                                    오타나 오류 없음
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 추가 개선 아이디어 -->
+        <section class="mb-5">
+            <h2 class="text-primary mb-4">🚀 추가 개선 아이디어</h2>
+            
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <div class="card h-100 border-warning">
+                        <div class="card-header bg-warning">
+                            <h6 class="mb-0">🎨 디자인 개선</h6>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-unstyled small">
+                                <li>• 커스텀 색상 테마 적용</li>
+                                <li>• 애니메이션 효과 추가</li>
+                                <li>• 실제 프로필 사진 업로드</li>
+                                <li>• 폰트 변경 (구글 폰트)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 mb-3">
+                    <div class="card h-100 border-info">
+                        <div class="card-header bg-info text-white">
+                            <h6 class="mb-0">📝 콘텐츠 확장</h6>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-unstyled small">
+                                <li>• 포트폴리오 프로젝트 섹션</li>
+                                <li>• 경력 타임라인 추가</li>
+                                <li>• 블로그 최신 글 연동</li>
+                                <li>• 고객 추천사 섹션</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 mb-3">
+                    <div class="card h-100 border-success">
+                        <div class="card-header bg-success text-white">
+                            <h6 class="mb-0">⚡ 기능 추가</h6>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-unstyled small">
+                                <li>• 다크 모드 토글</li>
+                                <li>• 부드러운 스크롤 효과</li>
+                                <li>• 연락처 폼 추가</li>
+                                <li>• 방문자 통계 (Google Analytics)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 학습 정리 -->
+        <section class="mb-5">
+            <div class="alert alert-primary">
+                <h4 class="alert-heading">🎯 학습 성과 정리</h4>
+                <hr>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6 class="text-primary">✅ 마스터한 Bootstrap 요소들</h6>
+                        <ul>
+                            <li><strong>네비게이션:</strong> 반응형 메뉴와 브랜딩</li>
+                            <li><strong>그리드 시스템:</strong> 다양한 비율의 레이아웃</li>
+                            <li><strong>카드 컴포넌트:</strong> 정보 구조화와 시각적 표현</li>
+                            <li><strong>유틸리티:</strong> 간격, 색상, 정렬 클래스</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h6 class="text-primary">🚀 실무 역량 개발</h6>
+                        <ul>
+                            <li><strong>반응형 웹:</strong> 모든 기기 대응 능력</li>
+                            <li><strong>사용자 경험:</strong> 직관적 네비게이션 설계</li>
+                            <li><strong>정보 설계:</strong> 효과적인 콘텐츠 구조화</li>
+                            <li><strong>프로젝트 완성:</strong> 기획부터 구현까지</li>
+                        </ul>
+                    </div>
+                </div>
+                <hr>
+                <p class="mb-0 text-center">
+                    <strong>🎉 축하합니다!</strong> 
+                    Bootstrap 4의 핵심 요소들을 모두 활용하여 완성된 웹사이트를 만들어냈습니다. 
+                    이제 더 복잡한 프로젝트에도 자신 있게 도전할 수 있습니다!
+                </p>
+            </div>
+        </section>
+    </div>
+
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // 체크박스 상태 로컬 저장 (선택적 기능)
+        document.addEventListener('DOMContentLoaded', function() {
+            // 부드러운 스크롤 효과
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+
+            // 체크리스트 진행률 표시 (보너스 기능)
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            const updateProgress = () => {
+                const total = checkboxes.length;
+                const checked = document.querySelectorAll('input[type="checkbox"]:checked').length;
+                const progress = Math.round((checked / total) * 100);
+                
+                // 진행률 표시 (필요시 추가)
+                console.log(`완성도: ${progress}%`);
+            };
+
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', updateProgress);
+            });
+        });
+    </script>
+</body>
+</html>

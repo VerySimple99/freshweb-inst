@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>홍길동 - 웹 개발자 | 개인 명함 사이트</title>
+
+    <!-- 🎯 Bootstrap 4 CDN -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+    />
+    <!-- 🎨 Font Awesome (아이콘용) -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+
+    <!-- 
+    📝 커스텀 스타일 (선택적 향상)
+    
+    🎯 교육적 의도:
+    - Bootstrap만으로도 충분히 완성도 높은 사이트 제작 가능
+    - 필요시 최소한의 커스텀 CSS로 개성 표현
+    - 성능과 유지보수성을 고려한 간결한 추가 스타일
+    -->
+    <style>
+      /* 🎨 부드러운 스크롤 효과 */
+      html {
+        scroll-behavior: smooth;
+      }
+
+      /* 🌊 히어로 섹션 최소 높이 설정 */
+      .hero-section {
+        min-height: 80vh;
+        display: flex;
+        align-items: center;
+      }
+
+      /* ✨ 카드 호버 효과 */
+      .hover-card {
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+      }
+
+      .hover-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+      }
+
+      /* 📱 모바일 최적화 */
+      @media (max-width: 768px) {
+        .display-3 {
+          font-size: 2.5rem;
+        }
+        .hero-section {
+          min-height: 60vh;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 
+    🧭 네비게이션 바
+    
+    🏗️ 구조 분석:
+    - .navbar: 기본 네비게이션 컨테이너
+    - .navbar-expand-lg: LG(992px) 이상에서 메뉴 확장
+    - .navbar-light bg-white: 밝은 테마 + 흰 배경
+    - .shadow-sm: 미세한 그림자로 입체감 표현
+    
+    📱 반응형 동작:
+    - 큰 화면: 모든 메뉴가 수평으로 표시
+    - 작은 화면: 햄버거 메뉴로 축소, 클릭 시 세로 메뉴
+    - .ml-auto: 메뉴를 오른쪽으로 정렬
+    
+    💡 실무 팁:
+    - data-target과 id가 정확히 일치해야 토글 동작
+    - .active 클래스로 현재 페이지 표시
+    - CTA 버튼은 .btn 클래스로 시각적 강조
+    -->
+    <nav
+      class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top"
+    >
+      <div class="container">
+        <!-- 📛 브랜드/이름 영역 -->
+        <a class="navbar-brand font-weight-bold text-primary" href="#home">
+          <i class="fas fa-code mr-2"></i>홍길동
+        </a>
+
+        <!-- 🍔 모바일 토글 버튼 -->
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- 📱 반응형 메뉴 영역 -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#home">
+                <i class="fas fa-home mr-1"></i>홈
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#about">
+                <i class="fas fa-user mr-1"></i>소개
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#contact">
+                <i class="fas fa-envelope mr-1"></i>연락처
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link btn btn-outline-primary ml-2 px-3"
+                href="#"
+                download
+              >
+                <i class="fas fa-download mr-1"></i>이력서 다운로드
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- 
+    🎪 히어로 섹션
+    
+    🎯 디자인 목표:
+    - 강력한 첫인상으로 방문자 관심 집중
+    - 핵심 정보(이름, 직업, 전문성)를 명확히 전달
+    - 다음 행동(더 알아보기, 연락하기)으로 자연스럽게 유도
+    
+    🎨 시각적 요소:
+    - 그라데이션 배경으로 모던하고 전문적인 느낌
+    - .display-3으로 큰 제목, .lead로 중요한 설명
+    - 대비되는 색상(.text-warning)으로 이름 강조
+    - 아이콘과 함께 직관적인 CTA 버튼
+    
+    📱 반응형 고려:
+    - .min-vh-* 클래스로 화면 높이 대비 적절한 크기
+    - 모바일에서 텍스트 크기 자동 조절
+    - 버튼 배치가 세로/가로로 자연스럽게 변화
+    -->
+    <section
+      id="home"
+      class="hero-section"
+      style="
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding-top: 80px;
+      "
+    >
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-12 text-center text-white">
+            <h1
+              class="display-3 font-weight-bold mb-3 animate__animated animate__fadeInDown"
+            >
+              안녕하세요! 👋
+            </h1>
+            <h2 class="h1 mb-4">
+              저는
+              <span class="text-warning font-weight-bold">홍길동</span>입니다
+            </h2>
+            <p class="lead mb-4">
+              사용자 중심의 웹 서비스를 만드는
+              <strong>프론트엔드 개발자</strong>입니다.<br />
+              React와 Vue.js로 혁신적인 사용자 경험을 구현하며,<br />
+              아름답고 실용적인 인터페이스를 만드는 것을 좋아합니다.
+            </p>
+            <div class="mt-4">
+              <a href="#about" class="btn btn-warning btn-lg mr-3 mb-2">
+                <i class="fas fa-user mr-2"></i>더 알아보기
+              </a>
+              <a href="#contact" class="btn btn-outline-light btn-lg mb-2">
+                <i class="fas fa-envelope mr-2"></i>연락하기
+              </a>
+            </div>
+            <!-- 💡 추가 신뢰 요소 -->
+            <div class="mt-4 pt-3">
+              <p class="mb-0">
+                <small class="text-light">
+                  <i class="fas fa-map-marker-alt mr-1"></i>서울, 대한민국 |
+                  <i class="fas fa-briefcase mr-1"></i>3년 경력 |
+                  <i class="fas fa-graduation-cap mr-1"></i>컴퓨터공학과
+                </small>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 
+    👤 소개 섹션
+    
+    🏗️ 레이아웃 전략:
+    - .col-md-4 + .col-md-8 = 1:2 비율로 프로필과 상세정보 배치
+    - 모바일에서는 프로필이 위, 상세정보가 아래로 자연스럽게 배치
+    - .h-100으로 카드 높이 통일하여 시각적 균형 유지
+    
+    📸 프로필 카드 구성:
+    - 원형 프로필 이미지로 친근함 표현
+    - 핵심 정보(이름, 직책, 위치, 경력) 간결하게 정리
+    - 중앙 정렬로 깔끔하고 전문적인 느낌
+    
+    📝 상세 소개 카드 구성:
+    - 개인 철학과 전문성을 자연스럽게 어필
+    - 기술 스택을 배지와 별점으로 시각화
+    - 2컬럼 그리드로 정보 밀도 최적화
+    -->
+    <section id="about" class="py-5 bg-light">
+      <div class="container">
+        <!-- 📋 섹션 헤더 -->
+        <div class="row">
+          <div class="col-12 text-center mb-5">
+            <h2 class="display-4 text-primary font-weight-bold">About Me</h2>
+            <p class="lead text-muted">저를 좀 더 자세히 소개해드릴게요</p>
+            <div
+              class="mx-auto"
+              style="
+                width: 100px;
+                height: 3px;
+                background: linear-gradient(to right, #007bff, #6610f2);
+              "
+            ></div>
+          </div>
+        </div>
+
+        <div class="row">
+          <!-- 👤 프로필 카드 -->
+          <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm hover-card">
+              <div class="card-body text-center">
+                <!-- 🖼️ 프로필 이미지 -->
+                <img
+                  src="https://via.placeholder.com/150x150/007bff/ffffff?text=HGD"
+                  class="rounded-circle mb-3 border border-primary"
+                  alt="홍길동 프로필 사진"
+                  width="150"
+                  height="150"
+                />
+
+                <h4 class="card-title text-primary">홍길동</h4>
+                <h6 class="card-subtitle mb-3 text-muted">
+                  Frontend Developer
+                </h6>
+
+                <!-- 📊 핵심 정보 -->
+                <div class="mb-3">
+                  <p class="card-text">
+                    <i class="fas fa-map-marker-alt text-danger mr-2"></i>서울,
+                    대한민국<br />
+                    <i class="fas fa-briefcase text-primary mr-2"></i>3년
+                    경력<br />
+                    <i class="fas fa-graduation-cap text-success mr-2"></i
+                    >컴퓨터공학과 졸업<br />
+                    <i class="fas fa-birthday-cake text-warning mr-2"></i>28세
+                  </p>
+                </div>
+
+                <!-- 🎯 핵심 가치 -->
+                <div class="border-top pt-3">
+                  <h6 class="text-primary">핵심 가치</h6>
+                  <div class="d-flex justify-content-center flex-wrap">
+                    <span class="badge badge-light border mr-1 mb-1"
+                      >사용자 중심</span
+                    >
+                    <span class="badge badge-light border mr-1 mb-1"
+                      >깔끔한 코드</span
+                    >
+                    <span class="badge badge-light border mr-1 mb-1"
+                      >지속 학습</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 📝 상세 소개 카드 -->
+          <div class="col-md-8 mb-4">
+            <div class="card h-100 shadow-sm hover-card">
+              <div class="card-body">
+                <!-- 💬 자기소개 -->
+                <h4 class="card-title text-primary">
+                  <i class="fas fa-user-tie mr-2"></i>소개
+                </h4>
+                <p class="card-text mb-4">
+                  안녕하세요! 사용자 경험을 최우선으로 생각하는 프론트엔드
+                  개발자 <strong>홍길동</strong>입니다.
+                </p>
+                <p class="card-text mb-4">
+                  3년간 다양한 웹 프로젝트를 통해
+                  <strong>React, Vue.js, JavaScript ES6+</strong>를 활용한 모던
+                  웹 애플리케이션 개발 경험을 쌓았습니다. 특히 사용자가
+                  직관적으로 사용할 수 있는 인터페이스 설계와 성능 최적화에
+                  관심이 많습니다.
+                </p>
+                <p class="card-text mb-4">
+                  새로운 기술을 배우는 것을 즐기며, 팀과의 협업을 통해 더 나은
+                  결과물을 만들어내는 것에 보람을 느낍니다. 코드의 가독성과
+                  유지보수성을 중시하며, 항상 사용자 관점에서 생각하려
+                  노력합니다.
+                </p>
+
+                <!-- 🛠️ 기술 스택 -->
+                <h5 class="text-primary mb-3">
+                  <i class="fas fa-code mr-2"></i>주요 기술 스택
+                </h5>
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <h6 class="text-secondary">Frontend</h6>
+                    <div class="mb-2">
+                      <span class="badge badge-warning mr-2">JavaScript</span>
+                      <span class="text-warning">⭐⭐⭐⭐⭐</span>
+                    </div>
+                    <div class="mb-2">
+                      <span class="badge badge-info mr-2">React</span>
+                      <span class="text-warning">⭐⭐⭐⭐⭐</span>
+                    </div>
+                    <div class="mb-2">
+                      <span class="badge badge-success mr-2">Vue.js</span>
+                      <span class="text-warning">⭐⭐⭐⭐☆</span>
+                    </div>
+                    <div class="mb-2">
+                      <span class="badge badge-primary mr-2">TypeScript</span>
+                      <span class="text-warning">⭐⭐⭐⭐☆</span>
+                    </div>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <h6 class="text-secondary">Tools & Others</h6>
+                    <div class="mb-2">
+                      <span class="badge badge-danger mr-2">HTML/CSS</span>
+                      <span class="text-warning">⭐⭐⭐⭐⭐</span>
+                    </div>
+                    <div class="mb-2">
+                      <span class="badge badge-secondary mr-2">Bootstrap</span>
+                      <span class="text-warning">⭐⭐⭐⭐⭐</span>
+                    </div>
+                    <div class="mb-2">
+                      <span class="badge badge-dark mr-2">Git</span>
+                      <span class="text-warning">⭐⭐⭐⭐☆</span>
+                    </div>
+                    <div class="mb-2">
+                      <span class="badge badge-light text-dark mr-2"
+                        >Figma</span
+                      >
+                      <span class="text-warning">⭐⭐⭐☆☆</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 📈 경력 하이라이트 -->
+                <div class="mt-4 pt-3 border-top">
+                  <h6 class="text-primary">💼 경력 하이라이트</h6>
+                  <ul class="list-unstyled">
+                    <li class="mb-2">
+                      <i class="fas fa-check-circle text-success mr-2"></i>
+                      <strong>전자상거래 플랫폼 리뉴얼</strong> - React 기반 SPA
+                      구축 (2023)
+                    </li>
+                    <li class="mb-2">
+                      <i class="fas fa-check-circle text-success mr-2"></i>
+                      <strong>모바일 앱 웹뷰 개발</strong> - Vue.js + PWA 기술
+                      적용 (2022)
+                    </li>
+                    <li class="mb-2">
+                      <i class="fas fa-check-circle text-success mr-2"></i>
+                      <strong>사내 관리 시스템 구축</strong> - 반응형 대시보드
+                      개발 (2021)
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 
+    📞 연락처 섹션
+    
+    🎯 설계 목표:
+    - 다양한 연락 방법을 명확하고 접근하기 쉽게 제공
+    - 각 연락 수단의 특성에 맞는 디자인과 아이콘 사용
+    - 실제 행동(이메일 전송, 전화 걸기, SNS 이동)으로 연결되는 링크
+    
+    🎨 시각적 구성:
+    - 2개 카드를 col-md-6씩 배치하여 균형잡힌 레이아웃
+    - 아이콘과 색상으로 각 연락 방법의 특성 구분
+    - CTA 카드로 적극적인 연락 유도
+    
+    📱 실무 고려사항:
+    - mailto:, tel: 링크로 실제 앱 연동
+    - target="_blank"로 외부 링크는 새 탭에서 열기
+    - 모바일에서 터치하기 쉬운 버튼 크기
+    -->
+    <section id="contact" class="py-5">
+      <div class="container">
+        <!-- 📋 섹션 헤더 -->
+        <div class="row">
+          <div class="col-12 text-center mb-5">
+            <h2 class="display-4 text-primary font-weight-bold">Contact Me</h2>
+            <p class="lead text-muted">
+              언제든 연락주세요! 빠르게 답변드리겠습니다
+            </p>
+            <div
+              class="mx-auto"
+              style="
+                width: 100px;
+                height: 3px;
+                background: linear-gradient(to right, #007bff, #6610f2);
+              "
+            ></div>
+          </div>
+        </div>
+
+        <div class="row">
+          <!-- 📧 직접 연락 카드 -->
+          <div class="col-md-6 mb-4">
+            <div class="card h-100 shadow-sm hover-card">
+              <div class="card-body text-center">
+                <div class="mb-3">
+                  <i class="fas fa-envelope fa-3x text-primary"></i>
+                </div>
+                <h4 class="card-title">직접 연락하기</h4>
+                <p class="card-text mb-4">
+                  프로젝트 문의나 협업 제안을<br />
+                  언제든 편하게 보내주세요!
+                </p>
+
+                <!-- 📧 이메일 -->
+                <div class="mb-3">
+                  <h6 class="text-muted">
+                    <i class="fas fa-envelope mr-2"></i>이메일
+                  </h6>
+                  <a
+                    href="mailto:hong.developer@example.com?subject=프로젝트 문의&body=안녕하세요! 홍길동님의 포트폴리오를 보고 연락드립니다."
+                    class="btn btn-outline-primary btn-block"
+                  >
+                    hong.developer@example.com
+                  </a>
+                </div>
+
+                <!-- 📱 전화번호 -->
+                <div class="mb-3">
+                  <h6 class="text-muted">
+                    <i class="fas fa-phone mr-2"></i>전화
+                  </h6>
+                  <a
+                    href="tel:+82-10-1234-5678"
+                    class="btn btn-outline-success btn-block"
+                  >
+                    010-1234-5678
+                  </a>
+                </div>
+
+                <!-- 💬 카카오톡 -->
+                <div>
+                  <h6 class="text-muted">
+                    <i class="fas fa-comment mr-2"></i>카카오톡
+                  </h6>
+                  <a
+                    href="https://open.kakao.com/o/your-link"
+                    target="_blank"
+                    class="btn btn-outline-warning btn-block"
+                  >
+                    <i class="fas fa-comment-dots mr-2"></i>오픈채팅으로 연락
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 🌐 소셜 미디어 & 포트폴리오 카드 -->
+          <div class="col-md-6 mb-4">
+            <div class="card h-100 shadow-sm hover-card">
+              <div class="card-body text-center">
+                <div class="mb-3">
+                  <i class="fas fa-share-alt fa-3x text-success"></i>
+                </div>
+                <h4 class="card-title">소셜 미디어 & 포트폴리오</h4>
+                <p class="card-text mb-4">
+                  다양한 플랫폼에서 제 작업과<br />
+                  생각을 확인해보세요!
+                </p>
+
+                <!-- 🔗 소셜 링크들 -->
+                <div class="row">
+                  <div class="col-6 mb-3">
+                    <a
+                      href="https://github.com/hong-developer"
+                      class="btn btn-dark btn-block"
+                      target="_blank"
+                    >
+                      <i class="fab fa-github mr-2"></i>GitHub
+                    </a>
+                  </div>
+                  <div class="col-6 mb-3">
+                    <a
+                      href="https://linkedin.com/in/hong-developer"
+                      class="btn btn-primary btn-block"
+                      target="_blank"
+                    >
+                      <i class="fab fa-linkedin mr-2"></i>LinkedIn
+                    </a>
+                  </div>
+                  <div class="col-6 mb-3">
+                    <a
+                      href="https://blog.hong-developer.com"
+                      class="btn btn-info btn-block"
+                      target="_blank"
+                    >
+                      <i class="fas fa-blog mr-2"></i>Tech Blog
+                    </a>
+                  </div>
+                  <div class="col-6 mb-3">
+                    <a
+                      href="https://portfolio.hong-developer.com"
+                      class="btn btn-warning btn-block"
+                      target="_blank"
+                    >
+                      <i class="fas fa-briefcase mr-2"></i>Portfolio
+                    </a>
+                  </div>
+                </div>
+
+                <!-- 📄 이력서 다운로드 -->
+                <div class="border-top pt-3">
+                  <h6 class="text-muted mb-2">
+                    <i class="fas fa-file-download mr-2"></i>이력서 다운로드
+                  </h6>
+                  <a
+                    href="resume_hong_developer.pdf"
+                    download
+                    class="btn btn-outline-secondary btn-block"
+                  >
+                    <i class="fas fa-download mr-2"></i>PDF 이력서 다운로드
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 🚀 프로젝트 문의 CTA -->
+        <div class="row mt-4">
+          <div class="col-12">
+            <div class="card bg-primary text-white hover-card">
+              <div class="card-body text-center py-4">
+                <h3 class="card-title">
+                  <i class="fas fa-rocket mr-2"></i>함께 프로젝트를
+                  만들어보아요!
+                </h3>
+                <p class="card-text lead mb-4">
+                  새로운 아이디어와 도전을 기다리고 있습니다.<br />
+                  혁신적인 웹 서비스를 함께 만들어가요!
+                </p>
+                <div>
+                  <a
+                    href="mailto:hong.developer@example.com?subject=프로젝트 협업 문의"
+                    class="btn btn-light btn-lg mr-3"
+                  >
+                    <i class="fas fa-handshake mr-2"></i>프로젝트 문의하기
+                  </a>
+                  <a
+                    href="tel:+82-10-1234-5678"
+                    class="btn btn-outline-light btn-lg"
+                  >
+                    <i class="fas fa-phone mr-2"></i>바로 통화하기
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 
+    👣 푸터
+    
+    🎯 푸터의 역할:
+    - 사이트의 마무리와 브랜드 정보 재확인
+    - 저작권 정보와 제작 정보 표시
+    - 전체적인 완성도를 높이는 마감 요소
+    
+    🎨 디자인 구성:
+    - 어두운 배경으로 콘텐츠와 시각적 구분
+    - 2컬럼 레이아웃으로 정보를 균형있게 배치
+    - 모바일에서는 중앙 정렬로 자연스럽게 변화
+    
+    💡 실무 요소:
+    - 저작권 연도는 JavaScript로 자동 업데이트 가능
+    - "Made with ❤️"로 개발자의 개성과 열정 표현
+    - 필요시 이용약관, 개인정보처리방침 링크 추가 가능
+    -->
+    <footer class="bg-dark text-white py-4 mt-5">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-md-6 text-center text-md-left mb-3 mb-md-0">
+            <h5 class="mb-1">
+              <i class="fas fa-code mr-2 text-primary"></i>홍길동
+            </h5>
+            <p class="mb-1">Frontend Developer</p>
+            <small class="text-muted">사용자를 생각하는 개발자</small>
+          </div>
+          <div class="col-md-6 text-center text-md-right">
+            <p class="mb-1">
+              <small
+                >&copy; <span id="currentYear">2025</span> 홍길동. All rights
+                reserved.</small
+              >
+            </p>
+            <p class="mb-0">
+              <small class="text-muted">
+                Made with <i class="fas fa-heart text-danger"></i> and
+                <i class="fab fa-bootstrap text-primary"></i> Bootstrap
+              </small>
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- 
+    🔧 JavaScript 영역
+    
+    📚 라이브러리 로딩:
+    - jQuery: Bootstrap JavaScript 컴포넌트의 의존성
+    - Bootstrap Bundle: 모든 Bootstrap JS 기능 포함 (토글, 드롭다운 등)
+    
+    ⚡ 추가 기능들:
+    - 부드러운 스크롤: 네비게이션 클릭 시 해당 섹션으로 부드럽게 이동
+    - 자동 연도 업데이트: 푸터의 저작권 연도를 현재 연도로 자동 설정
+    - 활성 메뉴 표시: 스크롤 위치에 따른 네비게이션 메뉴 활성화 (고급 기능)
+    -->
+
+    <!-- Bootstrap JavaScript (네비게이션 토글 등을 위해 필수) -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- 커스텀 JavaScript (사용자 경험 향상) -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // 🎯 1. 부드러운 스크롤 효과
+        document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+          anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute("href"));
+            if (target) {
+              // 네비게이션 바 높이 고려한 오프셋
+              const navbarHeight =
+                document.querySelector(".navbar").offsetHeight;
+              const targetPosition = target.offsetTop - navbarHeight - 20;
+
+              window.scrollTo({
+                top: targetPosition,
+                behavior: "smooth",
+              });
+            }
+          });
+        });
+
+        // 📅 2. 자동 연도 업데이트
+        const currentYearElement = document.getElementById("currentYear");
+        if (currentYearElement) {
+          currentYearElement.textContent = new Date().getFullYear();
+        }
+
+        // 🎨 3. 스크롤에 따른 네비게이션 투명도 조절 (선택적)
+        window.addEventListener("scroll", function () {
+          const navbar = document.querySelector(".navbar");
+          if (window.scrollY > 50) {
+            navbar.style.backgroundColor = "rgba(255, 255, 255, 0.95)";
+            navbar.style.backdropFilter = "blur(10px)";
+          } else {
+            navbar.style.backgroundColor = "#fff";
+            navbar.style.backdropFilter = "none";
+          }
+        });
+
+        // ✨ 4. 카드 호버 효과 강화 (선택적)
+        document.querySelectorAll(".hover-card").forEach((card) => {
+          card.addEventListener("mouseenter", function () {
+            this.style.transform = "translateY(-8px)";
+            this.style.boxShadow = "0 15px 35px rgba(0,0,0,0.1)";
+          });
+
+          card.addEventListener("mouseleave", function () {
+            this.style.transform = "translateY(0)";
+            this.style.boxShadow = "";
+          });
+        });
+
+        // 🎉 5. 로딩 완료 알림 (개발용, 실제 배포 시 제거)
+        console.log("🎉 개인 명함 사이트 로딩 완료!");
+        console.log("📱 반응형 테스트: 브라우저 창 크기를 조절해보세요");
+        console.log("🔗 링크 테스트: 모든 버튼과 링크를 클릭해보세요");
+      });
+    </script>
+  </body>
+</html>
