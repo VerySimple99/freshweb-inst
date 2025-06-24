@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bootstrap 4 예제 2: 반응형 그리드와 브레이크포인트</title>
+
+    <!-- 🎯 Bootstrap 4 CDN 연결 -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+    />
+
+    <style>
+      /* 📋 시각적 이해를 위한 보조 스타일 */
+      .demo-box {
+        background-color: #e3f2fd;
+        border: 2px solid #2196f3;
+        padding: 15px;
+        margin: 10px 0;
+        text-align: center;
+        border-radius: 5px;
+        min-height: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+      }
+
+      .mobile-box {
+        background-color: #ffebee;
+        border: 2px solid #f44336;
+      }
+
+      .tablet-box {
+        background-color: #fff3e0;
+        border: 2px solid #ff9800;
+      }
+
+      .desktop-box {
+        background-color: #e8f5e8;
+        border: 2px solid #4caf50;
+      }
+
+      .section-title {
+        background: linear-gradient(45deg, #007bff, #6610f2);
+        color: white;
+        padding: 15px;
+        border-radius: 8px;
+        margin: 30px 0 20px 0;
+      }
+
+      /* 🎯 브레이크포인트 시각화를 위한 표시기 */
+      .breakpoint-indicator {
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        background: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 10px;
+        border-radius: 5px;
+        font-weight: bold;
+        z-index: 1000;
+      }
+
+      /* 화면 크기별 표시기 */
+      .breakpoint-indicator::before {
+        content: "📱 XS (Extra Small)";
+      }
+
+      @media (min-width: 576px) {
+        .breakpoint-indicator::before {
+          content: "📱 SM (Small)";
+        }
+      }
+
+      @media (min-width: 768px) {
+        .breakpoint-indicator::before {
+          content: "💻 MD (Medium)";
+        }
+      }
+
+      @media (min-width: 992px) {
+        .breakpoint-indicator::before {
+          content: "🖥️ LG (Large)";
+        }
+      }
+
+      @media (min-width: 1200px) {
+        .breakpoint-indicator::before {
+          content: "🖥️ XL (Extra Large)";
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 🎯 현재 화면 크기 표시기 (우측 상단) -->
+    <div class="breakpoint-indicator"></div>
+
+    <!-- 
+    📱 반응형 그리드의 핵심 개념
+    
+    🎯 반응형(Responsive)이란?:
+    - 하나의 웹사이트가 모든 디바이스에서 최적의 모습으로 보이는 것
+    - 데스크톱, 태블릿, 모바일에서 각각 다른 레이아웃 제공
+    - 사용자가 어떤 기기를 사용하든 편리한 경험 보장
+    
+    🔍 Bootstrap 4의 5가지 브레이크포인트:
+    1. XS (Extra Small): 576px 미만 - 작은 스마트폰
+    2. SM (Small): 576px 이상 - 큰 스마트폰  
+    3. MD (Medium): 768px 이상 - 태블릿
+    4. LG (Large): 992px 이상 - 작은 노트북
+    5. XL (Extra Large): 1200px 이상 - 큰 모니터
+    
+    💡 Mobile First 철학:
+    - 가장 작은 화면부터 설계 시작
+    - 점진적으로 큰 화면에 기능 추가
+    - 성능과 사용성 모두 최적화
+    
+    📐 클래스 명명 규칙:
+    - .col-{breakpoint}-{number}
+    - 예: .col-md-6 (중간 화면 이상에서 6컬럼 차지)
+    - 브레이크포인트 생략 시 모든 크기에 적용
+    -->
+
+    <div class="container">
+      <div class="section-title">
+        <h1 class="text-center mb-0">반응형 그리드 마스터하기</h1>
+        <p class="text-center mb-0 mt-2">
+          화면 크기별로 다른 레이아웃의 마법 ✨
+        </p>
+        <p class="text-center mb-0 mt-1">
+          <small>💡 브라우저 창 크기를 조절하며 변화를 체험해보세요!</small>
+        </p>
+      </div>
+    </div>
+
+    <!-- 
+    📊 1. 브레이크포인트 이해하기
+    
+    🎯 교육 목적:
+    - 각 브레이크포인트가 실제 어떤 기기를 대상으로 하는지 이해
+    - 픽셀 크기와 실제 사용자 경험의 연결점 제공
+    - 디자인 결정 시 고려해야 할 요소들 인식
+    
+    💻 실무 활용:
+    - 구글 애널리틱스에서 사용자 기기 분석
+    - 타겟 사용자층의 주요 기기 파악
+    - 우선순위에 따른 반응형 설계 전략 수립
+    -->
+
+    <div class="container">
+      <div class="section-title">
+        <h2>📊 Bootstrap 4 브레이크포인트 지도</h2>
+        <p class="mb-0">각 화면 크기와 대상 기기 이해하기</p>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+          <thead class="thead-dark">
+            <tr>
+              <th>브레이크포인트</th>
+              <th>화면 크기</th>
+              <th>대상 기기</th>
+              <th>클래스 접두사</th>
+              <th>실제 사용 예시</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="table-danger">
+              <td><strong>XS</strong><br /><small>Extra Small</small></td>
+              <td>&lt; 576px</td>
+              <td>📱 작은 스마트폰<br /><small>iPhone SE, 갤럭시 S</small></td>
+              <td><code>.col-</code></td>
+              <td>세로 1열 배치<br />버튼 크기 최대화</td>
+            </tr>
+            <tr class="table-warning">
+              <td><strong>SM</strong><br /><small>Small</small></td>
+              <td>≥ 576px</td>
+              <td>
+                📱 큰 스마트폰<br /><small>iPhone Plus, 갤럭시 Note</small>
+              </td>
+              <td><code>.col-sm-</code></td>
+              <td>2열 카드 배치<br />네비게이션 확장</td>
+            </tr>
+            <tr class="table-info">
+              <td><strong>MD</strong><br /><small>Medium</small></td>
+              <td>≥ 768px</td>
+              <td>💻 태블릿<br /><small>iPad, 갤럭시 탭</small></td>
+              <td><code>.col-md-</code></td>
+              <td>3열 그리드<br />사이드바 등장</td>
+            </tr>
+            <tr class="table-success">
+              <td><strong>LG</strong><br /><small>Large</small></td>
+              <td>≥ 992px</td>
+              <td>🖥️ 작은 노트북<br /><small>13인치 랩톱</small></td>
+              <td><code>.col-lg-</code></td>
+              <td>4열 그리드<br />전체 메뉴 표시</td>
+            </tr>
+            <tr class="table-primary">
+              <td><strong>XL</strong><br /><small>Extra Large</small></td>
+              <td>≥ 1200px</td>
+              <td>🖥️ 큰 모니터<br /><small>데스크톱, 대형 노트북</small></td>
+              <td><code>.col-xl-</code></td>
+              <td>복잡한 레이아웃<br />멀티 컬럼</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 
+    🎨 2. 기본 반응형 그리드 체험
+    
+    🎯 Mobile First 접근법 실습:
+    - 가장 작은 화면부터 설계
+    - 큰 화면에서 점진적 향상
+    - 사용자 경험의 일관성 유지
+    
+    💡 클래스 적용 원리:
+    - .col-md-6: MD 이상에서만 6컬럼
+    - MD 미만(XS, SM)에서는 기본값(전체 너비) 적용
+    - 상위 브레이크포인트는 하위를 상속
+    
+    📱 실무 설계 사고과정:
+    1. 모바일에서는 어떻게 보일까?
+    2. 태블릿에서는 몇 개씩 배치할까?
+    3. 데스크톱에서는 어떤 레이아웃이 최적일까?
+    -->
+
+    <div class="container">
+      <div class="section-title">
+        <h2>🎨 기본 반응형 그리드 체험</h2>
+        <p class="mb-0">Mobile First 접근법으로 설계하기</p>
+      </div>
+
+      <h4 class="text-primary mb-3">📌 시나리오: 상품 카드 레이아웃</h4>
+      <div class="alert alert-info">
+        <h6 class="alert-heading">🎯 요구사항</h6>
+        <ul class="mb-0">
+          <li><strong>모바일(XS/SM):</strong> 1개씩 세로 배치 (읽기 편하게)</li>
+          <li><strong>태블릿(MD):</strong> 2개씩 가로 배치 (공간 활용)</li>
+          <li>
+            <strong>데스크톱(LG+):</strong> 3개씩 가로 배치 (정보량 최대화)
+          </li>
+        </ul>
+      </div>
+
+      <!-- 
+        🔧 클래스 조합의 마법: .col-md-6 .col-lg-4
+        
+        📱 동작 원리:
+        - XS, SM: 클래스 없음 → 기본값 col-12 (전체 너비)
+        - MD: col-md-6 적용 → 12÷6=2개씩 배치  
+        - LG+: col-lg-4 적용 → 12÷4=3개씩 배치
+        
+        💡 상속 관계:
+        - MD에서 정의한 col-md-6은 LG에서도 유지
+        - 하지만 col-lg-4가 있으면 LG부터는 이것 적용
+        - 각 브레이크포인트는 그 크기 이상에서 계속 적용
+        
+        🎯 실무 팁:
+        - 보통 2-3개 브레이크포인트만 정의해도 충분
+        - 너무 많은 브레이크포인트는 복잡성 증가
+        - 사용자 행동 패턴에 따라 우선순위 결정
+        -->
+
+      <div class="row">
+        <div class="col-md-6 col-lg-4">
+          <div class="demo-box">
+            <h5>💻 상품 A</h5>
+            <p class="mb-0">
+              <small>
+                모바일: 전체 너비<br />
+                태블릿: 1/2 너비<br />
+                데스크톱: 1/3 너비
+              </small>
+            </p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="demo-box">
+            <h5>📱 상품 B</h5>
+            <p class="mb-0">
+              <small>
+                반응형으로<br />
+                자동 배치 변경
+              </small>
+            </p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="demo-box">
+            <h5>⌚ 상품 C</h5>
+            <p class="mb-0">
+              <small>
+                사용자 기기에<br />
+                최적화된 레이아웃
+              </small>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 
+    🌈 3. 다양한 반응형 패턴 갤러리
+    
+    🎯 교육 목적:
+    - 실무에서 자주 사용하는 반응형 패턴들 제시
+    - 각 패턴의 사용 시나리오와 장단점 이해
+    - 프로젝트 상황에 맞는 패턴 선택 능력 개발
+    
+    💼 실무 적용 사례:
+    - 전자상거래: 상품 목록, 카테고리 페이지
+    - 블로그: 포스트 목록, 관련 글 추천
+    - 포트폴리오: 프로젝트 갤러리, 기술 스택
+    - 회사 소개: 팀 멤버, 서비스 소개
+    -->
+
+    <div class="container mt-5">
+      <div class="section-title">
+        <h2>🌈 실무 반응형 패턴 갤러리</h2>
+        <p class="mb-0">상황별 최적의 레이아웃 패턴</p>
+      </div>
+
+      <!-- 패턴 1: 점진적 확장 (1→2→4) -->
+      <h4 class="text-primary mb-3">📌 패턴 1: 점진적 확장 (1→2→4)</h4>
+      <div class="alert alert-success">
+        <strong>💡 사용 시나리오:</strong> 블로그 포스트, 뉴스 기사, 제품
+        카탈로그<br />
+        <strong>🎯 장점:</strong> 모든 화면에서 균형잡힌 가독성, 콘텐츠 중심
+        설계
+      </div>
+
+      <div class="row">
+        <!-- 
+            🔍 클래스 분석: .col-sm-6 .col-lg-3
+            
+            📱 동작 과정:
+            1. XS (모바일): 클래스 없음 → col-12 (1개씩)
+            2. SM (큰 모바일): col-sm-6 → col-6 (2개씩)  
+            3. MD (태블릿): col-sm-6 유지 → col-6 (2개씩)
+            4. LG+ (데스크톱): col-lg-3 → col-3 (4개씩)
+            
+            💡 왜 MD를 생략했을까?:
+            - SM에서 정의한 col-6이 MD에서도 적절
+            - 불필요한 중간 단계 생략으로 코드 간소화
+            - 태블릿에서도 2개씩이 읽기 편함
+            -->
+        <div class="col-sm-6 col-lg-3">
+          <div class="demo-box mobile-box">
+            <h6>📱 블로그 포스트 1</h6>
+            <small>모바일→태블릿→데스크톱</small>
+          </div>
+        </div>
+        <div class="col-sm-6 col-lg-3">
+          <div class="demo-box mobile-box">
+            <h6>📱 블로그 포스트 2</h6>
+            <small>점진적 확장</small>
+          </div>
+        </div>
+        <div class="col-sm-6 col-lg-3">
+          <div class="demo-box mobile-box">
+            <h6>📱 블로그 포스트 3</h6>
+            <small>사용자 친화적</small>
+          </div>
+        </div>
+        <div class="col-sm-6 col-lg-3">
+          <div class="demo-box mobile-box">
+            <h6>📱 블로그 포스트 4</h6>
+            <small>균형잡힌 레이아웃</small>
+          </div>
+        </div>
+      </div>
+
+      <!-- 패턴 2: 메인-서브 구조 -->
+      <h4 class="text-primary mb-3 mt-5">📌 패턴 2: 메인-서브 구조</h4>
+      <div class="alert alert-warning">
+        <strong>💡 사용 시나리오:</strong> 기사 본문 + 사이드바, 상품 상세 +
+        관련 상품<br />
+        <strong>🎯 장점:</strong> 정보 위계 명확, 주요 콘텐츠 강조
+      </div>
+
+      <div class="row">
+        <!-- 
+            🏢 메인 콘텐츠: .col-md-8
+            
+            📐 설계 철학:
+            - 메인 콘텐츠가 전체의 2/3(66%) 차지
+            - 충분한 읽기 공간 확보
+            - 모바일에서는 전체 너비로 우선 표시
+            
+            📱 반응형 동작:
+            - XS, SM: 전체 너비 (메인 콘텐츠 우선)
+            - MD+: 8컬럼 (사이드바와 함께 배치)
+            -->
+        <div class="col-md-8">
+          <div class="demo-box desktop-box">
+            <h5>📄 메인 콘텐츠</h5>
+            <p class="mb-0">
+              기사 본문, 상품 상세 정보<br />
+              <small>모바일: 전체 → 태블릿+: 66%</small>
+            </p>
+          </div>
+        </div>
+
+        <!-- 
+            📋 사이드바: .col-md-4
+            
+            🎯 역할과 기능:
+            - 관련 정보, 광고, 추천 콘텐츠
+            - 전체의 1/3(33%) 차지
+            - 보조 정보의 적절한 비중
+            
+            📱 모바일 우선 순위:
+            - 메인 콘텐츠 먼저 표시
+            - 사이드바는 아래쪽에 배치
+            - 사용자가 주요 정보부터 접근
+            -->
+        <div class="col-md-4">
+          <div class="demo-box tablet-box">
+            <h5>📋 사이드바</h5>
+            <p class="mb-0">
+              관련 링크, 광고<br />
+              <small>모바일: 아래쪽 → 태블릿+: 옆쪽</small>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 패턴 3: 모바일 전용 레이아웃 -->
+      <h4 class="text-primary mb-3 mt-5">📌 패턴 3: 화면별 완전 다른 배치</h4>
+      <div class="alert alert-info">
+        <strong>💡 사용 시나리오:</strong> 팀 소개, 서비스 특징, 포트폴리오
+        갤러리<br />
+        <strong>🎯 장점:</strong> 각 화면 크기에 최적화된 사용자 경험
+      </div>
+
+      <div class="row">
+        <!-- 
+            🎨 복합 클래스: .col-12 .col-sm-6 .col-md-4 .col-lg-3
+            
+            📱 완전한 반응형 시나리오:
+            - XS: col-12 (1개씩, 세로 스크롤)
+            - SM: col-sm-6 (2개씩, 터치 최적화)  
+            - MD: col-md-4 (3개씩, 태블릿 활용)
+            - LG+: col-lg-3 (4개씩, 데스크톱 최대화)
+            
+            🎯 언제 이런 복잡한 설정을 사용할까?:
+            - 팀 멤버 소개 (프로필 카드)
+            - 상품 카테고리 (동일한 중요도)
+            - 서비스 특징 (균등한 정보량)
+            
+            💡 주의사항:
+            - 너무 복잡한 설정은 유지보수 어려움
+            - 실제로는 2-3개 브레이크포인트만 사용하는 경우가 많음
+            - 사용자 테스트를 통한 검증 필요
+            -->
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+          <div class="demo-box">
+            <h6>👨‍💻 팀원 A</h6>
+            <small>모든 화면 최적화</small>
+          </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+          <div class="demo-box">
+            <h6>👩‍🎨 팀원 B</h6>
+            <small>반응형 완전체</small>
+          </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+          <div class="demo-box">
+            <h6>👨‍🔬 팀원 C</h6>
+            <small>사용자 경험 최우선</small>
+          </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+          <div class="demo-box">
+            <h6>👩‍💼 팀원 D</h6>
+            <small>모든 기기 대응</small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 
+    🛠️ 4. 실무 팁과 베스트 프랙티스
+    
+    🎯 교육 목적:
+    - 이론을 넘어선 실제 프로젝트 경험 공유
+    - 자주 하는 실수와 해결방법 제시
+    - 성능과 사용성을 모두 고려한 설계 방법
+    
+    💼 실무에서 겪는 실제 상황들:
+    - 기획자와 디자이너와의 소통
+    - 다양한 기기에서의 테스트
+    - 성능 최적화와 사용자 경험의 균형
+    -->
+
+    <div class="container mt-5">
+      <div class="section-title">
+        <h2>🛠️ 실무 팁 & 베스트 프랙티스</h2>
+        <p class="mb-0">프로젝트에서 바로 써먹는 노하우</p>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="card h-100">
+            <div class="card-header bg-success text-white">
+              <h5 class="mb-0">✅ 좋은 관례 (Best Practices)</h5>
+            </div>
+            <div class="card-body">
+              <ul class="list-unstyled">
+                <li class="mb-2">
+                  <strong>📱 Mobile First 설계</strong><br />
+                  <small>가장 제약이 많은 환경부터 시작</small>
+                </li>
+                <li class="mb-2">
+                  <strong>🎯 핵심 브레이크포인트만 사용</strong><br />
+                  <small>보통 SM, MD, LG 정도면 충분</small>
+                </li>
+                <li class="mb-2">
+                  <strong>📊 실제 사용자 데이터 기반 결정</strong><br />
+                  <small>구글 애널리틱스 기기 분석 활용</small>
+                </li>
+                <li class="mb-2">
+                  <strong>🔄 점진적 향상 (Progressive Enhancement)</strong
+                  ><br />
+                  <small>기본 기능 → 고급 기능 순서</small>
+                </li>
+                <li class="mb-0">
+                  <strong>🧪 실기기 테스트</strong><br />
+                  <small>개발자 도구 + 실제 디바이스 병행</small>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="card h-100">
+            <div class="card-header bg-danger text-white">
+              <h5 class="mb-0">❌ 피해야 할 실수들</h5>
+            </div>
+            <div class="card-body">
+              <ul class="list-unstyled">
+                <li class="mb-2">
+                  <strong>🚫 Desktop First 설계</strong><br />
+                  <small>모바일에서 사용하기 어려운 결과</small>
+                </li>
+                <li class="mb-2">
+                  <strong>🚫 모든 브레이크포인트 정의</strong><br />
+                  <small>복잡성만 증가, 유지보수 어려움</small>
+                </li>
+                <li class="mb-2">
+                  <strong>🚫 콘텐츠 우선순위 무시</strong><br />
+                  <small>모바일에서 중요한 정보가 아래쪽에</small>
+                </li>
+                <li class="mb-2">
+                  <strong>🚫 터치 영역 크기 간과</strong><br />
+                  <small>버튼이나 링크가 너무 작아서 클릭 어려움</small>
+                </li>
+                <li class="mb-0">
+                  <strong>🚫 성능 최적화 무시</strong><br />
+                  <small>모바일 데이터 환경 고려하지 않음</small>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 
+    🚀 5. 종합 실습: 반응형 랜딩 페이지
+    
+    🎯 교육 목적:
+    - 지금까지 배운 모든 개념을 하나의 완성된 예제로 통합
+    - 실제 프로젝트와 유사한 구조로 실무 감각 개발
+    - 각 섹션별로 다른 반응형 패턴 적용 연습
+    
+    💼 실무 시나리오:
+    - 스타트업 회사 소개 페이지
+    - 서비스 특징, 팀 소개, 연락처 포함
+    - 모든 기기에서 완벽한 사용자 경험 제공
+    -->
+
+    <div class="container mt-5">
+      <div class="section-title">
+        <h2>🚀 종합 실습: 스타트업 랜딩 페이지</h2>
+        <p class="mb-0">모든 반응형 패턴을 활용한 완성된 예제</p>
+      </div>
+
+      <!-- 
+        🎪 히어로 섹션: 전체 너비 + 중앙 정렬
+        
+        🎯 설계 의도:
+        - 모든 화면에서 임팩트 있는 첫인상
+        - 핵심 메시지를 명확하고 간결하게 전달
+        - CTA(Call To Action) 버튼으로 사용자 행동 유도
+        
+        📱 반응형 고려사항:
+        - 모바일: 텍스트 크기 조절, 버튼 터치 최적화
+        - 태블릿: 적당한 여백과 시각적 균형
+        - 데스크톱: 충분한 공간 활용, 시각적 임팩트
+        -->
+      <section class="hero-section mb-5">
+        <div class="row">
+          <div class="col-12">
+            <div class="demo-box bg-primary text-white">
+              <h2 class="h1">🚀 TechStart</h2>
+              <p class="lead">혁신적인 기술로 미래를 만들어갑니다</p>
+              <button class="btn btn-light btn-lg mr-2">무료 체험</button>
+              <button class="btn btn-outline-light btn-lg">더 알아보기</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 
+        🌟 서비스 특징: 1→2→3 점진적 확장
+        
+        📐 레이아웃 전략:
+        - 모바일: 1개씩 (집중도 최대화)
+        - 태블릿: 2개씩 (공간 효율성)
+        - 데스크톱: 3개씩 (정보량 최적화)
+        
+        💡 콘텐츠 배치 원칙:
+        - 가장 중요한 특징을 첫 번째에 배치
+        - 각 특징의 비중은 동일하게 처리
+        - 시각적 일관성 유지
+        -->
+      <section class="features-section mb-5">
+        <div class="row">
+          <div class="col-12 mb-4">
+            <h3 class="text-center text-primary">🌟 핵심 서비스</h3>
+            <p class="text-center text-muted">
+              차별화된 기술력으로 고객의 성공을 지원합니다
+            </p>
+          </div>
+        </div>
+
+        <div class="row">
+          <!-- 
+                🔧 특징 1: AI 솔루션
+                클래스: .col-md-6 .col-lg-4
+                - XS/SM: 전체 너비 (모바일 최적화)
+                - MD: 6컬럼 = 50% (태블릿에서 2개씩)
+                - LG+: 4컬럼 = 33% (데스크톱에서 3개씩)
+                -->
+          <div class="col-md-6 col-lg-4 mb-4">
+            <div class="demo-box">
+              <h4>🤖 AI 솔루션</h4>
+              <p class="mb-0">
+                머신러닝 기반의<br />
+                지능형 데이터 분석<br />
+                <small class="text-muted">모바일→태블릿→데스크톱 최적화</small>
+              </p>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-4 mb-4">
+            <div class="demo-box">
+              <h4>☁️ 클라우드 서비스</h4>
+              <p class="mb-0">
+                안전하고 빠른<br />
+                클라우드 인프라<br />
+                <small class="text-muted">확장성과 안정성 보장</small>
+              </p>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-4 mb-4">
+            <div class="demo-box">
+              <h4>📱 모바일 앱</h4>
+              <p class="mb-0">
+                iOS/Android<br />
+                네이티브 앱 개발<br />
+                <small class="text-muted">사용자 중심 UX/UI</small>
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 
+        👥 팀 소개: 2→4 확장 패턴
+        
+        🎯 설계 철학:
+        - 팀원들의 동등한 중요도 표현
+        - 모바일에서도 충분한 정보 전달
+        - 데스크톱에서 효율적인 공간 활용
+        
+        📱 사용자 경험 고려:
+        - 모바일: 2개씩 배치로 스크롤 최소화
+        - 데스크톱: 4개씩 배치로 정보 밀도 최적화
+        - 각 팀원의 정보량은 동일하게 유지
+        -->
+      <section class="team-section mb-5">
+        <div class="row">
+          <div class="col-12 mb-4">
+            <h3 class="text-center text-primary">👥 우리 팀</h3>
+            <p class="text-center text-muted">
+              다양한 경험을 가진 전문가들이 함께합니다
+            </p>
+          </div>
+        </div>
+
+        <div class="row">
+          <!-- 
+                👨‍💻 팀원 카드들
+                클래스: .col-sm-6 .col-lg-3
+                - XS: 전체 너비 (1개씩, 세로 스크롤)
+                - SM+: 6컬럼 = 50% (2개씩 배치)
+                - LG+: 3컬럼 = 25% (4개씩 배치)
+                
+                💡 MD를 생략한 이유:
+                - SM에서 정의한 2개씩 배치가 태블릿에서도 적절
+                - 과도한 브레이크포인트 정의 방지
+                - 코드 간소화와 유지보수성 향상
+                -->
+          <div class="col-sm-6 col-lg-3 mb-3">
+            <div class="demo-box tablet-box">
+              <h5>👨‍💻 김개발</h5>
+              <p class="mb-0">
+                <strong>Frontend Developer</strong><br />
+                React, Vue.js 전문<br />
+                <small>5년 경력</small>
+              </p>
+            </div>
+          </div>
+
+          <div class="col-sm-6 col-lg-3 mb-3">
+            <div class="demo-box tablet-box">
+              <h5>👩‍🎨 박디자인</h5>
+              <p class="mb-0">
+                <strong>UX/UI Designer</strong><br />
+                사용자 중심 설계<br />
+                <small>7년 경력</small>
+              </p>
+            </div>
+          </div>
+
+          <div class="col-sm-6 col-lg-3 mb-3">
+            <div class="demo-box tablet-box">
+              <h5>👨‍🔬 이백엔드</h5>
+              <p class="mb-0">
+                <strong>Backend Developer</strong><br />
+                Node.js, Python<br />
+                <small>6년 경력</small>
+              </p>
+            </div>
+          </div>
+
+          <div class="col-sm-6 col-lg-3 mb-3">
+            <div class="demo-box tablet-box">
+              <h5>👩‍💼 최기획</h5>
+              <p class="mb-0">
+                <strong>Product Manager</strong><br />
+                전략 기획 및 분석<br />
+                <small>8년 경력</small>
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 
+        📞 연락처 섹션: 메인-서브 구조
+        
+        🎯 정보 위계:
+        - 메인(col-md-8): 회사 정보, 주요 연락처
+        - 서브(col-md-4): 추가 정보, 소셜 미디어
+        
+        📱 모바일 우선순위:
+        - 연락처 정보를 먼저 표시
+        - 추가 정보는 아래쪽에 배치
+        - 전화번호, 이메일 등 액션 가능한 정보 강조
+        -->
+      <section class="contact-section">
+        <div class="row">
+          <div class="col-12 mb-4">
+            <h3 class="text-center text-primary">📞 연락처</h3>
+            <p class="text-center text-muted">언제든지 편하게 연락주세요</p>
+          </div>
+        </div>
+
+        <div class="row">
+          <!-- 메인 연락처 정보 -->
+          <div class="col-md-8 mb-4">
+            <div class="demo-box desktop-box">
+              <h4>🏢 회사 정보</h4>
+              <p class="mb-2">
+                <strong>📍 주소:</strong> 서울시 강남구 테헤란로 123<br />
+                <strong>📞 전화:</strong> 02-1234-5678<br />
+                <strong>📧 이메일:</strong> contact@techstart.co.kr<br />
+                <strong>🕒 운영시간:</strong> 평일 09:00 - 18:00
+              </p>
+              <div class="mt-3">
+                <button class="btn btn-primary mr-2">상담 신청</button>
+                <button class="btn btn-outline-primary">
+                  카탈로그 다운로드
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 추가 정보 -->
+          <div class="col-md-4 mb-4">
+            <div class="demo-box mobile-box">
+              <h5>🌐 소셜 미디어</h5>
+              <p class="mb-2">
+                📘 Facebook<br />
+                📷 Instagram<br />
+                💼 LinkedIn<br />
+                🐦 Twitter
+              </p>
+              <hr />
+              <p class="mb-0">
+                <small>
+                  <strong>💡 빠른 응답:</strong><br />
+                  카카오톡 채널<br />
+                  @techstart
+                </small>
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- 
+    📚 6. 핵심 정리 및 실무 체크리스트
+    
+    🎯 학습 마무리:
+    - 오늘 배운 핵심 개념들 정리
+    - 실무에서 바로 적용할 수 있는 체크리스트 제공
+    - 다음 학습 단계로의 자연스러운 연결
+    
+    💡 기억해야 할 핵심:
+    - Mobile First 사고방식
+    - 적절한 브레이크포인트 선택
+    - 콘텐츠 우선순위 고려
+    -->
+
+    <div class="container mt-5 mb-5">
+      <div class="alert alert-success">
+        <h4 class="alert-heading">🎯 오늘의 핵심 정리</h4>
+        <hr />
+        <div class="row">
+          <div class="col-md-6">
+            <h6 class="text-success">📱 반응형 설계 원칙</h6>
+            <ul>
+              <li><strong>Mobile First:</strong> 작은 화면부터 설계</li>
+              <li><strong>점진적 향상:</strong> 큰 화면에 기능 추가</li>
+              <li><strong>콘텐츠 우선순위:</strong> 중요한 정보 먼저</li>
+              <li><strong>사용자 행동:</strong> 각 기기별 사용 패턴 고려</li>
+            </ul>
+          </div>
+          <div class="col-md-6">
+            <h6 class="text-success">🔧 실무 체크리스트</h6>
+            <ul>
+              <li><strong>브레이크포인트:</strong> 2-3개만 핵심적으로</li>
+              <li><strong>터치 영역:</strong> 최소 44px 이상</li>
+              <li><strong>테스트:</strong> 실제 디바이스에서 확인</li>
+              <li><strong>성능:</strong> 모바일 데이터 환경 고려</li>
+            </ul>
+          </div>
+        </div>
+        <hr />
+        <div class="row">
+          <div class="col-12">
+            <h6 class="text-success">📊 주요 패턴 요약</h6>
+            <div class="table-responsive">
+              <table class="table table-sm">
+                <thead>
+                  <tr>
+                    <th>패턴</th>
+                    <th>클래스 예시</th>
+                    <th>용도</th>
+                    <th>특징</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>점진적 확장</td>
+                    <td><code>.col-sm-6 .col-lg-3</code></td>
+                    <td>상품 목록, 블로그</td>
+                    <td>1→2→4 단계 확장</td>
+                  </tr>
+                  <tr>
+                    <td>메인-서브</td>
+                    <td><code>.col-md-8</code> + <code>.col-md-4</code></td>
+                    <td>기사+사이드바</td>
+                    <td>2:1 비율, 정보 위계</td>
+                  </tr>
+                  <tr>
+                    <td>완전 반응형</td>
+                    <td><code>.col-12 .col-sm-6 .col-md-4 .col-lg-3</code></td>
+                    <td>팀 소개, 갤러리</td>
+                    <td>모든 화면 최적화</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <hr />
+        <p class="mb-0">
+          <strong>🚀 다음 시간:</strong>
+          네비게이션 바와 카드 컴포넌트로 더욱 전문적인 UI 만들기
+        </p>
+      </div>
+    </div>
+
+    <!-- Bootstrap 4 JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

@@ -1,0 +1,1376 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bootstrap 4 예제 3: 네비게이션과 카드 컴포넌트</title>
+    
+    <!-- 🎯 Bootstrap 4 CDN 연결 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    
+    <style>
+        /* 📋 시각적 이해를 위한 보조 스타일 */
+        .section-title {
+            background: linear-gradient(45deg, #007bff, #6610f2);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 30px 0 20px 0;
+        }
+        
+        .demo-navbar {
+            margin-bottom: 20px;
+        }
+        
+        /* 🎨 카드 호버 효과 (선택적 향상) */
+        .hover-card {
+            transition: transform 0.2s ease-in-out;
+        }
+        
+        .hover-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        /* 📱 반응형 테스트를 위한 표시기 */
+        .breakpoint-info {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 5px;
+            font-size: 12px;
+            z-index: 1000;
+        }
+        
+        .breakpoint-info::before {
+            content: "📱 XS";
+        }
+        
+        @media (min-width: 576px) {
+            .breakpoint-info::before { content: "📱 SM"; }
+        }
+        
+        @media (min-width: 768px) {
+            .breakpoint-info::before { content: "💻 MD"; }
+        }
+        
+        @media (min-width: 992px) {
+            .breakpoint-info::before { content: "🖥️ LG"; }
+        }
+        
+        @media (min-width: 1200px) {
+            .breakpoint-info::before { content: "🖥️ XL"; }
+        }
+        
+        /* 코드 예시 스타일링 */
+        .code-example {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 🎯 현재 화면 크기 표시기 -->
+    <div class="breakpoint-info"></div>
+    
+    <!-- 
+    🧭 네비게이션 컴포넌트의 핵심 개념
+    
+    🎯 네비게이션의 중요성:
+    - 웹사이트의 정보 구조를 사용자에게 명확히 전달
+    - 사용자가 원하는 페이지로 쉽게 이동할 수 있도록 안내
+    - 브랜드 아이덴티티와 사용자 경험의 첫 접점
+    - SEO에도 중요한 영향 (크롤링, 사이트 구조 이해)
+    
+    🏗️ Bootstrap Navbar 구조:
+    1. .navbar: 기본 네비게이션 컨테이너
+    2. .navbar-brand: 로고나 사이트명 영역
+    3. .navbar-nav: 메뉴 링크들을 담는 컨테이너
+    4. .navbar-toggler: 모바일 햄버거 메뉴 버튼
+    5. .collapse .navbar-collapse: 반응형으로 숨겨지는 메뉴 영역
+    
+    📱 반응형 네비게이션 철학:
+    - 데스크톱: 모든 메뉴를 수평으로 표시
+    - 모바일: 햄버거 메뉴로 공간 절약, 세로 메뉴
+    - 터치 친화적: 충분한 터치 영역과 간격
+    - 접근성: 키보드 네비게이션과 스크린 리더 지원
+    -->
+    
+    <div class="container-fluid">
+        <div class="section-title">
+            <h1 class="text-center mb-0">Bootstrap 4 컴포넌트 마스터하기</h1>
+            <p class="text-center mb-0 mt-2">네비게이션과 카드로 만드는 전문적인 UI ✨</p>
+        </div>
+    </div>
+
+    <!-- 
+    📊 1. 네비게이션 바 기본 구조
+    
+    🎯 교육 목적:
+    - 네비게이션의 기본 구조와 각 요소의 역할 이해
+    - 반응형 동작 원리 체험
+    - 브랜드와 메뉴의 조화로운 배치 학습
+    
+    💡 .navbar-expand-lg의 의미:
+    - LG(992px) 이상에서만 메뉴 확장
+    - 그 미만에서는 햄버거 메뉴로 축소
+    - expand-sm, expand-md, expand-xl 등 다양한 옵션
+    
+    🎨 색상 테마:
+    - .navbar-light: 밝은 배경용 (어두운 텍스트)
+    - .navbar-dark: 어두운 배경용 (밝은 텍스트)
+    - bg-light, bg-dark, bg-primary 등과 조합
+    -->
+    
+    <!-- 기본 네비게이션 바 예시 -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light demo-navbar">
+        <!-- 
+        🏢 브랜드 영역 (.navbar-brand)
+        
+        🎯 브랜드의 역할:
+        - 사이트의 정체성을 명확히 표현
+        - 홈페이지로 돌아가는 기본 링크 역할
+        - 로고 이미지 또는 텍스트 로고 배치
+        - 모든 화면 크기에서 항상 보임
+        
+        📐 크기와 배치:
+        - 적절한 크기로 다른 요소들과 균형
+        - 왼쪽에 배치하는 것이 일반적
+        - 클릭 가능한 링크로 구현
+        -->
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <strong>🏢 MyCompany</strong>
+            </a>
+            
+            <!-- 
+            🍔 모바일 토글 버튼 (.navbar-toggler)
+            
+            🎯 햄버거 메뉴의 필요성:
+            - 모바일 화면의 제한된 공간 해결
+            - 깔끔한 모바일 인터페이스 구현
+            - 사용자가 필요할 때만 메뉴 표시
+            
+            🔧 JavaScript 연동:
+            - data-toggle="collapse": Bootstrap JS가 자동 처리
+            - data-target="#navbarNav": 토글할 대상 지정
+            - aria-controls, aria-expanded: 접근성 지원
+            
+            💡 토글 버튼 커스터마이징:
+            - .navbar-toggler-icon: 기본 햄버거 아이콘
+            - 아이콘 변경 시 CSS나 아이콘 폰트 활용
+            - 버튼 위치나 스타일 조정 가능
+            -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <!-- 
+            📱 반응형 메뉴 영역 (.collapse .navbar-collapse)
+            
+            🔄 반응형 동작 원리:
+            - 큰 화면: 자동으로 표시 (collapse 무시)
+            - 작은 화면: 기본적으로 숨김 (collapse 적용)
+            - 토글 버튼 클릭 시 show/hide 전환
+            
+            🎯 메뉴 구성 요소:
+            1. .navbar-nav: 메뉴 항목들의 컨테이너
+            2. .nav-item: 각각의 메뉴 항목
+            3. .nav-link: 실제 링크 요소
+            4. .ml-auto: 오른쪽 정렬 (margin-left: auto)
+            -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <!-- 
+                    🏠 메뉴 항목들
+                    
+                    💡 .active 클래스:
+                    - 현재 페이지를 나타내는 시각적 표시
+                    - 사용자가 현재 위치를 쉽게 파악
+                    - JavaScript로 동적 변경 가능
+                    
+                    🎨 .nav-link 스타일링:
+                    - Bootstrap이 자동으로 스타일 적용
+                    - hover, focus 상태 포함
+                    - 터치 친화적인 크기와 간격
+                    -->
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">홈 <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">서비스</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">회사소개</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">연락처</a>
+                    </li>
+                    <!-- 
+                    🎯 추가 요소: 버튼이나 검색창
+                    
+                    💼 실무 활용:
+                    - 로그인/회원가입 버튼
+                    - 검색 입력창
+                    - 언어 선택 드롭다운
+                    - 사용자 프로필 메뉴
+                    -->
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-outline-primary ml-2 px-3" href="#">로그인</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="section-title">
+            <h2>🧭 네비게이션 바 다양한 스타일</h2>
+            <p class="mb-0">상황에 맞는 네비게이션 디자인 선택</p>
+        </div>
+        
+        <!-- 
+        🎨 다양한 네비게이션 스타일 갤러리
+        
+        🎯 교육 목적:
+        - 동일한 구조로 다양한 시각적 변화 가능함을 체험
+        - 브랜드 컬러와 사이트 성격에 맞는 선택 기준 이해
+        - 사용자 경험과 시각적 임팩트의 균형점 학습
+        
+        💼 실무 선택 기준:
+        - 브랜드 아이덴티티와 일치
+        - 타겟 사용자층의 선호도
+        - 콘텐츠와의 조화
+        - 접근성과 가독성
+        -->
+        
+        <!-- 어두운 테마 네비게이션 -->
+        <h4 class="text-primary mt-4">📌 어두운 테마 (Dark Theme)</h4>
+        <div class="alert alert-info">
+            <strong>💡 사용 시나리오:</strong> 기술 회사, 게이밍, 프리미엄 브랜드<br>
+            <strong>🎯 장점:</strong> 모던하고 전문적인 느낌, 눈의 피로 감소
+        </div>
+        
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-3">
+            <div class="container">
+                <a class="navbar-brand" href="#"><strong>🚀 TechCorp</strong></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#darkNavbar">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="darkNavbar">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item"><a class="nav-link" href="#">제품</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">솔루션</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">지원</a></li>
+                        <li class="nav-item">
+                            <a class="nav-link btn btn-outline-light ml-2 px-3" href="#">무료체험</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- 브랜드 컬러 네비게이션 -->
+        <h4 class="text-primary mt-4">📌 브랜드 컬러 (Primary Theme)</h4>
+        <div class="alert alert-success">
+            <strong>💡 사용 시나리오:</strong> 스타트업, 창조적 업종, 젊은 타겟<br>
+            <strong>🎯 장점:</strong> 강한 브랜드 인상, 기억에 남는 색상
+        </div>
+        
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-3">
+            <div class="container">
+                <a class="navbar-brand" href="#"><strong>🎨 CreativeStudio</strong></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#primaryNavbar">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="primaryNavbar">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item"><a class="nav-link" href="#">포트폴리오</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">서비스</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">팀</a></li>
+                        <li class="nav-item">
+                            <a class="nav-link btn btn-light text-primary ml-2 px-3" href="#">상담신청</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- 투명/고정 네비게이션 컨셉 -->
+        <h4 class="text-primary mt-4">📌 투명 배경 (Transparent)</h4>
+        <div class="alert alert-warning">
+            <strong>💡 사용 시나리오:</strong> 랜딩 페이지, 포트폴리오, 이미지 중심 사이트<br>
+            <strong>🎯 장점:</strong> 콘텐츠와 자연스럽게 어우러짐, 공간 효율성
+        </div>
+        
+        <nav class="navbar navbar-expand-lg navbar-light" style="background-color: rgba(255,255,255,0.9); backdrop-filter: blur(10px);">
+            <div class="container">
+                <a class="navbar-brand" href="#"><strong>📷 Portfolio</strong></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#transparentNavbar">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="transparentNavbar">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item"><a class="nav-link" href="#">작품</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">소개</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">연락</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <!-- 
+    🃏 2. 카드 컴포넌트의 세계
+    
+    🎯 카드 컴포넌트의 철학:
+    - 관련된 정보를 하나의 시각적 단위로 묶기
+    - 스캔 가능한 정보 구조 제공
+    - 일관된 디자인으로 사용자 경험 향상
+    - 다양한 콘텐츠 타입에 유연하게 적용
+    
+    🏗️ Bootstrap Card 구조:
+    1. .card: 기본 카드 컨테이너
+    2. .card-header: 상단 헤더 영역 (선택적)
+    3. .card-body: 주요 콘텐츠 영역
+    4. .card-title: 카드 제목
+    5. .card-text: 카드 본문 텍스트
+    6. .card-footer: 하단 푸터 영역 (선택적)
+    
+    💼 실무 활용 사례:
+    - 블로그 포스트 카드
+    - 상품 목록 카드
+    - 팀 멤버 소개 카드
+    - 서비스/기능 소개 카드
+    - 뉴스 기사 카드
+    - 가격 표시 카드
+    -->
+    
+    <div class="container mt-5">
+        <div class="section-title">
+            <h2>🃏 카드 컴포넌트 마스터하기</h2>
+            <p class="mb-0">정보를 아름답게 담는 카드의 마법</p>
+        </div>
+        
+        <!-- 기본 카드 구조 설명 -->
+        <div class="row">
+            <div class="col-md-6">
+                <h4 class="text-primary">📌 기본 카드 구조</h4>
+                <div class="card">
+                    <!-- 
+                    🎪 카드 헤더 (.card-header)
+                    
+                    🎯 헤더의 역할:
+                    - 카드의 카테고리나 타입 표시
+                    - 날짜, 태그, 상태 정보
+                    - 시각적 구분과 정보 위계 형성
+                    
+                    💡 언제 사용할까?:
+                    - 블로그 포스트: 카테고리나 발행일
+                    - 상품 카드: 브랜드나 할인 정보
+                    - 뉴스 카드: 언론사나 섹션
+                    -->
+                    <div class="card-header">
+                        <small class="text-muted">📅 2025년 1월 15일</small>
+                    </div>
+                    
+                    <!-- 
+                    📦 카드 바디 (.card-body)
+                    
+                    🏠 카드의 핵심 거주 공간:
+                    - 가장 중요한 콘텐츠가 들어가는 영역
+                    - 제목, 본문, 버튼 등 주요 요소 포함
+                    - 적절한 패딩으로 읽기 편한 공간 제공
+                    
+                    🎨 내부 구성 요소:
+                    - .card-title: 카드의 주제목
+                    - .card-subtitle: 부제목 (선택적)
+                    - .card-text: 본문 내용
+                    - 버튼이나 링크: 행동 유도 요소
+                    -->
+                    <div class="card-body">
+                        <h5 class="card-title">카드 제목</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">부제목</h6>
+                        <p class="card-text">
+                            카드의 본문 내용이 들어갑니다. 
+                            적절한 길이로 핵심 정보를 전달합니다.
+                        </p>
+                        <a href="#" class="btn btn-primary">자세히 보기</a>
+                        <a href="#" class="btn btn-outline-secondary">공유</a>
+                    </div>
+                    
+                    <!-- 
+                    👣 카드 푸터 (.card-footer)
+                    
+                    🎯 푸터의 용도:
+                    - 메타 정보나 부가 정보
+                    - 작은 액션 버튼들
+                    - 통계나 상태 정보
+                    
+                    💡 실무 활용:
+                    - 블로그: 조회수, 댓글 수, 좋아요
+                    - 상품: 가격, 평점, 리뷰 수
+                    - 프로젝트: 참여자, 진행률, 마감일
+                    -->
+                    <div class="card-footer text-muted">
+                        <small>👀 조회 1,234회 | ❤️ 좋아요 56개</small>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <h4 class="text-primary">📝 카드 구조 코드</h4>
+                <div class="code-example">
+&lt;div class="card"&gt;
+  &lt;div class="card-header"&gt;
+    헤더 내용
+  &lt;/div&gt;
+  
+  &lt;div class="card-body"&gt;
+    &lt;h5 class="card-title"&gt;제목&lt;/h5&gt;
+    &lt;h6 class="card-subtitle"&gt;부제목&lt;/h6&gt;
+    &lt;p class="card-text"&gt;본문&lt;/p&gt;
+    &lt;a href="#" class="btn btn-primary"&gt;
+      버튼
+    &lt;/a&gt;
+  &lt;/div&gt;
+  
+  &lt;div class="card-footer"&gt;
+    푸터 내용
+  &lt;/div&gt;
+&lt;/div&gt;
+                </div>
+                
+                <div class="alert alert-info mt-3">
+                    <h6 class="alert-heading">💡 카드 사용 팁</h6>
+                    <ul class="mb-0 small">
+                        <li><strong>일관성:</strong> 같은 용도의 카드는 동일한 구조</li>
+                        <li><strong>간결성:</strong> 핵심 정보만 포함</li>
+                        <li><strong>액션:</strong> 명확한 다음 단계 제시</li>
+                        <li><strong>시각적 위계:</strong> 제목 > 내용 > 액션 순서</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 
+    🎨 3. 다양한 카드 스타일과 활용법
+    
+    🎯 교육 목적:
+    - 동일한 정보를 다양한 카드 스타일로 표현하는 방법
+    - 콘텐츠 성격에 따른 적절한 카드 선택 기준
+    - 이미지, 텍스트, 버튼의 조화로운 배치
+    
+    💼 실무 시나리오별 카드 선택:
+    - 블로그/뉴스: 이미지 + 제목 + 요약 + 메타정보
+    - 상품 목록: 이미지 + 이름 + 가격 + 구매버튼
+    - 팀 소개: 프로필 + 이름 + 직책 + 소개
+    - 서비스 소개: 아이콘 + 제목 + 설명 + 링크
+    -->
+    
+    <div class="container mt-5">
+        <div class="section-title">
+            <h2>🎨 실무 카드 갤러리</h2>
+            <p class="mb-0">상황별 최적의 카드 디자인 패턴</p>
+        </div>
+        
+        <!-- 블로그/뉴스 카드 스타일 -->
+        <h4 class="text-primary mb-3">📌 블로그/뉴스 카드</h4>
+        <div class="alert alert-info">
+            <strong>💡 특징:</strong> 이미지 + 제목 + 요약 + 메타정보<br>
+            <strong>🎯 목적:</strong> 클릭을 유도하여 전체 글로 이동
+        </div>
+        
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <!-- 
+                🖼️ 이미지가 있는 카드
+                
+                🎯 .card-img-top의 특징:
+                - 카드 상단에 배치되는 이미지
+                - 카드 너비에 맞춰 자동 조절
+                - border-radius로 카드와 일체감 형성
+                
+                📱 반응형 이미지 고려사항:
+                - 다양한 화면에서 일관된 비율 유지
+                - 로딩 성능을 위한 적절한 이미지 크기
+                - alt 속성으로 접근성 확보
+                
+                💡 실무 팁:
+                - 이미지 비율 일관성 (16:9, 4:3 등)
+                - placeholder 이미지 준비
+                - 이미지 로딩 실패 시 대안 준비
+                -->
+                <div class="card hover-card">
+                    <img src="https://via.placeholder.com/400x200/007bff/ffffff?text=Tech+News" 
+                         class="card-img-top" alt="기술 뉴스">
+                    <div class="card-body">
+                        <h5 class="card-title">AI 기술의 미래 전망</h5>
+                        <p class="card-text">
+                            인공지능 기술이 우리 일상에 미치는 영향과 
+                            앞으로의 발전 방향에 대해 알아봅니다.
+                        </p>
+                        <small class="text-muted">
+                            <i class="fas fa-calendar"></i> 2025.01.15 | 
+                            <i class="fas fa-user"></i> 김기자
+                        </small>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-outline-primary btn-sm">전체 기사 읽기</a>
+                        <span class="float-right">
+                            <small class="text-muted">👀 987</small>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+                <div class="card hover-card">
+                    <img src="https://via.placeholder.com/400x200/ffc107/000000?text=Business" 
+                         class="card-img-top" alt="비즈니스">
+                    <div class="card-body">
+                        <h5 class="card-title">스타트업 성공 전략</h5>
+                        <p class="card-text">
+                            성공한 스타트업들의 공통점과 
+                            초기 단계에서 주의해야 할 요소들을 분석합니다.
+                        </p>
+                        <small class="text-muted">
+                            <i class="fas fa-calendar"></i> 2025.01.08 | 
+                            <i class="fas fa-user"></i> 이대표
+                        </small>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-outline-primary btn-sm">전체 기사 읽기</a>
+                        <span class="float-right">
+                            <small class="text-muted">👀 2,156</small>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 상품 카드 스타일 -->
+        <h4 class="text-primary mb-3 mt-5">📌 상품/서비스 카드</h4>
+        <div class="alert alert-success">
+            <strong>💡 특징:</strong> 이미지 + 제품명 + 가격 + 구매버튼<br>
+            <strong>🎯 목적:</strong> 상품 정보 제공 및 구매 전환 유도
+        </div>
+        
+        <div class="row">
+            <!-- 
+            🛒 상품 카드의 핵심 요소들
+            
+            🎯 상품 카드 설계 원칙:
+            - 상품 이미지가 가장 중요 (첫인상 결정)
+            - 가격 정보는 명확하고 눈에 띄게
+            - 구매 버튼은 시각적으로 강조
+            - 추가 정보는 간결하게 (평점, 리뷰 등)
+            
+            💰 가격 표시 전략:
+            - 할인가가 있으면 원가 취소선 + 할인가 강조
+            - 무료 배송, 할인율 등 혜택 정보 포함
+            - 통화 기호와 천 단위 구분 명확히
+            
+            🌟 신뢰 요소 추가:
+            - 평점과 리뷰 수 표시
+            - 배송 정보나 보증 정보
+            - 브랜드 로고나 인증 마크
+            -->
+            <div class="col-md-4 mb-4">
+                <div class="card hover-card h-100">
+                    <img src="https://via.placeholder.com/300x250/6f42c1/ffffff?text=Laptop" 
+                         class="card-img-top" alt="노트북">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">프리미엄 노트북</h5>
+                        <p class="card-text flex-fill">
+                            고성능 프로세서와 대용량 메모리로 
+                            업무와 게임 모두 완벽하게 지원합니다.
+                        </p>
+                        <div class="mb-2">
+                            <span class="text-muted">⭐⭐⭐⭐⭐</span>
+                            <small class="text-muted">(128 리뷰)</small>
+                        </div>
+                        <div class="price-section mb-3">
+                            <span class="text-muted"><del>₩1,800,000</del></span>
+                            <h4 class="text-danger mb-0">₩1,499,000</h4>
+                            <small class="text-success">🚚 무료배송</small>
+                        </div>
+                        <div class="mt-auto">
+                            <button class="btn btn-primary btn-block">장바구니 담기</button>
+                            <button class="btn btn-outline-secondary btn-block mt-2">찜하기 ❤️</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+                <div class="card hover-card h-100">
+                    <img src="https://via.placeholder.com/300x250/fd7e14/ffffff?text=Smartphone" 
+                         class="card-img-top" alt="스마트폰">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">최신 스마트폰</h5>
+                        <p class="card-text flex-fill">
+                            혁신적인 카메라 기술과 오래가는 배터리로 
+                            일상을 더욱 스마트하게 만들어줍니다.
+                        </p>
+                        <div class="mb-2">
+                            <span class="text-muted">⭐⭐⭐⭐☆</span>
+                            <small class="text-muted">(89 리뷰)</small>
+                        </div>
+                        <div class="price-section mb-3">
+                            <h4 class="text-primary mb-0">₩899,000</h4>
+                            <small class="text-info">📱 24개월 할부 가능</small>
+                        </div>
+                        <div class="mt-auto">
+                            <button class="btn btn-primary btn-block">장바구니 담기</button>
+                            <button class="btn btn-outline-secondary btn-block mt-2">찜하기 ❤️</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+                <div class="card hover-card h-100">
+                    <img src="https://via.placeholder.com/300x250/e74c3c/ffffff?text=Headphones" 
+                         class="card-img-top" alt="헤드폰">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">무선 헤드폰</h5>
+                        <p class="card-text flex-fill">
+                            뛰어난 음질과 노이즈 캔슬링 기능으로 
+                            몰입감 있는 음악 감상을 제공합니다.
+                        </p>
+                        <div class="mb-2">
+                            <span class="text-muted">⭐⭐⭐⭐⭐</span>
+                            <small class="text-muted">(203 리뷰)</small>
+                        </div>
+                        <div class="price-section mb-3">
+                            <span class="text-muted"><del>₩350,000</del></span>
+                            <h4 class="text-danger mb-0">₩299,000</h4>
+                            <small class="text-warning">⚡ 한정 특가!</small>
+                        </div>
+                        <div class="mt-auto">
+                            <button class="btn btn-primary btn-block">장바구니 담기</button>
+                            <button class="btn btn-outline-secondary btn-block mt-2">찜하기 ❤️</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 팀 소개 카드 스타일 -->
+        <h4 class="text-primary mb-3 mt-5">📌 팀 멤버 소개 카드</h4>
+        <div class="alert alert-warning">
+            <strong>💡 특징:</strong> 프로필 사진 + 이름 + 직책 + 간단 소개<br>
+            <strong>🎯 목적:</strong> 신뢰감 형성 및 팀의 전문성 어필
+        </div>
+        
+        <div class="row">
+            <!-- 
+            👥 팀 소개 카드의 특별한 고려사항들
+            
+            🎯 인간적 신뢰감 형성:
+            - 전문적이면서도 친근한 프로필 사진
+            - 개인의 전문성과 성격이 드러나는 소개
+            - 연락 가능한 방법 제시 (이메일, SNS 등)
+            
+            📸 프로필 이미지 가이드:
+            - 일관된 크기와 비율 (보통 정사각형)
+            - 적절한 배경과 조명
+            - 브랜드 톤앤매너에 맞는 분위기
+            
+            💼 직책과 전문성 표현:
+            - 명확한 역할 정의
+            - 주요 스킬이나 경력 하이라이트
+            - 개인적 특색이나 관심사 포함
+            -->
+            <div class="col-md-6 col-lg-3 mb-4">
+                <div class="card text-center hover-card h-100">
+                    <div class="card-body">
+                        <!-- 
+                        👤 원형 프로필 이미지
+                        
+                        🎨 .rounded-circle 클래스:
+                        - Bootstrap 유틸리티로 완전한 원형 이미지
+                        - 정사각형 이미지에 적용해야 올바른 원형
+                        - 프로필 사진의 표준 스타일
+                        
+                        📐 크기 조절:
+                        - width, height로 일관된 크기 유지
+                        - object-fit: cover로 비율 유지
+                        - mx-auto로 중앙 정렬
+                        -->
+                        <img src="https://via.placeholder.com/120x120/007bff/ffffff?text=CEO" 
+                             class="rounded-circle mb-3" 
+                             alt="CEO 프로필" 
+                             width="120" height="120">
+                        <h5 class="card-title">김대표</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Chief Executive Officer</h6>
+                        <p class="card-text">
+                            15년 경력의 IT 전문가로 회사의 비전을 
+                            이끌어가고 있습니다.
+                        </p>
+                        <div class="mt-auto">
+                            <a href="#" class="btn btn-outline-primary btn-sm">
+                                📧 연락하기
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6 col-lg-3 mb-4">
+                <div class="card text-center hover-card h-100">
+                    <div class="card-body">
+                        <img src="https://via.placeholder.com/120x120/28a745/ffffff?text=CTO" 
+                             class="rounded-circle mb-3" 
+                             alt="CTO 프로필" 
+                             width="120" height="120">
+                        <h5 class="card-title">박개발</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Chief Technology Officer</h6>
+                        <p class="card-text">
+                            풀스택 개발자로 최신 기술을 활용한 
+                            혁신적인 솔루션을 개발합니다.
+                        </p>
+                        <div class="mt-auto">
+                            <a href="#" class="btn btn-outline-primary btn-sm">
+                                📧 연락하기
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6 col-lg-3 mb-4">
+                <div class="card text-center hover-card h-100">
+                    <div class="card-body">
+                        <img src="https://via.placeholder.com/120x120/ffc107/000000?text=CMO" 
+                             class="rounded-circle mb-3" 
+                             alt="CMO 프로필" 
+                             width="120" height="120">
+                        <h5 class="card-title">이마케팅</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Chief Marketing Officer</h6>
+                        <p class="card-text">
+                            창의적인 마케팅 전략으로 브랜드 가치를 
+                            극대화하는 마케팅 전문가입니다.
+                        </p>
+                        <div class="mt-auto">
+                            <a href="#" class="btn btn-outline-primary btn-sm">
+                                📧 연락하기
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6 col-lg-3 mb-4">
+                <div class="card text-center hover-card h-100">
+                    <div class="card-body">
+                        <img src="https://via.placeholder.com/120x120/e74c3c/ffffff?text=CFO" 
+                             class="rounded-circle mb-3" 
+                             alt="CFO 프로필" 
+                             width="120" height="120">
+                        <h5 class="card-title">최재무</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Chief Financial Officer</h6>
+                        <p class="card-text">
+                            탄탄한 재무 관리와 투자 전략으로 
+                            회사의 안정적 성장을 책임집니다.
+                        </p>
+                        <div class="mt-auto">
+                            <a href="#" class="btn btn-outline-primary btn-sm">
+                                📧 연락하기
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 서비스/기능 소개 카드 -->
+        <h4 class="text-primary mb-3 mt-5">📌 서비스/기능 소개 카드</h4>
+        <div class="alert alert-primary">
+            <strong>💡 특징:</strong> 아이콘 + 제목 + 설명 + 액션 링크<br>
+            <strong>🎯 목적:</strong> 서비스의 핵심 가치와 차별점 전달
+        </div>
+        
+        <div class="row">
+            <!-- 
+            🚀 서비스 카드의 설계 철학
+            
+            🎯 서비스 카드의 핵심 요소:
+            - 직관적인 아이콘으로 즉시 이해 가능
+            - 명확하고 간결한 제목
+            - 구체적인 혜택 중심의 설명
+            - 다음 행동을 유도하는 링크
+            
+            🎨 시각적 일관성:
+            - 모든 카드의 높이 통일 (.h-100)
+            - 아이콘 크기와 색상 일관성
+            - 텍스트 길이 최대한 균등하게
+            
+            💼 실무에서 주의할 점:
+            - 과도한 기술 용어 지양
+            - 고객 관점에서의 혜택 강조
+            - 경쟁사 대비 차별점 명확히
+            -->
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card text-center hover-card h-100">
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <i class="fas fa-rocket fa-3x text-primary"></i>
+                        </div>
+                        <h5 class="card-title">빠른 성능</h5>
+                        <p class="card-text">
+                            최첨단 클라우드 인프라로 
+                            빠르고 안정적인 서비스를 제공합니다.
+                        </p>
+                        <a href="#" class="btn btn-outline-primary">자세히 보기</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card text-center hover-card h-100">
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <i class="fas fa-shield-alt fa-3x text-success"></i>
+                        </div>
+                        <h5 class="card-title">보안 시스템</h5>
+                        <p class="card-text">
+                            엔터프라이즈급 보안 솔루션으로 
+                            고객의 소중한 데이터를 안전하게 보호합니다.
+                        </p>
+                        <a href="#" class="btn btn-outline-success">자세히 보기</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card text-center hover-card h-100">
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <i class="fas fa-users fa-3x text-info"></i>
+                        </div>
+                        <h5 class="card-title">24/7 지원</h5>
+                        <p class="card-text">
+                            전문 고객지원팀이 24시간 
+                            언제든지 도움을 드립니다.
+                        </p>
+                        <a href="#" class="btn btn-outline-info">자세히 보기</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 
+    🎯 4. 실무 팁과 베스트 프랙티스
+    
+    🎯 교육 목적:
+    - 이론을 넘어선 실제 프로젝트 적용 노하우
+    - 자주 하는 실수와 해결 방법 공유
+    - 성능과 사용성을 모두 고려한 구현 방법
+    
+    💼 실무에서 고려해야 할 요소들:
+    - 로딩 성능: 이미지 최적화, 지연 로딩
+    - 접근성: 스크린 리더, 키보드 네비게이션
+    - SEO: 구조화된 마크업, 의미있는 제목
+    - 유지보수: 일관된 구조, 재사용 가능한 컴포넌트
+    -->
+    
+    <div class="container mt-5">
+        <div class="section-title">
+            <h2>🛠️ 실무 팁 & 베스트 프랙티스</h2>
+            <p class="mb-0">프로젝트에서 바로 적용할 수 있는 노하우</p>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card h-100">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0">✅ 네비게이션 베스트 프랙티스</h5>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled">
+                            <li class="mb-3">
+                                <strong>📱 모바일 우선 설계</strong><br>
+                                <small class="text-muted">햄버거 메뉴 → 데스크톱 확장 순서</small>
+                            </li>
+                            <li class="mb-3">
+                                <strong>🎯 명확한 메뉴 구조</strong><br>
+                                <small class="text-muted">7±2 법칙: 최대 9개 메뉴 항목</small>
+                            </li>
+                            <li class="mb-3">
+                                <strong>🏠 브랜드 위치 일관성</strong><br>
+                                <small class="text-muted">왼쪽 상단, 홈 링크 기능</small>
+                            </li>
+                            <li class="mb-3">
+                                <strong>🔍 현재 위치 표시</strong><br>
+                                <small class="text-muted">.active 클래스로 현재 페이지 강조</small>
+                            </li>
+                            <li class="mb-0">
+                                <strong>⚡ 빠른 로딩</strong><br>
+                                <small class="text-muted">중요한 메뉴부터 먼저 표시</small>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="card h-100">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0">✅ 카드 디자인 베스트 프랙티스</h5>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled">
+                            <li class="mb-3">
+                                <strong>📐 일관된 높이</strong><br>
+                                <small class="text-muted">.h-100 클래스로 동일한 카드 높이</small>
+                            </li>
+                            <li class="mb-3">
+                                <strong>🖼️ 최적화된 이미지</strong><br>
+                                <small class="text-muted">동일 비율, 적절한 해상도, alt 속성</small>
+                            </li>
+                            <li class="mb-3">
+                                <strong>📝 스캔 가능한 텍스트</strong><br>
+                                <small class="text-muted">제목 → 요약 → 액션 순서</small>
+                            </li>
+                            <li class="mb-3">
+                                <strong>🎯 명확한 CTA</strong><br>
+                                <small class="text-muted">다음 행동을 명확히 안내하는 버튼</small>
+                            </li>
+                            <li class="mb-0">
+                                <strong>🎨 시각적 피드백</strong><br>
+                                <small class="text-muted">hover 효과로 상호작용 표시</small>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header bg-warning text-dark">
+                        <h5 class="mb-0">⚠️ 자주 하는 실수들</h5>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled">
+                            <li class="mb-2">
+                                <strong>🚫 너무 많은 메뉴 항목</strong><br>
+                                <small class="text-muted">사용자 선택 장애 유발</small>
+                            </li>
+                            <li class="mb-2">
+                                <strong>🚫 모바일 터치 영역 부족</strong><br>
+                                <small class="text-muted">최소 44px 터치 영역 확보</small>
+                            </li>
+                            <li class="mb-2">
+                                <strong>🚫 일관성 없는 카드 디자인</strong><br>
+                                <small class="text-muted">같은 용도는 동일한 구조 유지</small>
+                            </li>
+                            <li class="mb-0">
+                                <strong>🚫 과도한 정보 밀도</strong><br>
+                                <small class="text-muted">카드 하나에 너무 많은 정보</small>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header bg-secondary text-white">
+                        <h5 class="mb-0">🔧 성능 최적화 팁</h5>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled">
+                            <li class="mb-2">
+                                <strong>📱 이미지 지연 로딩</strong><br>
+                                <small class="text-muted">loading="lazy" 속성 활용</small>
+                            </li>
+                            <li class="mb-2">
+                                <strong>🎨 WebP 포맷 사용</strong><br>
+                                <small class="text-muted">더 작은 파일 크기, 빠른 로딩</small>
+                            </li>
+                            <li class="mb-2">
+                                <strong>📦 컴포넌트 재사용</strong><br>
+                                <small class="text-muted">동일한 카드 구조 템플릿화</small>
+                            </li>
+                            <li class="mb-0">
+                                <strong>⚡ CSS 최적화</strong><br>
+                                <small class="text-muted">불필요한 커스텀 스타일 최소화</small>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 
+    📚 5. 종합 실습: 완성된 웹사이트
+    
+    🎯 교육 목적:
+    - 네비게이션과 카드를 조합한 완성된 페이지 구현
+    - 실제 프로젝트와 유사한 구조로 실무 감각 개발
+    - 각 컴포넌트 간의 조화로운 배치와 상호작용
+    
+    💼 실무 시나리오:
+    - 서비스 소개 랜딩 페이지
+    - 네비게이션 + 히어로 + 서비스 카드 + 팀 소개
+    - 모든 화면에서 일관된 사용자 경험
+    -->
+    
+    <div class="container-fluid mt-5 bg-light py-5">
+        <div class="container">
+            <div class="section-title">
+                <h2>🚀 종합 실습: 완성된 서비스 페이지</h2>
+                <p class="mb-0">네비게이션과 카드의 완벽한 조합</p>
+            </div>
+            
+            <!-- 통합 데모 페이지 -->
+            <div class="bg-white rounded shadow-sm p-4">
+                <!-- 페이지 내 네비게이션 -->
+                <nav class="navbar navbar-expand-lg navbar-dark bg-primary rounded mb-4">
+                    <div class="container">
+                        <a class="navbar-brand" href="#"><strong>🚀 InnoService</strong></a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#demoNavbar">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="demoNavbar">
+                            <ul class="navbar-nav ml-auto">
+                                <li class="nav-item active">
+                                    <a class="nav-link" href="#">홈</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#services">서비스</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#team">팀</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#contact">연락처</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link btn btn-light text-primary ml-2 px-3" href="#">무료 체험</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+                
+                <!-- 히어로 섹션 -->
+                <div class="text-center py-5 mb-5" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 10px;">
+                    <div class="text-white">
+                        <h1 class="display-4 font-weight-bold">혁신적인 비즈니스 솔루션</h1>
+                        <p class="lead mb-4">
+                            당신의 비즈니스를 다음 단계로 이끌어줄 완벽한 파트너
+                        </p>
+                        <button class="btn btn-light btn-lg mr-3">무료 체험 시작</button>
+                        <button class="btn btn-outline-light btn-lg">더 알아보기</button>
+                    </div>
+                </div>
+                
+                <!-- 서비스 섹션 -->
+                <section id="services" class="mb-5">
+                    <div class="text-center mb-4">
+                        <h2 class="h1 text-primary">🛠️ 핵심 서비스</h2>
+                        <p class="lead text-muted">고객의 성공을 위한 전문적인 솔루션</p>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 col-lg-4 mb-4">
+                            <div class="card text-center hover-card h-100 border-0 shadow-sm">
+                                <div class="card-body">
+                                    <div class="mb-3">
+                                        <i class="fas fa-chart-line fa-3x text-primary"></i>
+                                    </div>
+                                    <h5 class="card-title">데이터 분석</h5>
+                                    <p class="card-text">
+                                        고급 분석 도구로 비즈니스 인사이트를 
+                                        발견하고 데이터 기반 의사결정을 지원합니다.
+                                    </p>
+                                    <a href="#" class="btn btn-outline-primary">자세히 보기</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6 col-lg-4 mb-4">
+                            <div class="card text-center hover-card h-100 border-0 shadow-sm">
+                                <div class="card-body">
+                                    <div class="mb-3">
+                                        <i class="fas fa-cloud fa-3x text-success"></i>
+                                    </div>
+                                    <h5 class="card-title">클라우드 서비스</h5>
+                                    <p class="card-text">
+                                        안전하고 확장 가능한 클라우드 인프라로 
+                                        언제 어디서나 접근 가능한 서비스를 제공합니다.
+                                    </p>
+                                    <a href="#" class="btn btn-outline-success">자세히 보기</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6 col-lg-4 mb-4">
+                            <div class="card text-center hover-card h-100 border-0 shadow-sm">
+                                <div class="card-body">
+                                    <div class="mb-3">
+                                        <i class="fas fa-mobile-alt fa-3x text-info"></i>
+                                    </div>
+                                    <h5 class="card-title">모바일 솔루션</h5>
+                                    <p class="card-text">
+                                        iOS와 Android를 모두 지원하는 
+                                        크로스 플랫폼 모바일 애플리케이션 개발.
+                                    </p>
+                                    <a href="#" class="btn btn-outline-info">자세히 보기</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- 팀 섹션 -->
+                <section id="team" class="mb-5">
+                    <div class="text-center mb-4">
+                        <h2 class="h1 text-primary">👥 전문가 팀</h2>
+                        <p class="lead text-muted">경험과 열정을 겸비한 최고의 전문가들</p>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 col-lg-3 mb-4">
+                            <div class="card text-center hover-card h-100 border-0 shadow-sm">
+                                <div class="card-body">
+                                    <img src="https://via.placeholder.com/100x100/007bff/ffffff?text=JS" 
+                                         class="rounded-circle mb-3" 
+                                         alt="팀장" width="100" height="100">
+                                    <h5 class="card-title">정팀장</h5>
+                                    <h6 class="card-subtitle mb-2 text-muted">Project Manager</h6>
+                                    <p class="card-text">
+                                        10년 경력의 프로젝트 관리 전문가로 
+                                        성공적인 프로젝트 완수를 보장합니다.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6 col-lg-3 mb-4">
+                            <div class="card text-center hover-card h-100 border-0 shadow-sm">
+                                <div class="card-body">
+                                    <img src="https://via.placeholder.com/100x100/28a745/ffffff?text=KD" 
+                                         class="rounded-circle mb-3" 
+                                         alt="개발자" width="100" height="100">
+                                    <h5 class="card-title">김개발</h5>
+                                    <h6 class="card-subtitle mb-2 text-muted">Full Stack Developer</h6>
+                                    <p class="card-text">
+                                        최신 기술 스택을 활용한 
+                                        풀스택 개발의 모든 것을 담당합니다.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6 col-lg-3 mb-4">
+                            <div class="card text-center hover-card h-100 border-0 shadow-sm">
+                                <div class="card-body">
+                                    <img src="https://via.placeholder.com/100x100/ffc107/000000?text=LD" 
+                                         class="rounded-circle mb-3" 
+                                         alt="디자이너" width="100" height="100">
+                                    <h5 class="card-title">이디자인</h5>
+                                    <h6 class="card-subtitle mb-2 text-muted">UX/UI Designer</h6>
+                                    <p class="card-text">
+                                        사용자 중심의 직관적이고 
+                                        아름다운 인터페이스를 설계합니다.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6 col-lg-3 mb-4">
+                            <div class="card text-center hover-card h-100 border-0 shadow-sm">
+                                <div class="card-body">
+                                    <img src="https://via.placeholder.com/100x100/e74c3c/ffffff?text=CM" 
+                                         class="rounded-circle mb-3" 
+                                         alt="마케터" width="100" height="100">
+                                    <h5 class="card-title">최마케팅</h5>
+                                    <h6 class="card-subtitle mb-2 text-muted">Marketing Specialist</h6>
+                                    <p class="card-text">
+                                        데이터 기반의 효과적인 마케팅 전략으로 
+                                        비즈니스 성장을 이끌어냅니다.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- CTA 섹션 -->
+                <section id="contact" class="text-center py-5" style="background-color: #f8f9fa; border-radius: 10px;">
+                    <h2 class="h1 text-primary mb-3">🚀 지금 시작하세요!</h2>
+                    <p class="lead text-muted mb-4">
+                        전문가와 함께하는 성공적인 디지털 전환을 경험해보세요
+                    </p>
+                    <div class="row justify-content-center">
+                        <div class="col-md-8 col-lg-6">
+                            <div class="card border-0 shadow">
+                                <div class="card-body">
+                                    <h5 class="card-title">📞 무료 상담 신청</h5>
+                                    <p class="card-text">
+                                        30분 무료 컨설팅으로 당신의 비즈니스에 
+                                        최적화된 솔루션을 찾아보세요.
+                                    </p>
+                                    <button class="btn btn-primary btn-lg mr-2">상담 신청하기</button>
+                                    <button class="btn btn-outline-primary btn-lg">자료 다운로드</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <!-- 
+    📚 6. 핵심 정리 및 다음 단계
+    
+    🎯 학습 마무리:
+    - 오늘 배운 핵심 개념들 정리
+    - 실무에서 바로 적용할 수 있는 체크리스트
+    - 다음 학습 단계로의 자연스러운 연결
+    
+    💡 기억해야 할 핵심:
+    - 네비게이션의 반응형 구조
+    - 카드 컴포넌트의 다양한 활용법
+    - 사용자 경험을 고려한 디자인 원칙
+    -->
+    
+    <div class="container mt-5 mb-5">
+        <div class="alert alert-success">
+            <h4 class="alert-heading">🎯 오늘의 핵심 정리</h4>
+            <hr>
+            <div class="row">
+                <div class="col-md-6">
+                    <h6 class="text-success">🧭 네비게이션 핵심 포인트</h6>
+                    <ul>
+                        <li><strong>구조:</strong> .navbar → .navbar-brand + .navbar-nav</li>
+                        <li><strong>반응형:</strong> .navbar-expand-{breakpoint}로 제어</li>
+                        <li><strong>토글:</strong> 모바일 햄버거 메뉴 자동 생성</li>
+                        <li><strong>스타일:</strong> .navbar-light/dark + bg-* 조합</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h6 class="text-success">🃏 카드 핵심 포인트</h6>
+                    <ul>
+                        <li><strong>구조:</strong> .card → .card-body가 기본</li>
+                        <li><strong>확장:</strong> header, footer, 이미지 추가 가능</li>
+                        <li><strong>일관성:</strong> 같은 용도는 동일 구조 유지</li>
+                        <li><strong>반응형:</strong> 그리드와 조합으로 배치 제어</li>
+                    </ul>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-12">
+                    <h6 class="text-success">🎨 디자인 원칙 요약</h6>
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>컴포넌트</th>
+                                    <th>주요 클래스</th>
+                                    <th>사용 목적</th>
+                                    <th>핵심 고려사항</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>네비게이션</td>
+                                    <td><code>.navbar .navbar-expand-lg</code></td>
+                                    <td>사이트 탐색, 브랜딩</td>
+                                    <td>모바일 우선, 명확한 구조</td>
+                                </tr>
+                                <tr>
+                                    <td>블로그 카드</td>
+                                    <td><code>.card .card-img-top</code></td>
+                                    <td>콘텐츠 미리보기</td>
+                                    <td>이미지 + 제목 + 요약</td>
+                                </tr>
+                                <tr>
+                                    <td>상품 카드</td>
+                                    <td><code>.card .h-100</code></td>
+                                    <td>상품 정보, 구매 유도</td>
+                                    <td>가격, 평점, CTA 버튼</td>
+                                </tr>
+                                <tr>
+                                    <td>팀 카드</td>
+                                    <td><code>.card .text-center</code></td>
+                                    <td>신뢰감, 전문성 표현</td>
+                                    <td>프로필 사진, 역할, 소개</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="text-center">
+                <h6 class="text-success">💻 실습 과제 제안</h6>
+                <p class="mb-2">
+                    <strong>개인 포트폴리오 사이트 만들기:</strong>
+                    네비게이션 + 소개 카드 + 프로젝트 카드 + 연락처
+                </p>
+                <p class="mb-0">
+                    <strong>🚀 다음 시간:</strong> 
+                    유틸리티 클래스로 더욱 빠르고 효율적인 스타일링 마스터하기
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 4 JavaScript (네비게이션 토글 기능을 위해 필요) -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Font Awesome (아이콘을 위한 CDN) -->
+    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+    
+    <script>
+        // 📱 간단한 스크롤 이벤트 (선택적 향상)
+        document.addEventListener('DOMContentLoaded', function() {
+            // 🎯 네비게이션 링크 클릭 시 부드러운 스크롤 (데모용)
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+            
+            // 💡 카드 호버 효과 강화 (선택적)
+            document.querySelectorAll('.hover-card').forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px)';
+                    this.style.transition = 'transform 0.2s ease-in-out';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
