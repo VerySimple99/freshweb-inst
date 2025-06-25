@@ -37,11 +37,14 @@
 		<fieldset>
 		<!-- 
 			legend는 fieldset의 제목 역할을 합니다. 
+			사전적인 의미 :  (지도·도표 등의) 범례[기호 설명표] 
 			마치 책의 챕터 제목처럼, 
 			해당 그룹이 무엇에 대한 정보인지 명확히 알려줍니다.
 		 -->
 			<legend>개인 정보</legend>
 			<!-- 
+
+	  label: 입력 필드의 설명 (for 속성으로 input과 연결) 
 		클릭 가능한 영역 확장: <label> 태그와 연결된 입력 필드는 
 		레이블 텍스트 자체를 클릭해도 해당 입력 필드에 포커스가 가거나 
 		(텍스트/숫자 입력 필드), 토글(체크박스/라디오 버튼)이 됩니다. 
@@ -49,7 +52,13 @@
 		넓은 레이블 텍스트를 클릭하여도 되므로 편의성이 크게 증가합니다.    
        
      -->
-			<label for="name">이름:</label> <input type="text" id="name"
+			<label for="name">이름:</label> 
+			 <!-- input: 사용자 입력을 받는 태그 -->
+        <!-- type="text": 일반 텍스트 입력 -->
+        <!-- id: 라벨과 연결하기 위한 고유 식별자 -->
+        <!-- name: 서버로 전송될 때 사용되는 변수명 -->
+        <!-- required: 필수 입력 필드로 지정 -->
+			<input type="text" id="name"
 				name="name" required><br>
 			<br> <label for="email">이메일:</label> <input type="email"
 				id="email" name="email" required> <br>
