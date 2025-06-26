@@ -1,44 +1,71 @@
+<!--
+**CSS 반응형 웹(Responsive Web Design)**은 
+웹사이트가 데스크톱, 태블릿, 모바일 폰 등 다양한 화면 크기와 기기에 맞춰 
+자동으로 최적화된 레이아웃과 디자인을 제공하도록 만드는 웹 디자인 기법입니다.
+-->
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <!-- 반응형 웹을 위한 필수 메타 태그 -->
+    <!-- 🔥 반응형 웹의 핵심! viewport 메타 태그 -->
+    <!-- width=device-width: 화면 너비를 기기 너비에 맞춤 -->
+    <!-- initial-scale=1.0: 초기 확대/축소 비율을 1:1로 설정 -->
+    <!-- 이 태그가 없으면 모바일에서 데스크톱 화면이 축소되어 보임 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>반응형 웹 디자인 학습</title>
     <link rel="stylesheet" href="../resources/css/style5.css">
 </head>
 <body>
-    <!-- 헤더 영역 -->
+    <!-- 📱 헤더 영역: 모든 화면 크기에서 상단 고정 -->
     <header class="header">
         <div class="container">
+            <!-- 🏷️ 로고: 브랜드 아이덴티티, 모든 화면에서 항상 보임 -->
             <div class="logo">MyWebsite</div>
-            <!-- 모바일에서는 숨겨질 네비게이션 -->
+            
+            <!-- 🖥️ 데스크톱 네비게이션: 768px 이상에서만 보임 -->
+            <!-- CSS에서 @media (max-width: 768px)로 모바일에서는 숨김 처리 -->
             <nav class="nav">
                 <a href="#">홈</a>
                 <a href="#">소개</a>
                 <a href="#">서비스</a>
                 <a href="#">연락처</a>
             </nav>
-            <!-- 모바일 메뉴 버튼 (기본적으로 숨김) -->
+            
+            <!-- 📱 모바일 메뉴 버튼: 768px 이하에서만 보임 -->
+            <!-- CSS에서 기본적으로 display: none, 모바일에서만 display: block -->
+            <!-- ☰ 햄버거 메뉴 아이콘 (유니코드 문자) -->
             <button class="mobile-menu-btn">☰</button>
         </div>
     </header>
 
-    <!-- 메인 콘텐츠 -->
+    <!-- 🎯 메인 콘텐츠: 페이지의 핵심 내용 -->
     <main class="main">
         <div class="container">
-            <!-- 히어로 섹션 -->
+            <!-- 🚀 히어로 섹션: 첫 인상을 결정하는 중요한 영역 -->
+            <!-- 화면 크기별로 폰트 크기와 패딩이 다르게 적용됨 -->
             <section class="hero">
+                <!-- 💡 반응형 타이포그래피: 화면 크기에 따라 폰트 크기 변경 -->
+                <!-- 데스크톱: 3rem → 태블릿: 2rem → 모바일: 1.8rem -->
                 <h1>반응형 웹 디자인</h1>
                 <p>화면 크기에 따라 자동으로 적응하는 웹사이트</p>
+                
+                <!-- 🎨 CTA 버튼: Call To Action, 사용자 행동 유도 -->
+                <!-- 모바일에서는 패딩과 폰트 크기가 작아짐 -->
                 <button class="cta-button">시작하기</button>
             </section>
 
-            <!-- 특징 카드들 -->
+            <!-- 📦 특징 카드들: Grid 레이아웃의 핵심 예제 -->
             <section class="features">
                 <h2>주요 특징</h2>
+                
+                <!-- 🎨 반응형 그리드: auto-fit과 minmax()의 마법 -->
+                <!-- 화면 크기에 따라 열 개수가 자동으로 조정됨 -->
+                <!-- 큰 화면: 4열 → 태블릿: 2-3열 → 모바일: 1열 -->
                 <div class="feature-grid">
+                    <!-- 각 카드는 최소 250px, 공간이 있으면 균등 분배 -->
                     <div class="feature-card">
+                        <!-- 📱 이모지 아이콘: 별도 이미지 파일 없이 아이콘 효과 -->
                         <div class="feature-icon">📱</div>
                         <h3>모바일 최적화</h3>
                         <p>모든 모바일 기기에서 완벽하게 동작합니다.</p>
@@ -48,7 +75,7 @@
                         <h3>데스크톱 호환</h3>
                         <p>큰 화면에서도 아름다운 레이아웃을 제공합니다.</p>
                     </div>
-                    <div class="feature-card">z`
+                    <div class="feature-card">
                         <div class="feature-icon">⚡</div>
                         <h3>빠른 로딩</h3>
                         <p>최적화된 이미지와 코드로 빠르게 로딩됩니다.</p>
@@ -61,10 +88,15 @@
                 </div>
             </section>
 
-            <!-- 이미지 갤러리 -->
+            <!-- 🖼️ 이미지 갤러리: aspect-ratio를 활용한 정사각형 그리드 -->
             <section class="gallery">
                 <h2>갤러리</h2>
+                
+                <!-- 🎨 갤러리 그리드: 반응형 이미지 갤러리의 표준 패턴 -->
+                <!-- 큰 화면: 6열 → 태블릿: 자동 조정 → 모바일: 2열 -->
                 <div class="gallery-grid">
+                    <!-- aspect-ratio: 1로 정사각형 유지 -->
+                    <!-- 실제 프로젝트에서는 <img> 태그 사용 -->
                     <div class="gallery-item">이미지 1</div>
                     <div class="gallery-item">이미지 2</div>
                     <div class="gallery-item">이미지 3</div>
@@ -76,11 +108,14 @@
         </div>
     </main>
 
-    <!-- 푸터 -->
+    <!-- 🔻 푸터: 저작권 정보, 모든 화면에서 동일하게 표시 -->
     <footer class="footer">
         <div class="container">
             <p>&copy; 2025 MyWebsite. All rights reserved.</p>
         </div>
     </footer>
+
+    <!-- 💡 JavaScript 없이 CSS만으로 반응형 구현 -->
+    <!-- 실제 프로젝트에서는 모바일 메뉴 토글을 위한 JS 필요 -->
 </body>
 </html>

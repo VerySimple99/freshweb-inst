@@ -1,15 +1,19 @@
 <!--
-    Flexbox: 컨테이너 내의 아이템들을 효율적으로 배치하고 정렬하는 1차원 레이아웃 방법입니다.
+Flexbox: 컨테이너 내의 아이템들을 효율적으로 배치하고 정렬하는 1차원 레이아웃 방법입니다.
 핵심 포인트 3가지:
-
 유연한 배치 - 아이템들이 컨테이너 크기에 따라 자동으로 늘어나거나 줄어듭니다
 직관적인 정렬 - 수직/수평 정렬이 매우 간단해집니다
 반응형 친화적 - 다양한 화면 크기에 자연스럽게 적응합니다
 
-🏠 실생활 비유
-마치 도서관 책꽂이와 같습니다. 책꽂이(flex container)에 책들(flex items)을 넣으면, 책의 크기와 수량에 따라 자동으로 배치되고, 필요에 따라 책들 사이의 간격도 조절할 수 있습니다.
-💼 현장 활용 사례
-네비게이션 메뉴, 카드 레이아웃, 센터링, 반응형 그리드 등 거의 모든 웹 레이아웃에서 활용됩니다. 특히 기존의 float이나 position보다 훨씬 직관적이어서 현대 웹 개발의 필수 기술입니다.
+Flexbox 사용 시기
+네비게이션 메뉴
+버튼 그룹
+카드 리스트
+중앙 정렬이 필요할 때
+1차원 배치
+
+justify = 주축(보통 가로), align = 교차축(보통 세로)
+
 
 -->
 <!DOCTYPE html>
@@ -82,41 +86,6 @@
             <div class="flex-item">B</div>
             <div class="flex-item">C</div>
         </div>
-    </section>
-
-    <!-- 실용적인 레이아웃 예제 -->
-    <section class="practical-demo">
-        <h2>실용적인 레이아웃 예제</h2>
-
-        <!-- 헤더 -->
-        <header class="header">
-            <div class="logo">로고</div>
-            <nav class="nav">
-                <a href="#">홈</a>
-                <a href="#">소개</a>
-                <a href="#">서비스</a>
-                <a href="#">연락처</a>
-            </nav>
-        </header>
-
-        <!-- 카드 레이아웃 -->
-        <div class="card-container">
-            <div class="card">
-                <h3>카드 1</h3>
-                <p>첫 번째 카드 내용입니다.</p>
-                <button>더 보기</button>
-            </div>
-            <div class="card">
-                <h3>카드 2</h3>
-                <p>두 번째 카드 내용입니다.</p>
-                <button>더 보기</button>
-            </div>
-            <div class="card">
-                <h3>카드 3</h3>
-                <p>세 번째 카드 내용입니다.</p>
-                <button>더 보기</button>
-            </div>
-        </div>
-    </section>
+    </section>    
 </body>
 </html>

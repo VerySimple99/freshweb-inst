@@ -1,0 +1,69 @@
+<!--
+  Grid는 전체 페이지 레이아웃, 대시보드, 갤러리, 신문 레이아웃 등 복잡한 2차원 구조가 필요한 곳에서 사용됩니다. 포털 사이트나 관리자 페이지에서 자주 볼 수 있습니다
+
+CSS Grid Layout
+
+정의: 2차원(행과 열) 레이아웃을 위한 도구로, 복잡한 웹 페이지 구조를 격자 형태로 설계하는 시스템입니다.
+
+핵심 포인트 3가지:
+
+격자 구조: grid-template-rows와 grid-template-columns로 행과 열의 크기를 정의합니다.
+영역 배치: grid-area나 grid-column/grid-row로 요소를 원하는 격자 위치에 배치합니다.
+반응형 친화적: fr 단위와 repeat() 함수로 유연하고 반응형인 레이아웃을 만듭니다.
+
+Flexbox(Flexible Box Layout)
+
+정의: 1차원(한 방향) 레이아웃을 위한 도구로, 요소들을 행 또는 열로 배치하고 정렬하는 시스템입니다.
+
+핵심 포인트 3가지:
+
+주축(Main Axis)과 교차축(Cross Axis): flex-direction에 따라 주축이 결정되고, 이에 수직인 축이 교차축입니다.
+유연한 크기 조절: flex-grow, flex-shrink, flex-basis로 요소들이 공간을 나누어 가집니다.
+정렬의 왕: justify-content(주축), align-items(교차축)로 완벽한 정렬이 가능합니다.
+-->
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flexbox와 Grid 기초 예제</title>
+
+ <link rel="stylesheet" href="../resources/css/style4-2.css">
+
+</head>
+<body>
+    <h1>🎯  Grid 기초 예제</h1>
+    
+ 
+    
+    <!-- Grid 예제들 -->
+    <div class="section">
+        <h2>🏗️ Grid 예제</h2>
+        
+        <h3>1. 기본 3×2 격자 (fr 단위 사용)</h3>
+        <div class="grid-container">
+            <div class="grid-item">1</div>
+            <div class="grid-item">2</div>
+            <div class="grid-item">3</div>
+            <div class="grid-item">4</div>
+            <div class="grid-item">5</div>
+            <div class="grid-item">6</div>
+        </div>
+        <p><strong>💡 핵심:</strong> 1fr = 사용 가능한 공간을 1만큼 차지 (비율 단위)</p>
+        <!--
+          **fraction(분수, 비율)**의 약자입니다.
+          1fr은 "사용 가능한 공간의 1등분"이라는 뜻
+        -->
+        <h3>2. 실제 웹사이트 레이아웃 (grid-template-areas 활용)</h3>
+        <div class="grid-layout">
+            <div class="header layout-item">헤더</div>
+            <div class="sidebar layout-item">사이드바</div>
+            <div class="main layout-item">메인 콘텐츠</div>
+            <div class="footer layout-item">푸터</div>
+        </div>
+        <p><strong>💡 핵심:</strong> grid-template-areas로 영역 이름을 지정하면 직관적인 레이아웃 가능</p>
+        <p><strong>📱 반응형:</strong> 창 크기를 줄여보세요! 모바일에서는 세로 배치로 변경됩니다.</p>
+    </div>        
+</body>
+</html>
