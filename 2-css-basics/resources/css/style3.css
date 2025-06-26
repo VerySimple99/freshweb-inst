@@ -1,7 +1,7 @@
 @charset "UTF-8";
 /* 기본 스타일 설정 */
 body {
-     background-color: #bcc0c4;     
+     background-color: #ebeff3;     
 }
 
 h1 {
@@ -15,6 +15,51 @@ h2 {
     border-bottom: 2px solid #3498db;
     padding-bottom: 5px;
 }
+/* Display 속성 예제들 */
+.display-demo {
+    margin-top: 50px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;  
+}
+/* 블록 요소 - 전체 너비를 차지, 세로로 배치 */
+.block-demo {
+    display: block;         /* 블록 요소로 표시 (기본값) */
+    background-color: #3498db;
+    color: white;
+    padding: 15px;
+    margin: 10px 0;         /* CSS에서 상하(위아래) 마진은 10px, 좌우(왼쪽/오른쪽) 마진은 0으로 설정 */
+    text-align: center;
+    border-radius: 4px;
+}
+
+
+/* 인라인 요소 - 내용만큼만 너비를 차지, 가로로 배치 */
+.inline-demo {
+    display: inline;        /* 인라인 요소로 표시 */
+    background-color: #e74c3c;
+    color: white;
+    padding: 8px 12px;      /* 위아래 패딩은 레이아웃에 영향 없음 */
+    margin: 0 5px;          /* 좌우 여백만 적용됨 */
+    border-radius: 4px; /* 테두리 모서리 둥글게 */ 
+}
+
+/* 인라인 블록 요소 - 인라인처럼 가로 배치, 블록처럼 크기 조절 가능 */
+.inline-block-demo {
+    display: inline-block;   /* 인라인 블록으로 표시 */
+    width: 200px;            /* 너비 설정 가능 */
+    height: 80px;            /* 높이 설정 가능 */
+    background-color: #9b59b6;
+    color: white;
+    text-align: center;
+    line-height: 80px;       /* 세로 가운데 정렬 */
+    margin: 10px 5px;        /* 모든 방향 여백 적용 가능 */
+    border-radius: 4px;
+    vertical-align: top;     /* 상단 정렬 */
+}
+
+
+
 
 /* 박스 모델 시각화 데모 */
 .box-model-demo {
@@ -42,19 +87,31 @@ h2 {
     box-sizing: border-box; /* padding과 border를 width에 포함 */
 }
 
-/* 여백 비교를 위한 공통 박스 스타일 */
-.spacing-demo {
-    display: flex;          
-    /* 
-       플렉스 컨테이너로 설정
-       1차원 레이아웃: 플렉스박스는 한 번에 
-       한 방향(가로 또는 세로)으로만 
-       아이템들을 배치하고 정렬하는 데 최적화되어 있음 
-       align-items: center;아이템들을 세로 방향으로 중앙 정렬 
-       다음 예제에서 공부 
-     */
-    
-    justify-content: space-around;  /* 아이템들을 가로 방향으로 균등한 간격으로 배치
+
+/* 박스 크기 계산 방식 비교 */
+.box-sizing-demo {
+    margin: 40px 0;
+}
+.content-box {
+    /* 기본값: content-box */
+    box-sizing: content-box;
+    width: 200px;            /* 콘텐츠 영역만 200px */
+    /* 크롬 개발툴에서 요소로 가서 해당 div 에 마우스 올리면 크기 보임  */
+    padding: 20px;           /* 실제 너비: 200 + 40 = 240px */
+    border: 5px solid #34495e;  /* 실제 너비: 240 + 10 = 250px */
+    background-color: #ecf0f1;
+    margin: 20px;
+}
+.border-box {
+    /* 권장: border-box */
+    box-sizing: border-box;  
+    width: 200px;            /* 전체 너비가 200px */
+    padding: 20px;           /* 패딩 포함해서 200px */
+    border: 5px solid #34495e;  /* 보더 포함해서 200px */
+    background-color: #ecf0f1;
+    margin: 20px;
+}
+ /* 아이템들을 가로 방향으로 균등한 간격으로 배치
     justify-content: flex-start;
 justify-content: flex-end;
 justify-content: center;
@@ -83,107 +140,3 @@ justify-content: space-evenly;
 원하는 레이아웃에 따라 적절히 선택하면 됩니다.
     
     */
-    margin: 40px 0;         /* 위아래 여백 
-    	첫 번째 값 (40px): **상단(top)**과 하단(bottom) 마진을 40px로 설정합니다.
-두 번째 값 (0): **좌측(left)**과 우측(right) 마진을 0으로 설정합니다
-
-
-    */
-}
-
-.box {
-    width: 150px;
-    height: 100px;
-    background-color: #95a5a6;
-    color: white;
-    text-align: center;
-    line-height: 100px;     /* 세로 가운데 정렬을 위한 line-height */
-    font-weight: bold;
-}
-
-/* Margin 예제 - 바깥쪽 여백 */
-.margin-example {
-    margin: 20px;           /* 모든 방향에 60px 바깥쪽 여백 */
-    background-color: #9b59b6;
-}
-
-/* Padding 예제 - 안쪽 여백 */
-.padding-example {
-    padding: 20px;          /* 모든 방향에 20px 안쪽 여백 */
-    background-color: #f39c12;    
-}
-
-/* Border 예제 - 테두리 */
-.border-example {
-    border: 10px solid #e67e22;  /* 10px 두께의 주황색 테두리 */
-    background-color: #27ae60;
-}
-
-/* Display 속성 예제들 */
-.display-demo {
-    margin-top: 50px;
-    padding: 20px;
-    background-color: white;
-    border-radius: 8px;  
-}
-
-/* 블록 요소 - 전체 너비를 차지, 세로로 배치 */
-.block-demo {
-    display: block;         /* 블록 요소로 표시 (기본값) */
-    background-color: #3498db;
-    color: white;
-    padding: 15px;
-    margin: 10px 0;         /* CSS에서 상하(위아래) 마진은 10px, 좌우(왼쪽/오른쪽) 마진은 0으로 설정 */
-    text-align: center;
-    border-radius: 4px;
-}
-
-/* 인라인 요소 - 내용만큼만 너비를 차지, 가로로 배치 */
-.inline-demo {
-    display: inline;        /* 인라인 요소로 표시 */
-    background-color: #e74c3c;
-    color: white;
-    padding: 8px 12px;      /* 위아래 패딩은 레이아웃에 영향 없음 */
-    margin: 0 5px;          /* 좌우 여백만 적용됨 */
-    border-radius: 4px; /* 테두리 모서리 둥글게 */ 
-}
-
-/* 인라인 블록 요소 - 인라인처럼 가로 배치, 블록처럼 크기 조절 가능 */
-.inline-block-demo {
-    display: inline-block;   /* 인라인 블록으로 표시 */
-    width: 120px;            /* 너비 설정 가능 */
-    height: 80px;            /* 높이 설정 가능 */
-    background-color: #9b59b6;
-    color: white;
-    text-align: center;
-    line-height: 80px;       /* 세로 가운데 정렬 */
-    margin: 10px 5px;        /* 모든 방향 여백 적용 가능 */
-    border-radius: 4px;
-    vertical-align: top;     /* 상단 정렬 */
-}
-
-/* 박스 크기 계산 방식 비교 */
-.box-sizing-demo {
-    margin: 40px 0;
-}
-
-.content-box {
-    /* 기본값: content-box */
-    box-sizing: content-box;
-    width: 200px;            /* 콘텐츠 영역만 200px */
-    /* 크롬 개발툴에서 요소로 가서 해당 div 에 마우스 올리면 크기 보임  */
-    padding: 20px;           /* 실제 너비: 200 + 40 = 240px */
-    border: 5px solid #34495e;  /* 실제 너비: 240 + 10 = 250px */
-    background-color: #ecf0f1;
-    margin: 20px;
-}
-
-.border-box {
-    /* 권장: border-box */
-    box-sizing: border-box;  
-    width: 200px;            /* 전체 너비가 200px */
-    padding: 20px;           /* 패딩 포함해서 200px */
-    border: 5px solid #34495e;  /* 보더 포함해서 200px */
-    background-color: #ecf0f1;
-    margin: 20px;
-}
