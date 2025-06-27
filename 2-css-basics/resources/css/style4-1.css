@@ -41,7 +41,8 @@ section {
 
 /* 기본 플렉스 컨테이너 스타일 */
 .flex-container {
-  display: flex; /* 플렉스 컨테이너로 설정 */
+  /*****************************/
+  display: flex; /*플렉스 컨테이너로 설정 */
   background-color: #ecf0f1; /* 컨테이너 배경색 */
   border: 2px solid #bdc3c7; /* 테두리로 컨테이너 영역 표시 */
   border-radius: 8px; /* 둥근 모서리 */
@@ -59,6 +60,7 @@ section {
   text-align: center; /* 가운데 정렬 */
   font-weight: bold; /* 굵은 글씨 */
   min-width: 80px; /* 최소 너비 */
+  /*****************************/
   margin: 5px; /*아이템 간 여백 */
 }
 /*
@@ -130,6 +132,7 @@ flexbox는 inline-block보다 더 강력하고 유연한 정렬, 간격, 정렬 
   line-height: 80px; /* 세로 가운데 정렬을 위한 line-height */
 }
 
+/*****************************/
 /* 실용적인 레이아웃 예제 */
 
 /* 헤더 레이아웃 */
@@ -185,19 +188,7 @@ flexbox는 inline-block보다 더 강력하고 유연한 정렬, 간격, 정렬 
   display: flex;
   flex-direction: column; /* 세로 방향 배치 */
 }
-@media (max-width: 600px) {
-  .card-container {
-    flex-direction: column;
-    gap: 16px;
-  }
-  .card {
-    flex: none !important; /* flex: 1; 덮어쓰기 */
-    width: 90%; /* 원하는 너비, 예: 90% */
-    min-width: unset; /* min-width 해제 */
-    margin: 0 auto; /* 가운데 정렬 */
-    box-sizing: border-box;
-  }
-}
+
 .card h3 {
   margin-top: 0; /* 위쪽 여백 제거 */
   color: #2c3e50; /* 진한 파란 회색 */
