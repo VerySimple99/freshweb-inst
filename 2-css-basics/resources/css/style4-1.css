@@ -175,9 +175,17 @@ flexbox는 inline-block보다 더 강력하고 유연한 정렬, 간격, 정렬 
   gap: 20px; /* 카드 사이 간격 */
   flex-wrap: wrap; /* 화면이 좁으면 다음 줄로 이동 */
 }
-
+/*
+모규님 발견 
+.card { flex: 0 1 300px; }
+• flex-grow: 0 (늘어나지 않음)
+• flex-shrink: 1 (줄어들 수 있음)
+• flex-basis: 300px (기본 크기)
+*/
 .card {
-  flex: 1; /* 남은 공간을 균등하게 분배 , 세 카드는 남은 공간을 1:1:1의 비율로 균등하게 나눠 가집니다 */
+  /* flex: 1; 남은 공간을 균등하게 분배 , 세 카드는 남은 공간을 1:1:1의 비율로 균등하게 나눠 가집니다 */
+  /* flex: 1은 남은 공간을 균등하게 분배하므로, 혼자 있는 4번째 카드가 전체 너비를 차지하게 됩니다.  */
+  flex: 1;
   min-width: 250px; /* 최소 너비 설정 */
   background-color: white; /* 흰색 배경 */
   border: 1px solid #ddd; /* 연한 회색 테두리 */
