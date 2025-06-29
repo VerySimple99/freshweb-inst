@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>step11 dom test</title>
+<link rel="stylesheet" href="css/home.css">
+</head>
+<body>
+자바스크립트로 div, span 을 제어 
+<!-- form 요소에 접근 -->
+<input type="text" id="userId" value="javaking"><br><br>
+<!--  form 이 아닌 div 요소에 접근 -->
+<div id="testDiv">저는 div 영역입니다</div>
+<script type="text/javascript">
+	// form element 의 입력값에 접근할 때는 value (set/get 다 가능)
+	//alert(document.getElementById("userId").value);//value 속성으로 get
+	//document.getElementById("userId").value="starjava";//value 속성으로 set 
+	
+	//div 요소에 접근 
+	let testDivObj=document.getElementById("testDiv");
+	//alert(testDivObj);// html div element Object 가 출력 
+	// div 요소의 내용을 출력 
+	alert(testDivObj.innerHTML);//내부 html 정보를 get 
+	testDivObj.innerHTML="쉬는 시간 시작합시다";// div 내부 html 정보를 set 
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>checkbox</title>
+</head>
+<body>
+<form action="MenuServlet">
+<input type="checkbox" name="food" value="햄버거">햄버거<br>
+<input type="checkbox" name="food" value="마라샹궈">마라샹궈<br>
+<input type="checkbox" name="food" value="짬짜면">짬짜면<br>
+<button type="button" onclick="testCheckBox()">주문</button>
+</form>
+<script type="text/javascript">
+	function testCheckBox() {
+		let menuArray=document.getElementsByName("food");
+		for(let i=0;i<menuArray.length;i++){
+			alert(menuArray[i].value+" "+menuArray[i].checked);
+		}			
+	}
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+

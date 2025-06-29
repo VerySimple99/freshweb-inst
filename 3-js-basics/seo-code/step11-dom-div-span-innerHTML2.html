@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>step11-2 dom test</title>
+<link rel="stylesheet" href="css/home.css">
+</head>
+<body>
+<div id="divTest">div 영역입니다</div>
+<button type="button" onclick="changeDivContent()">div 테스트</button>
+<br><br>
+<span id="spanTest1">span 1 영역입니다</span>
+<br><br>
+<!-- 
+		span 테스트 버튼을 누르면 
+		spanTest1 span 영역에는 오늘 저녁메뉴는 참치회
+		spanTest2 span 영역에는 주종은 소주
+ -->
+<button type="button" onclick="changeSpan()">span 테스트</button>
+<br><br>
+<span id="spanTest2">span 2 영역입니다</span>
+<script type="text/javascript">
+	function changeDivContent() {
+		// alert으로  div 영역입니다 를 보여준 후 확인 누르면 divTest id 의 내용을 
+		// 마지막 시간입니다  로 변경한다 
+		let divTestObj=document.getElementById("divTest");
+		alert(divTestObj.innerHTML);
+		divTestObj.innerHTML="마지막 시간입니다";
+	}
+	function changeSpan() {
+		document.getElementById("spanTest1").innerHTML="오늘 저녁메뉴는 참치회";
+		document.getElementById("spanTest2").innerHTML="<img src='picture/참치회.jpg'>";
+	}
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+

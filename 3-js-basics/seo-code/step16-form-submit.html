@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>form submit</title>
+</head>
+<body>
+<!-- 
+		action : 처리할 서버 프로그램 url 
+ -->
+<form action="view/form-process.jsp" onsubmit="checkForm(event)">
+<!-- 
+		form 을 이용한 서버 전송을 위해서는  name은 필수적이다 
+		id 는  html element 를 제어하는 용도로 주로 사용된다 
+ -->
+	<input type="text" id="nickName" name="nickName" placeholder="별명" required="required">
+	<br><br>
+	<input type="checkbox" name="food" value="김밥">~김밥~<br>
+	<input type="checkbox" name="food" value="돈까스">*돈까스*<br>
+	<input type="checkbox" name="food" value="빈대떡">빈대떡!!!!<br>
+	<button type="submit">전송</button>
+</form>
+<script type="text/javascript">
+	function checkForm(event){
+		let foodList=document.getElementsByName("food");
+		let checkFlag=false;
+		for(let i=0;i<foodList.length;i++){
+			if(foodList[i].checked){
+				checkFlag=true;
+				break;
+			}
+		}
+		if(checkFlag==false){
+			alert("메뉴를 선택하세요");
+			event.preventDefault();//전송되는 기본 속성을 막는다 즉 전송시키지 않는다 
+		}
+	}
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+

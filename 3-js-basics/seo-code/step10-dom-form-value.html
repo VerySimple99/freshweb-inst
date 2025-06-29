@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>step10 dom</title>
+</head>
+<body>
+<!-- 
+		html 주석 ,  javascript 와 css 주석 /*   */ 
+ 		action : 처리할 서버 프로그램 url 
+ -->
+<form action="step10-response.jsp">
+<input type="text" id="memberId" placeholder="회원아이디" autofocus="autofocus" required="required">
+<input type="number" id="money" placeholder="입금액" > 
+<!--  아래 button 에 type=button 을 명시하지 않으면 type=submit 이 기본이어서
+	   서버로 전송을 시도한다 
+ -->
+<button type="button" onclick="checkForm()">확인</button>
+</form> 
+<script type="text/javascript">
+	function checkForm() {
+		//alert("버튼 클릭이벤트");
+		//alert(document.getElementById("memberId").value=="");
+		// trim() : 양 옆의 공백을 제거한다 
+		let memberIdObj=document.getElementById("memberId");
+		let moneyObj=document.getElementById("money");
+		if(memberIdObj.value.trim()==""){
+			alert("아이디를 입력하세요");
+		}else if(moneyObj.value==""){
+			alert("입금액을 입력하세요");
+		}else if(moneyObj.value<=0){
+			alert("입금액은 0원을 초과해야 합니다");
+		}else{
+			// alert으로 누구님 1000원을 입금하겠습니다 
+			alert(memberIdObj.value+"님 "+moneyObj.value+"원을 입금하겠습니다");
+		}
+	}
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>checkbox</title>
+</head>
+<body>
+<form>
+<input type="checkbox" name="item" value="노트북">노트북!!!<br>
+<input type="checkbox" name="item" value="텀블러">텀블러~~~<br>
+<input type="checkbox" name="item" value="스마트폰">스마트폰^^<br>
+<button type="button" onclick="checkForm()">주문</button>
+</form>
+<!-- html 주석 -->
+<script type="text/javascript">
+/*
+ 	javascript 주석
+ 	
+ 	위의 주문 버튼을 누르면  고객이 아이템을 하나 이상 체크하지 않았을 경우 
+ 	아이템을 선택하셔야 주문됩니다 alert 
+ 	하나 이상 주문 했을 경우 
+ 	주문 완료되었습니다 alert 
+ */
+	function checkForm() {
+		let itemArray=document.getElementsByName("item");	
+		let checkFlag=false;// 체크를 하나 이상 하면 true로 할당 
+		for(let i=0;i<itemArray.length;i++){
+			if(itemArray[i].checked){
+				checkFlag=true;
+				break;
+			}//if
+		}//for
+		if(checkFlag)
+			alert("주문 완료되었습니다");
+		else
+			alert("아이템을 선택하셔야 주문됩니다");
+	}
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
