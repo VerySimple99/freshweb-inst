@@ -1,0 +1,393 @@
+@charset "UTF-8";
+
+/* 🔥 CSS Reset: 브라우저별 기본 스타일 차이 제거 */
+/* box-sizing: border-box는 반응형 웹의 필수! */
+/* padding과 border가 width에 포함되어 레이아웃 계산이 정확해짐 */
+* {
+    margin: 0;          /* 모든 요소의 기본 여백 제거 */
+    padding: 0;         /* 모든 요소의 기본 패딩 제거 */
+    box-sizing: border-box;  /* 🎯 핵심! width = content + padding + border */
+}
+
+/* 📝 기본 타이포그래피 설정 */
+body {
+    font-family: 'Malgun Gothic', Arial, sans-serif;  /* 한글 폰트 우선 */
+    line-height: 1.6;      /* 가독성을 위한 줄 간격 */
+    color: #333;           /* 충분한 대비를 위한 어두운 텍스트 */
+    background-color: #f8f9fa;  /* 눈의 피로를 줄이는 연한 배경 */
+}
+
+/* 🏗️ 컨테이너: 반응형 레이아웃의 핵심 */
+/* max-width로 최대 너비 제한, margin: 0 auto로 중앙 정렬 */
+.container {
+    max-width: 1200px;     /* 큰 화면에서 너무 넓어지지 않도록 제한 */
+    margin: 0 auto;        /* 좌우 자동 여백으로 중앙 정렬 */
+    padding: 0 20px;       /* 좌우 여백으로 화면 끝에 붙지 않게 함 */
+}
+
+/* 📱 헤더: Sticky 포지셔닝으로 스크롤해도 상단 고정 */
+.header {
+    background-color: #2c3e50;  /* 어두운 배경으로 시각적 분리 */
+    color: white;
+    padding: 1rem 0;       /* 상하 패딩으로 클릭 영역 확보 */
+    position: sticky;      /* 🔥 스크롤해도 상단에 고정 */
+    top: 0;               /* 상단에서 0px 위치에 고정 */
+    z-index: 100;         /* 다른 요소 위에 표시 */
+}
+
+/* 🎯 헤더 내부 레이아웃: Flexbox로 로고와 메뉴 정렬 */
+.header .container {
+    display: flex;
+    justify-content: space-between;  /* 양 끝으로 분리 */
+    align-items: center;             /* 수직 중앙 정렬 */
+}
+
+/* 🏷️ 로고 스타일 */
+.logo {
+    font-size: 24px;
+    font-weight: bold;     /* 브랜드 강조를 위한 굵은 글씨 */
+}
+
+/* 🖥️ 데스크톱 네비게이션: Flexbox로 가로 배치 */
+.nav {
+    display: flex;         /* 메뉴 항목들을 가로로 배치 */
+    gap: 30px;            /* 메뉴 항목 간 간격 */
+}
+
+/* 🔗 네비게이션 링크 스타일 */
+.nav a {
+    color: white;
+    text-decoration: none;  /* 밑줄 제거 */
+    padding: 8px 15px;     /* 클릭 영역 확대 */
+    border-radius: 4px;    /* 둥근 모서리 */
+    transition: background-color 0.3s ease;  /* 부드러운 호버 효과 */
+}
+
+.nav a:hover {
+    background-color: #34495e;  /* 호버시 배경색 변경 */
+}
+
+/* 📱 모바일 메뉴 버튼: 기본적으로 숨김 */
+/* 미디어 쿼리에서 768px 이하일 때만 표시 */
+.mobile-menu-btn {
+    display: none;         /* 🔥 기본적으로 숨김 - 데스크톱에서는 불필요 */
+    background: none;      /* 기본 버튼 스타일 제거 */
+    border: none;
+    color: white;
+    font-size: 24px;       /* 햄버거 메뉴 아이콘 크기 */
+    cursor: pointer;       /* 클릭 가능함을 표시 */
+    padding: 8px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.mobile-menu-btn:hover {
+    background-color: #34495e;
+}
+
+/* 📄 메인 콘텐츠 영역 */
+.main {
+    padding: 2rem 0;       /* 상하 여백으로 헤더와 분리 */
+}
+
+/* 🚀 히어로 섹션: 사용자의 첫 인상을 결정하는 핵심 영역 */
+.hero {
+    text-align: center;    /* 텍스트 중앙 정렬 */
+    padding: 4rem 0;       /* 충분한 상하 여백 */
+    /* 🎨 그라데이션 배경으로 시각적 임팩트 */
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 12px;   /* 둥근 모서리로 모던한 느낌 */
+    margin-bottom: 3rem;
+}
+
+/* 📝 히어로 제목: 반응형 타이포그래피의 시작점 */
+.hero h1 {
+    font-size: 3rem;       /* 기본 크기 (데스크톱) */
+    margin-bottom: 1rem;
+    /* 미디어 쿼리에서 화면 크기별로 다른 크기 적용 */
+}
+
+.hero p {
+    font-size: 1.2rem;     /* 부제목 크기 */
+    margin-bottom: 2rem;
+    opacity: 0.9;          /* 살짝 투명하게 하여 계층 구조 표현 */
+}
+
+/* 🎯 CTA 버튼: Call To Action, 사용자 행동 유도 */
+.cta-button {
+    background-color: #f39c12;  /* 눈에 띄는 주황색 */
+    color: white;
+    border: none;
+    padding: 15px 30px;         /* 충분한 클릭 영역 */
+    font-size: 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    /* 🎨 transform과 transition으로 인터랙티브 효과 */
+    transition: all 0.3s ease;
+}
+
+.cta-button:hover {
+    background-color: #e67e22;  /* 호버시 색상 변경 */
+    transform: translateY(-2px); /* 살짝 위로 올라가는 효과 */
+}
+
+/* 📦 특징 섹션 */
+.features {
+    margin-bottom: 3rem;
+}
+
+.features h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #2c3e50;
+    font-size: 2.5rem;
+}
+
+/* 🎨 핵심! 반응형 그리드 레이아웃 */
+.feature-grid {
+    display: grid;
+    /* 🔥 auto-fit: 공간에 맞춰 열 개수 자동 조정 */
+    /* minmax(250px, 1fr): 최소 250px, 여유 공간은 균등 분배 */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;             /* 그리드 아이템 간 간격 */
+}
+
+/* 💳 특징 카드 스타일 */
+.feature-card {
+    background: white;     /* 배경과 대비되는 흰색 */
+    padding: 2rem;
+    border-radius: 12px;   /* 둥근 모서리 */
+    /* 🎨 box-shadow로 카드 느낌의 그림자 효과 */
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    text-align: center;
+    transition: transform 0.3s ease;  /* 호버 애니메이션 준비 */
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);  /* 호버시 위로 올라가는 효과 */
+}
+
+/* 🎭 카드 내부 요소들 */
+.feature-icon {
+    font-size: 3rem;       /* 큰 이모지 아이콘 */
+    margin-bottom: 1rem;
+}
+
+.feature-card h3 {
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.feature-card p {
+    color: #666;           /* 본문은 조금 더 연한 색상 */
+    line-height: 1.6;      /* 가독성을 위한 줄 간격 */
+}
+
+/* 🖼️ 갤러리 섹션 */
+.gallery {
+    margin-bottom: 3rem;
+}
+
+.gallery h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #2c3e50;
+    font-size: 2.5rem;
+}
+
+/* 🎨 갤러리 그리드: 이미지 갤러리의 표준 패턴 */
+.gallery-grid {
+    display: grid;
+    /* 갤러리는 아이템이 더 작아도 괜찮으므로 200px 최소 크기 */
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+/* 🖼️ 갤러리 아이템: aspect-ratio로 정사각형 유지 */
+.gallery-item {
+    aspect-ratio: 1;       /* 🔥 가로:세로 = 1:1 비율 유지 */
+    background: linear-gradient(45deg, #3498db, #9b59b6);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+}
+
+.gallery-item:hover {
+    transform: scale(1.05); /* 호버시 확대 효과 */
+}
+
+/* 🔻 푸터 */
+.footer {
+    background-color: #2c3e50;
+    color: white;
+    text-align: center;
+    padding: 2rem 0;
+    margin-top: 3rem;      /* 메인 콘텐츠와 분리 */
+}
+
+/* ==================== 📱 미디어 쿼리 ==================== */
+/* 반응형 웹 디자인의 핵심! 화면 크기별 스타일 조정 */
+
+/* 📱 태블릿 크기 (768px 이하) - 모바일 메뉴 시작점 */
+/* 768px는 iPad 세로 모드 기준, 가장 일반적인 브레이크포인트 */
+@media screen and (max-width: 768px) {
+    /* 🔄 네비게이션 전환: 데스크톱 메뉴 숨기고 모바일 메뉴 표시 */
+    .nav {
+        display: none;     /* 🔥 데스크톱 네비게이션 완전히 숨김 */
+    }
+    /* 자바스크립트로 모바일 햄버거 메뉴 보이게 한다  */
+    .nav.active {
+    display: block;
+  }
+    /* 📱 모바일 메뉴 버튼 활성화 */
+    .mobile-menu-btn {
+        display: block;    /* 🔥 모바일에서만 햄버거 메뉴 표시 */
+    }
+    
+    /* 📐 컨테이너 여백 조정: 작은 화면에서는 여백 줄이기 */
+    .container {
+        padding: 0 15px;  /* 20px → 15px로 줄여서 공간 확보 */
+    }
+    
+    /* 🚀 히어로 섹션 조정: 모바일에서는 내용을 더 작게 */
+    .hero {
+        padding: 2rem 1rem; /* 4rem → 2rem으로 줄여서 공간 절약 */
+    }
+    
+    /* 📝 타이포그래피 조정: 작은 화면에 맞는 글자 크기 */
+    .hero h1 {
+        font-size: 2rem;   /* 3rem → 2rem으로 축소 */
+    }
+    
+    .hero p {
+        font-size: 1rem;   /* 1.2rem → 1rem으로 축소 */
+    }
+    
+    /* 📦 특징 카드 그리드 조정 */
+    .feature-grid {
+        /* 최소 크기를 250px → 200px로 줄여서 더 많이 들어가게 */
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;       /* 간격도 살짝 줄임 */
+    }
+    
+    .feature-card {
+        padding: 1.5rem;   /* 2rem → 1.5rem으로 패딩 축소 */
+    }
+    
+    /* 🖼️ 갤러리 그리드 조정 */
+    .gallery-grid {
+        /* 갤러리는 더 작게 표시 */
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+    
+}
+
+/* 📱 모바일 크기 (480px 이하) - 스마트폰 세로 모드 */
+/* 작은 스마트폰까지 고려한 최종 조정 */
+@media screen and (max-width: 480px) {
+    /* 🏷️ 로고 크기 조정 */
+    .logo {
+        font-size: 20px;   /* 24px → 20px로 축소 */
+    }
+    
+    /* 🚀 히어로 섹션 최종 조정 */
+    .hero {
+        padding: 1.5rem 0.5rem; /* 더욱 작은 패딩 */
+    }
+    
+    .hero h1 {
+        font-size: 1.8rem; /* 2rem → 1.8rem으로 추가 축소 */
+    }
+    
+    .hero p {
+        font-size: 0.9rem; /* 1rem → 0.9rem으로 축소 */
+    }
+    
+    /* 🎯 CTA 버튼 크기 조정 */
+    .cta-button {
+        padding: 12px 24px; /* 15px 30px → 12px 24px로 축소 */
+        font-size: 16px;    /* 18px → 16px로 축소 */
+    }
+    
+    /* 📝 제목 크기 조정 */
+    .features h2 {
+        font-size: 2rem;    /* 2.5rem → 2rem으로 축소 */
+    }
+    
+    /* 📦 특징 그리드: 모바일에서는 1열로 강제 변경 */
+    .feature-grid {
+        grid-template-columns: 1fr; /* 🔥 auto-fit 대신 1fr로 1열 강제 */
+        gap: 1rem;          /* 간격 더 줄임 */
+    }
+    
+    .feature-card {
+        padding: 1rem;      /* 1.5rem → 1rem으로 최소화 */
+    }
+    
+    .feature-icon {
+        font-size: 2rem;    /* 3rem → 2rem으로 아이콘 축소 */
+    }
+    
+    /* 🖼️ 갤러리 최종 조정 */
+    .gallery h2 {
+        font-size: 2rem;    /* 2.5rem → 2rem으로 축소 */
+    }
+    
+    .gallery-grid {
+        /* 🔥 모바일에서는 2열로 고정 - 너무 작아지지 않게 */
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5rem;        /* 최소 간격 */
+    }
+    
+    .gallery-item {
+        font-size: 1rem;    /* 1.2rem → 1rem으로 축소 */
+    }
+}
+
+/* 🖥️ 큰 화면 (1200px 이상) - 대형 모니터 최적화 */
+/* 큰 화면에서 너무 작아 보이지 않도록 크기 확대 */
+@media screen and (min-width: 1200px) {
+    .hero h1 {
+        font-size: 4rem;    /* 3rem → 4rem으로 확대 */
+    }
+    
+    .hero p {
+        font-size: 1.5rem;  /* 1.2rem → 1.5rem으로 확대 */
+    }
+    
+    /* 🔥 큰 화면에서는 특징 카드를 4열로 고정 */
+    .feature-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    
+    /* 🔥 갤러리는 6열로 고정하여 더 많은 이미지 표시 */
+    .gallery-grid {
+        grid-template-columns: repeat(6, 1fr);
+    }
+}
+
+/* 💡 미디어 쿼리 사용 팁:
+   1. Mobile First vs Desktop First
+      - 이 예제는 Desktop First 방식 (큰 화면 기준으로 작성 후 작은 화면 조정)
+      - Mobile First는 min-width를 사용하여 작은 화면부터 시작
+   
+   2. 주요 브레이크포인트:
+      - 320px: 작은 모바일
+      - 480px: 모바일
+      - 768px: 태블릿
+      - 1024px: 작은 데스크톱
+      - 1200px: 큰 데스크톱
+   
+   3. 테스트 방법:
+      - 브라우저 개발자 도구의 반응형 모드 사용
+      - 실제 기기에서 테스트 (중요!)
+      - 가로/세로 모드 모두 확인
+*/
