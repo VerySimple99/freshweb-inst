@@ -1,0 +1,347 @@
+<!--
+📋 포함된 핵심 CSS 개념들
+🔍 선택자 (Selectors)
+
+전역 선택자 (*) - 모든 요소 초기화
+요소 선택자 (body, h1) - HTML 태그 직접 선택
+클래스 선택자 (.container) - 재사용 가능한 스타일
+속성 선택자 (input[type="text"]) - 특정 속성 가진 요소
+후손 선택자 (.container h1) - 중첩된 요소 선택
+그룹 선택자 (input[type="text"], input[type="email"]) - 여러 요소에 동일 스타일
+
+🎨 레이아웃과 박스 모델
+
+Box Model (margin, padding, border)
+Display (block, flex)
+Position & Alignment (margin: 0 auto, text-align)
+
+✨ 시각적 효과
+
+색상과 배경 (color, background-color)
+테두리와 모서리 (border, border-radius)
+그림자 (box-shadow)
+애니메이션과 전환 (transition, @keyframes)
+
+🖱️ 상호작용
+
+가상 클래스 (:hover, :focus, :active)
+반응형 디자인 (@media queries)
+
+🧩 고급 개념
+
+플렉스박스 기초 (display: flex, align-items)
+
+🎯 교육적 특징
+
+Simple한 구성: 각 개념이 명확히 분리되어 이해하기 쉬움
+풍부한 주석: 모든 CSS 속성에 대한 자세한 한글 설명
+실생활 연결: 실제 회원가입 폼 스타일링으로 현실적 예제
+점진적 학습: 기초부터 고급 개념까지 단계적 구성
+
+💻 실습 방향
+학생들이 이 예제를 통해:
+
+CSS 선택자의 다양한 종류 체험
+박스 모델의 실제 작동 원리 이해
+사용자 경험을 고려한 인터랙티브 요소 구현
+반응형 웹의 기초 개념 습득
+
+-->
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS 기초 - 폼 스타일링</title>
+    <style>
+        /* 🎯 CSS 기초 개념 1: 전역 스타일 설정 (Universal Selector) */
+        * {
+            /* box-sizing: 요소의 크기 계산 방식 설정 */
+            /* border-box: padding과 border를 width/height에 포함 */
+            box-sizing: border-box;
+            /* margin, padding 초기화로 브라우저 기본값 제거 */
+            margin: 0;
+            padding: 0;
+        }
+
+        /* 🎯 CSS 기초 개념 2: 요소 선택자 (Element Selector) */
+        body {
+            /* font-family: 폰트 설정 (fallback 방식) */
+            font-family: 'Malgun Gothic', sans-serif;
+            /* line-height: 줄 간격 (가독성 향상) */
+            line-height: 1.6;
+            /* background-color: 배경색 설정 */
+            background-color: #f5f5f5;
+            /* padding: 내부 여백 (상하좌우 동일) */
+            padding: 20px;
+        }
+
+        /* 🎯 CSS 기초 개념 3: 클래스 선택자 (Class Selector) */
+        .container {
+            /* max-width: 최대 너비 제한 */
+            max-width: 600px;
+            /* margin: 0 auto - 수평 중앙 정렬 */
+            margin: 0 auto;
+            /* background-color: 배경색 */
+            background-color: white;
+            /* padding: 내부 여백 */
+            padding: 30px;
+            /* border-radius: 모서리 둥글게 */
+            border-radius: 10px;
+            /* box-shadow: 그림자 효과 */
+            /* x-offset y-offset blur-radius spread-radius color */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 🎯 CSS 기초 개념 4: 후손 선택자 (Descendant Selector) */
+        .container h1 {
+            /* color: 텍스트 색상 */
+            color: #333;
+            /* text-align: 텍스트 정렬 */
+            text-align: center;
+            /* margin-bottom: 아래쪽 여백 */
+            margin-bottom: 30px;
+            /* font-size: 폰트 크기 */
+            font-size: 28px;
+        }
+
+        /* 🎯 CSS 기초 개념 5: 그룹 선택자 (Group Selector) */
+        fieldset {
+            /* border: 테두리 설정 (두께 스타일 색상) */
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            /* margin: 외부 여백 */
+            margin: 20px 0;
+            padding: 20px;
+            /* background-color: 연한 배경색 */
+            background-color: #fafafa;
+        }
+
+        /* 🎯 CSS 기초 개념 6: 가상 요소 선택자 */
+        legend {
+            /* padding: 좌우 여백 */
+            padding: 0 10px;
+            /* font-weight: 폰트 굵기 */
+            font-weight: bold;
+            color: #555;
+            font-size: 18px;
+            /* background-color: 범례 배경색 */
+            background-color: white;
+        }
+
+        /* 🎯 CSS 기초 개념 7: 속성 선택자 (Attribute Selector) */
+        label {
+            /* display: 요소의 표시 방법 */
+            display: block;
+            margin-bottom: 5px;
+            color: #666;
+            font-weight: 500;
+        }
+
+        /* 🎯 CSS 기초 개념 8: 다중 선택자 */
+        input[type="text"], 
+        input[type="email"] {
+            /* width: 너비 100% */
+            width: 100%;
+            /* padding: 내부 여백 */
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            /* font-size: 입력 텍스트 크기 */
+            font-size: 16px;
+            /* margin-bottom: 아래쪽 여백 */
+            margin-bottom: 15px;
+            /* transition: 애니메이션 효과 */
+            transition: border-color 0.3s ease;
+        }
+
+        /* 🎯 CSS 기초 개념 9: 가상 클래스 선택자 (:focus) */
+        input[type="text"]:focus, 
+        input[type="email"]:focus {
+            /* outline: 기본 포커스 테두리 제거 */
+            outline: none;
+            /* border-color: 포커스 시 테두리 색상 변경 */
+            border-color: #007bff;
+            /* box-shadow: 포커스 시 그림자 효과 */
+            box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+        }
+
+        /* 🎯 CSS 기초 개념 10: 체크박스 스타일링 */
+        .checkbox-wrapper {
+            /* display: flex - 플렉스 박스 레이아웃 */
+            display: flex;
+            /* align-items: 수직 중앙 정렬 */
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .checkbox-wrapper input[type="checkbox"] {
+            /* margin-right: 오른쪽 여백 */
+            margin-right: 8px;
+            /* transform: 크기 조절 */
+            transform: scale(1.2);
+        }
+
+        .checkbox-wrapper label {
+            /* margin-bottom: 라벨 아래 여백 제거 */
+            margin-bottom: 0;
+            /* cursor: 마우스 커서 모양 변경 */
+            cursor: pointer;
+        }
+
+        /* 🎯 CSS 기초 개념 11: 버튼 스타일링 */
+        .submit-btn {
+            /* background-color: 배경색 */
+            background-color: #007bff;
+            color: white;
+            /* border: 테두리 제거 */
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            /* display: block - 블록 요소로 변경 */
+            display: block;
+            /* margin: 0 auto - 중앙 정렬 */
+            margin: 20px auto 0;
+            transition: background-color 0.3s ease;
+        }
+
+        /* 🎯 CSS 기초 개념 12: 가상 클래스 (:hover) */
+        .submit-btn:hover {
+            /* hover 시 배경색 변경 */
+            background-color: #0056b3;
+            /* transform: 살짝 위로 이동 효과 */
+            transform: translateY(-1px);
+        }
+
+        /* 🎯 CSS 기초 개념 13: 가상 클래스 (:active) */
+        .submit-btn:active {
+            /* active 시 아래로 이동 효과 */
+            transform: translateY(0);
+        }
+
+        /* 🎯 CSS 기초 개념 14: 반응형 디자인 (Media Query) */
+        @media (max-width: 768px) {
+            .container {
+                /* 모바일에서 여백 줄이기 */
+                padding: 20px;
+                margin: 10px;
+                background-color: rgb(0, 255, 255);
+            }
+            
+            .container h1 {
+                font-size: 24px;
+            }
+            
+            fieldset {
+                padding: 15px;
+            }
+        }
+
+        /* 🎯 CSS 기초 개념 15: 사용자 정의 클래스 */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .required {
+            color: #e74c3c;
+        }
+
+        /* 🎯 CSS 기초 개념 16: 애니메이션 효과 */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .container {
+            /* animation: 페이지 로드 시 애니메이션 */
+            animation: fadeIn 0.8s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <!-- 🎯 HTML 구조와 CSS 클래스 연결 -->
+    <div class="container">
+        <h1>CSS 스타일링 실습 - 회원가입 폼</h1>
+        
+        <form>
+            <!-- 🔍 fieldset과 legend로 논리적 그룹화 -->
+            <fieldset>
+                <legend>개인 정보 <span class="required">*</span></legend>
+                
+                <div class="form-group">
+                    <label for="name">이름 <span class="required">*</span></label>
+                    <input type="text" id="name" name="name" required 
+                           placeholder="홍길동">
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">이메일 <span class="required">*</span></label>
+                    <input type="email" id="email" name="email" required 
+                           placeholder="example@email.com">
+                </div>
+                
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" id="agree" name="agree" required>
+                    <label for="agree">개인정보 수집 및 이용에 동의합니다</label>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>주소 정보</legend>
+                
+                <div class="form-group">
+                    <label for="address">주소</label>
+                    <input type="text" id="address" name="address" 
+                           placeholder="서울특별시 강남구...">
+                </div>
+                
+                <div class="form-group">
+                    <label for="city">도시</label>
+                    <input type="text" id="city" name="city" 
+                           placeholder="서울">
+                </div>
+            </fieldset>
+
+            <button type="submit" class="submit-btn">회원가입</button>
+        </form>
+    </div>
+
+    <!-- 💡 실습 포인트 안내 -->
+    <script>
+        // 🎯 JavaScript와 CSS 상호작용 예제
+        document.querySelector('.submit-btn').addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // 폼 유효성 검사 후 시각적 피드백
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const agree = document.getElementById('agree').checked;
+            
+            if (!name || !email || !agree) {
+                alert('필수 항목을 모두 입력해주세요!');
+                return;
+            }
+            
+            // 성공 시 버튼 스타일 변경
+            this.style.backgroundColor = '#28a745';
+            this.textContent = '가입 완료!';
+            this.style.transform = 'scale(1.05)';
+            
+            setTimeout(() => {
+                this.style.backgroundColor = '#007bff';
+                this.textContent = '회원가입';
+                this.style.transform = 'scale(1)';
+            }, 2000);
+        });
+    </script>
+</body>
+</html>

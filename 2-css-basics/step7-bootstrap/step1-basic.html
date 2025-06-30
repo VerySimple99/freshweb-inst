@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bootstrap 4 첫 만남 - 버튼과 타이포그래피</title>
+    
+    <!-- 🎯 Bootstrap 4 CDN 연결 - 이 한 줄이 마법의 시작! -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    
+    <style>
+        /* 📋 비교를 위한 순수 HTML 스타일 */
+        .before-bootstrap {
+            background-color: #f8f9fa;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .after-bootstrap {
+            background-color: #e7f3ff;
+            border: 2px solid #007bff;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        /* 순수 HTML 버튼 스타일 (비교용) */
+        .plain-button {
+            background-color: gray;
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .section-divider {
+            border-top: 3px solid #007bff;
+            margin: 40px 0 30px 0;
+            padding-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 🎪 페이지 제목 섹션 -->
+    <div class="container mt-4">
+        <div class="text-center mb-5">
+            <h1 class="display-4 text-primary">Bootstrap 4 첫 만남</h1>
+            <p class="lead">버튼과 타이포그래피로 느끼는 부트스트랩의 마법 ✨</p>
+        </div>
+
+        <!-- 📊 1. Before & After 극명한 비교 -->
+        <section class="section-divider">
+            <h2 class="h3 text-dark mb-4">
+                <span class="badge badge-secondary">1</span> 
+                Before & After 비교체험
+            </h2>
+            
+            <!-- Before: 순수 HTML -->
+            <div class="before-bootstrap">
+                <h4>❌ 순수 HTML (부트스트랩 없음)</h4>
+                <h1>안녕하세요!</h1>
+                <p>이것은 일반적인 HTML 문단입니다.</p>
+                <button class="plain-button">클릭하세요</button>
+                <p><small>💭 뭔가 밋밋하고 아마추어 같은 느낌...</small></p>
+            </div>
+
+            <!-- After: 부트스트랩 적용 -->
+            <div class="after-bootstrap">
+                <h4 class="text-primary">✅ 부트스트랩 4 적용</h4>
+                <h1 class="display-4">안녕하세요!</h1>
+                <p class="lead">이것은 부트스트랩이 적용된 문단입니다.</p>
+                <button class="btn btn-primary btn-lg">클릭하세요</button>
+                <p class="text-muted mt-2">
+                    <small>🎯 즉시 전문적이고 세련된 느낌!</small>
+                </p>
+            </div>
+        </section>
+
+        <!-- 🎨 2. 버튼 컴포넌트 체험관 -->
+        <section class="section-divider">
+            <h2 class="h3 text-dark mb-4">
+                <span class="badge badge-secondary">2</span> 
+                버튼 컴포넌트 체험관
+            </h2>
+            
+            <!-- 기본 색상 버튼들 -->
+            <div class="mb-4">
+                <h5 class="text-info">📌 다양한 색상의 버튼들</h5>
+                <p class="text-muted">상황에 맞는 의미적 색상 사용</p>
+                
+                <!-- 🎯 각 버튼의 의미와 사용 상황 설명 -->
+                <button class="btn btn-primary mr-2 mb-2">Primary (주요 행동)</button>
+                <button class="btn btn-secondary mr-2 mb-2">Secondary (보조 행동)</button>
+                <button class="btn btn-success mr-2 mb-2">Success (성공/완료)</button>
+                <button class="btn btn-info mr-2 mb-2">Info (정보 제공)</button>
+                <button class="btn btn-warning mr-2 mb-2">Warning (주의 필요)</button>
+                <button class="btn btn-danger mr-2 mb-2">Danger (위험/삭제)</button>
+                <button class="btn btn-light mr-2 mb-2">Light (밝은 테마)</button>
+                <button class="btn btn-dark mr-2 mb-2">Dark (어두운 테마)</button>
+            </div>
+
+            <!-- 아웃라인 버튼들 -->
+            <div class="mb-4">
+                <h5 class="text-info">📌 아웃라인 스타일 버튼들</h5>
+                <p class="text-muted">더 가벼운 느낌의 테두리만 있는 버튼</p>
+                
+                <button class="btn btn-outline-primary mr-2 mb-2">Primary Outline</button>
+                <button class="btn btn-outline-success mr-2 mb-2">Success Outline</button>
+                <button class="btn btn-outline-warning mr-2 mb-2">Warning Outline</button>
+                <button class="btn btn-outline-danger mr-2 mb-2">Danger Outline</button>
+            </div>
+
+            <!-- 다양한 크기 버튼들 -->
+            <div class="mb-4">
+                <h5 class="text-info">📌 크기별 버튼들</h5>
+                <p class="text-muted">상황에 맞는 적절한 크기 선택</p>
+                
+                <button class="btn btn-primary btn-lg mr-2 mb-2">Large 버튼</button>
+                <button class="btn btn-primary mr-2 mb-2">기본 크기</button>
+                <button class="btn btn-primary btn-sm mr-2 mb-2">Small 버튼</button>
+            </div>
+
+            <!-- 버튼 상태들 -->
+            <div class="mb-4">
+                <h5 class="text-info">📌 버튼 상태들</h5>
+                <p class="text-muted">사용자 상호작용에 따른 다양한 상태</p>
+                
+                <button class="btn btn-primary mr-2 mb-2">활성화</button>
+                <button class="btn btn-primary mr-2 mb-2" disabled>비활성화</button>
+                <button class="btn btn-success mr-2 mb-2">로딩중...</button>
+            </div>
+        </section>
+
+        <!-- 📝 3. 타이포그래피 시스템 -->
+        <section class="section-divider">
+            <h2 class="h3 text-dark mb-4">
+                <span class="badge badge-secondary">3</span> 
+                타이포그래피 시스템
+            </h2>
+            
+            <!-- 제목 계층 구조 -->
+            <div class="mb-4">
+                <h5 class="text-info">📌 제목 계층 구조 (h1~h6)</h5>
+                <p class="text-muted">정보의 중요도에 따른 시각적 계층</p>
+                
+                <h1>h1. 가장 중요한 제목 (32px)</h1>
+                <h2>h2. 섹션 제목 (28px)</h2>
+                <h3>h3. 하위 섹션 제목 (24px)</h3>
+                <h4>h4. 소제목 (20px)</h4>
+                <h5>h5. 작은 제목 (16px)</h5>
+                <h6>h6. 가장 작은 제목 (14px)</h6>
+            </div>
+
+            <!-- Display 제목들 -->
+            <div class="mb-4">
+                <h5 class="text-info">📌 Display 제목들 (더 큰 임팩트)</h5>
+                <p class="text-muted">히어로 섹션이나 랜딩 페이지의 메인 제목용</p>
+                
+                <h1 class="display-1">Display 1</h1>
+                <h1 class="display-2">Display 2</h1>
+                <h1 class="display-3">Display 3</h1>
+                <h1 class="display-4">Display 4</h1>
+            </div>
+
+            <!-- 문단과 텍스트 스타일 -->
+            <div class="mb-4">
+                <h5 class="text-info">📌 문단과 텍스트 스타일</h5>
+                
+                <p class="lead">
+                    📖 Lead 문단: 중요한 소개글이나 요약에 사용하는 큰 문단입니다. 
+                    일반 문단보다 크고 굵어서 시선을 집중시킵니다.
+                </p>
+                
+                <p>
+                    일반적인 문단입니다. 부트스트랩은 기본적으로 
+                    <strong>가독성이 좋은 폰트</strong>와 
+                    <em>적절한 줄 간격</em>을 제공합니다.
+                    <mark>하이라이트된 텍스트</mark>나 
+                    <small>작은 부가 설명</small>도 쉽게 만들 수 있습니다.
+                </p>
+                
+                <blockquote class="blockquote">
+                    <p class="mb-0">인용문은 이렇게 표현됩니다.</p>
+                    <footer class="blockquote-footer">
+                        유명한 사람 <cite title="Source Title">책 제목</cite>
+                    </footer>
+                </blockquote>
+            </div>
+        </section>
+
+        <!-- 🎨 4. 텍스트 색상과 정렬 -->
+        <section class="section-divider">
+            <h2 class="h3 text-dark mb-4">
+                <span class="badge badge-secondary">4</span> 
+                텍스트 색상과 정렬 유틸리티
+            </h2>
+            
+            <!-- 텍스트 색상 -->
+            <div class="mb-4">
+                <h5 class="text-info">📌 의미적 텍스트 색상</h5>
+                <p class="text-muted">각 색상이 전달하는 의미를 활용</p>
+                
+                <p class="text-primary">Primary: 주요 브랜드 색상</p>
+                <p class="text-secondary">Secondary: 보조 색상</p>
+                <p class="text-success">Success: 성공, 완료, 긍정적 메시지</p>
+                <p class="text-info">Info: 정보 제공, 안내</p>
+                <p class="text-warning">Warning: 주의사항, 경고</p>
+                <p class="text-danger">Danger: 오류, 위험, 삭제</p>
+                <p class="text-light bg-dark p-2">Light: 밝은 텍스트 (어두운 배경에서)</p>
+                <p class="text-dark">Dark: 어두운 텍스트</p>
+                <p class="text-muted">Muted: 부가 설명이나 덜 중요한 정보</p>
+            </div>
+
+            <!-- 텍스트 정렬 -->
+            <div class="mb-4">
+                <h5 class="text-info">📌 텍스트 정렬</h5>
+                <p class="text-muted">CSS를 직접 작성하지 않고 클래스만으로 정렬</p>
+                
+                <p class="text-left">왼쪽 정렬 텍스트 (기본값)</p>
+                <p class="text-center">가운데 정렬 텍스트</p>
+                <p class="text-right">오른쪽 정렬 텍스트</p>
+                <p class="text-justify">
+                    양쪽 정렬 텍스트입니다. 긴 문단에서 양쪽 끝이 깔끔하게 정렬되어 
+                    전문적인 느낌을 줍니다. 신문이나 잡지에서 자주 사용하는 방식입니다.
+                </p>
+            </div>
+
+            <!-- 텍스트 변형 -->
+            <div class="mb-4">
+                <h5 class="text-info">📌 텍스트 변형과 굵기</h5>
+                
+                <p class="text-lowercase">UPPERCASE를 lowercase로 변환</p>
+                <p class="text-uppercase">lowercase를 UPPERCASE로 변환</p>
+                <p class="text-capitalize">각 단어의 첫 글자를 대문자로</p>
+                
+                <p class="font-weight-bold">굵은 텍스트</p>
+                <p class="font-weight-normal">일반 굵기 텍스트</p>
+                <p class="font-weight-light">얇은 텍스트</p>
+                <p class="font-italic">이탤릭 텍스트</p>
+            </div>
+        </section>
+
+        <!-- 🎯 5. 실무 활용 예시 -->
+        <section class="section-divider">
+            <h2 class="h3 text-dark mb-4">
+                <span class="badge badge-secondary">5</span> 
+                실무 활용 미니 예시
+            </h2>
+            
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="card-title mb-0">🚀 회원가입 완료!</h5>
+                </div>
+                <div class="card-body">
+                    <h4 class="text-success">환영합니다!</h4>
+                    <p class="lead">
+                        회원가입이 성공적으로 완료되었습니다.
+                    </p>
+                    <p class="text-muted">
+                        이메일 인증을 완료하시면 모든 서비스를 이용하실 수 있습니다.
+                    </p>
+                    
+                    <div class="text-center mt-4">
+                        <button class="btn btn-success btn-lg mr-2">이메일 확인하기</button>
+                        <button class="btn btn-outline-secondary">나중에 하기</button>
+                    </div>
+                    
+                    <hr>
+                    <p class="text-center text-muted mb-0">
+                        <small>문제가 있으시면 <a href="#" class="text-primary">고객센터</a>로 연락해 주세요.</small>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 📋 핵심 정리 -->
+        <section class="section-divider">
+            <div class="alert alert-info">
+                <h4 class="alert-heading">🎯 오늘의 핵심 포인트</h4>
+                <hr>
+                <ul class="mb-0">
+                    <li><strong>CDN 한 줄로 즉시 변화:</strong> 부트스트랩 CSS 파일 하나만 연결해도 놀라운 변화</li>
+                    <li><strong>의미적 색상 시스템:</strong> primary, success, danger 등으로 직관적인 UI 구성</li>
+                    <li><strong>클래스 기반 스타일링:</strong> CSS를 직접 작성하지 않고도 전문적인 디자인</li>
+                    <li><strong>반응형 기본 지원:</strong> 모든 컴포넌트가 자동으로 모바일 친화적</li>
+                </ul>
+            </div>
+        </section>
+    </div>
+
+    <!-- 🔧 Bootstrap 4 JavaScript (필요한 경우) -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
