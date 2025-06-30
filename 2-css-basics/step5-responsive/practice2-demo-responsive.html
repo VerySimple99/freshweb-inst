@@ -117,5 +117,15 @@
 
     <!-- 💡 JavaScript 없이 CSS만으로 반응형 구현 -->
     <!-- 실제 프로젝트에서는 모바일 메뉴 토글을 위한 JS 필요 -->
+        <script>
+      // 모바일 메뉴 토글 스크립트
+      const menuBtn = document.querySelector('.mobile-menu-btn');
+      const nav = document.querySelector('.nav');
+
+      menuBtn.addEventListener('click', function() {
+        nav.classList.toggle('active');
+      });
+    </script>
+    
 </body>
 </html>

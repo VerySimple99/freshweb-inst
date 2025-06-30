@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>step08-dom</title>
+</head>
+<body>
+<!-- 
+		html 주석  , javascript 주석 /*   */ or // 
+		DOM(Document Object Model : 문서객체모델- web document의 element 를 
+		제어하기 위한 API(Application Programming Interface : 어플리케이션 개발을 위한
+		표준화된 방식을 제공)  
+ -->
+ <input type="text" id="userNick" placeholder="별명">
+ <button type="button" onclick="checkNick()">검색</button>
+ <!-- 
+ 		별명 입력텍스트 요소에 사용자가 별명을 입력하지 않으면 
+ 		별명을 입력하세요!  라는 메세지를 alert 창에 보여준다
+ 		web document 의 behavior(행위, 동작) 이므로 javascript로 구현한다 
+  -->
+  <script type="text/javascript">
+  	 // 함수 정의 
+  	 function checkNick() {
+  		 // 입력양식 element 객체가 반환 
+  		 let nickObj=document.getElementById("userNick");
+  		/*
+		alert(nickObj);
+		//입력양식에 저장된 값을 확인 ,  value 는 입력양식에 저장된 값을 저장하는 속성 
+		alert(nickObj.value);
+		//입력여부를 확인  value==""   공란 비교
+		alert(nickObj.value=="");
+		*/
+		if(nickObj.value==""){
+			alert("닉네임을 입력하세요");
+			nickObj.focus();
+		}else{
+			alert("당신의 닉네임:"+nickObj.value);
+		}
+	}
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

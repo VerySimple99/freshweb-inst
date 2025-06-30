@@ -79,8 +79,8 @@
         .layout-item {
             color: white;
             display: flex;
-            justify-content: center;
-            align-items: center;
+            justify-content: center; /* 가로방향 아이템 가운데 정렬 */
+            align-items: center; /* 세로방향 아이템 가운데 정렬 */
             border-radius: 4px;
             font-weight: bold;
         }

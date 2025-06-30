@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>dom 연습</title>
+</head>
+<body>
+<input type="text" id="orgTxt" onkeyup="enterKey()">
+<button type="button" onclick="moveTxt()">이동</button>
+<input type="text" id="destTxt">
+<!-- 
+		orgTxt 입력란에 사용자가 정보를 입력한 후  이동 버튼을 누르면 
+		destTxt 입력란에 orgTxt 의 입력정보가 이동된다 
+ -->
+ <script type="text/javascript">
+ 	function moveTxt() {
+		let orgTxtComp=document.getElementById("orgTxt");		
+		let destTxtComp=document.getElementById("destTxt");
+		destTxtComp.value=orgTxtComp.value;
+		orgTxtComp.value="";
+		orgTxtComp.focus();
+	}
+ 	// orgTxt 에 포커스를 준 상태에서 키보드 눌렀다 뗄 때는 이벤트 발생시 동작하는 함수
+ 	// 엔터키 이벤트 발생시 텍스트 이동하는 동작을 실행한다 
+ 	function enterKey() {
+		//alert(event.keyCode);
+		if(event.keyCode==13){ // 엔터키 이벤트 코드 
+			moveTxt();
+		}
+	}
+ </script>
+</body>
+</html>
+
+
+
+
+
+
+

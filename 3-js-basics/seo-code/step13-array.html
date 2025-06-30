@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>javascript array</title>
+</head>
+<body>
+<button type="button" onclick="testArray1()">배열테스트1</button>
+<button type="button" onclick="testArray2()">배열테스트2</button>
+<script type="text/javascript">
+	function testArray1(){
+		let arr=new Array(3);
+		arr[0]="오이";
+		arr[1]="당근";
+		arr[2]="배추";
+		for(let i=0;i<arr.length;i++){
+			alert(arr[i]);
+		}
+	}
+	function testArray2() {
+		let arr2=["토마토","딸기","참외"];
+		for(let i=0;i<arr2.length;i++)
+			alert(arr2[i]);
+	}
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
