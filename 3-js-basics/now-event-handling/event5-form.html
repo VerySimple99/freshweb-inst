@@ -1,0 +1,299 @@
+<!-- /* ===== 구식 방법과 현대적 방법 비교 ===== */
+
+/*
+1. DOM 요소 선택:
+   구식: document.getElementsByName("food")
+   현대식: document.querySelectorAll("input[name='food']")
+   
+   장점: CSS 선택자로 더 구체적이고 명확한 선택
+
+2. 이벤트 처리:
+   구식: <form onsubmit="checkForm(event)">
+   현대식: form.addEventListener('submit', validateForm)
+   
+   장점: HTML과 JavaScript 완전 분리, 여러 핸들러 등록 가능
+
+3. 배열 검사:
+   구식: for 반복문 + break
+   현대식: Array.from().some() 메서드
+   
+   장점: 더 직관적이고 함수형 프로그래밍 패러다임
+
+4. 함수 정의:
+   구식: function checkForm(event) {}
+   현대식: const validateForm = (event) => {}
+   
+   장점: 리액트 컴포넌트 패턴과 일치
+
+5. 문자열 생성:
+   구식: 문자열 연결 (+)
+   현대식: 백틱 템플릿 리터럴
+   
+   장점: 가독성 향상, HTML 생성 시 편리
+
+6. 배열 처리:
+   구식: for 반복문으로 수집
+   현대식: filter + map 체이닝
+   
+   장점: 선언적 프로그래밍, 재사용 가능한 패턴
+
+7. 사용자 경험:
+   구식: alert() 사용
+   현대식: DOM 조작으로 시각적 피드백
+   
+   장점: 더 나은 UX, 사용자 친화적
+
+8. 리액트 연계성:
+   - 이벤트 핸들러 패턴이 리액트 onClick과 동일
+   - 상태 검증 로직이 리액트 폼 라이브러리와 유사
+   - 조건부 렌더링 패턴 학습 효과
+*/ -->
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>폼 검증 - 현대적 방식</title>
+</head>
+<body>
+
+<h2>🔍 폼 검증 - querySelector + addEventListener 방식</h2>
+
+<!-- 
+    action : 처리할 서버 프로그램 URL 
+    onsubmit 속성 제거 - JavaScript에서 addEventListener로 처리
+-->
+<form action="view/form-process.jsp" id="menuForm">
+    <!-- 
+        form을 이용한 서버 전송을 위해서는 name은 필수적이다 
+        id는 HTML element를 제어하는 용도로 주로 사용된다 
+    -->
+    <div>
+        <label for="nickName">별명:</label>
+        <input type="text" id="nickName" name="nickName" placeholder="별명을 입력하세요" required>
+    </div>
+    <br>
+    
+    <fieldset>
+        <legend>좋아하는 음식을 선택하세요 (최소 1개)</legend>
+        <input type="checkbox" id="food1" name="food" value="김밥">
+        <label for="food1">~김밥~</label><br>
+        
+        <input type="checkbox" id="food2" name="food" value="돈까스">
+        <label for="food2">*돈까스*</label><br>
+        
+        <input type="checkbox" id="food3" name="food" value="빈대떡">
+        <label for="food3">빈대떡!!!!</label><br>
+    </fieldset>
+    <br>
+    
+    <button type="submit">전송</button>
+    <button type="reset" id="resetBtn">초기화</button>
+</form>
+
+<div id="validationMessage"></div>
+<div id="formData"></div>
+
+<script type="text/javascript">
+
+/* ===== 현대적 폼 검증 - querySelector + addEventListener 방식 ===== */
+
+// 1. DOM 요소들을 querySelector로 선택
+const menuForm = document.querySelector("#menuForm");                    // ID 선택자로 폼 요소
+const nickNameInput = document.querySelector("#nickName");               // ID 선택자로 별명 입력란
+const foodCheckboxes = document.querySelectorAll("input[name='food']");  // 속성 선택자로 음식 체크박스들
+const resetButton = document.querySelector("#resetBtn");                 // ID 선택자로 리셋 버튼
+const messageDiv = document.querySelector("#validationMessage");         // 검증 메시지 표시용
+const formDataDiv = document.querySelector("#formData");                 // 폼 데이터 표시용
+
+// 2. 폼 검증 함수 - 화살표 함수 사용 (리액트 스타일)
+const validateForm = (event) => {
+    console.log('=== 폼 검증 시작 ===');
+    
+    // 별명 입력 검증
+    const nickName = nickNameInput.value.trim();  // trim()으로 공백 제거
+    if (nickName === '') {
+        showValidationMessage('별명을 입력해주세요!', 'error');
+        nickNameInput.focus();  // 포커스를 별명 입력란으로 이동
+        event.preventDefault(); // 폼 전송 중단
+        return false;
+    }
+    
+    // 체크박스 선택 검증 - some() 메서드 사용 (현대적 방식)
+    const isAnyFoodSelected = Array.from(foodCheckboxes).some(checkbox => checkbox.checked);
+    
+    // 구식 방법과 비교를 위한 주석
+    /*
+    // 구식 방법: for 반복문 사용
+    let checkFlag = false;
+    for(let i = 0; i < foodCheckboxes.length; i++){
+        if(foodCheckboxes[i].checked){
+            checkFlag = true;
+            break;
+        }
+    }
+    */
+    
+    if (!isAnyFoodSelected) {
+        showValidationMessage('좋아하는 음식을 최소 1개 선택해주세요!', 'error');
+        
+        // 첫 번째 체크박스에 포커스
+        foodCheckboxes[0].focus();
+        
+        // event.preventDefault(): 기본 동작(폼 전송) 방지
+        event.preventDefault();
+        return false;
+    }
+    
+    // 모든 검증 통과 시
+    showSelectedData();
+    showValidationMessage('검증 완료! 폼이 전송됩니다.', 'success');
+    
+    // 실제 서버 전송을 막고 데모용으로 표시만 하기
+    // 실무에서는 이 부분을 제거하면 서버로 전송됨
+    event.preventDefault();
+    
+    console.log('폼 검증 완료 - 모든 조건 만족');
+    return true;
+};
+
+// 3. 검증 메시지 표시 함수
+const showValidationMessage = (message, type) => {
+    messageDiv.innerHTML = `
+        <div style="
+            padding: 10px; 
+            margin: 10px 0; 
+            border-radius: 5px;
+            border: 1px solid ${type === 'error' ? '#f5c6cb' : '#c3e6cb'};
+            background-color: ${type === 'error' ? '#f8d7da' : '#d4edda'};
+            color: ${type === 'error' ? '#721c24' : '#155724'};
+        ">
+            ${type === 'error' ? '❌' : '✅'} ${message}
+        </div>
+    `;
+    
+    // 3초 후 메시지 자동 제거
+    setTimeout(() => {
+        messageDiv.innerHTML = '';
+    }, 3000);
+};
+
+// 4. 선택된 데이터 표시 함수
+const showSelectedData = () => {
+    const nickName = nickNameInput.value.trim();
+    
+    // 선택된 음식들을 배열로 수집 - filter + map 조합
+    const selectedFoods = Array.from(foodCheckboxes)
+        .filter(checkbox => checkbox.checked)  // 체크된 것만 필터링
+        .map(checkbox => checkbox.value);      // value 값만 추출
+    
+    // 백틱을 사용한 템플릿 리터럴로 HTML 생성
+    const dataHTML = `
+        <h3>📋 입력된 데이터</h3>
+        <div style="background-color: #f8f9fa; padding: 15px; border-radius: 5px; border: 1px solid #dee2e6;">
+            <p><strong>별명:</strong> ${nickName}</p>
+            <p><strong>선택한 음식:</strong></p>
+            <ul>
+                ${selectedFoods.map(food => `<li>${food}</li>`).join('')}
+            </ul>
+            <p><strong>선택된 음식 개수:</strong> ${selectedFoods.length}개</p>
+            <p><strong>전송 시간:</strong> ${new Date().toLocaleString()}</p>
+        </div>
+    `;
+    
+    formDataDiv.innerHTML = dataHTML;
+    
+    console.log('전송될 데이터:', {
+        nickName: nickName,
+        selectedFoods: selectedFoods,
+        timestamp: new Date().toLocaleString()
+    });
+};
+
+// 5. 이벤트 리스너 등록 - addEventListener 사용
+// 구식: <form onsubmit="checkForm(event)">
+// 현대식: addEventListener 사용
+menuForm.addEventListener('submit', validateForm);
+
+// 6. 추가 기능들 - 사용자 경험 개선
+
+// 실시간 입력 검증 - 별명 입력란
+nickNameInput.addEventListener('input', function(event) {
+    const value = event.target.value.trim();
+    
+    // 입력값에 따른 시각적 피드백
+    if (value.length > 0) {
+        event.target.style.borderColor = '#28a745';  // 초록색 테두리
+        event.target.style.backgroundColor = '#f8fff8';
+    } else {
+        event.target.style.borderColor = '#dc3545';  // 빨간색 테두리
+        event.target.style.backgroundColor = '#fff8f8';
+    }
+    
+    // 길이 제한 및 안내
+    if (value.length > 20) {
+        showValidationMessage('별명은 20자 이하로 입력해주세요.', 'error');
+    }
+});
+
+// 실시간 체크박스 검증
+foodCheckboxes.forEach(function(checkbox) {
+    checkbox.addEventListener('change', function(event) {
+        const selectedCount = Array.from(foodCheckboxes)
+            .filter(cb => cb.checked).length;
+        
+        // 선택된 개수에 따른 피드백
+        const fieldset = document.querySelector('fieldset');
+        if (selectedCount > 0) {
+            fieldset.style.borderColor = '#28a745';
+            fieldset.style.backgroundColor = '#f8fff8';
+        } else {
+            fieldset.style.borderColor = '#dc3545';
+            fieldset.style.backgroundColor = '#fff8f8';
+        }
+        
+        console.log(`음식 선택 변경: ${event.target.value} - ${event.target.checked ? '선택' : '해제'}`);
+        console.log(`현재 선택된 개수: ${selectedCount}개`);
+    });
+});
+
+// 리셋 버튼 기능 강화
+resetButton.addEventListener('click', function(event) {
+    // 기본 리셋 동작은 유지하되, 추가 작업 수행
+    setTimeout(() => {
+        // 폼이 리셋된 후 실행
+        messageDiv.innerHTML = '';
+        formDataDiv.innerHTML = '';
+        
+        // 스타일 초기화
+        nickNameInput.style.borderColor = '';
+        nickNameInput.style.backgroundColor = '';
+        
+        const fieldset = document.querySelector('fieldset');
+        fieldset.style.borderColor = '';
+        fieldset.style.backgroundColor = '';
+        
+        showValidationMessage('폼이 초기화되었습니다.', 'success');
+        console.log('폼 초기화 완료');
+    }, 10);
+});
+
+// 7. 페이지 로드 시 초기화
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('폼 검증 시스템 초기화 완료');
+    
+    // 초기 안내 메시지
+    showValidationMessage('별명을 입력하고 좋아하는 음식을 선택해주세요.', 'success');
+    
+    // 첫 번째 입력란에 포커스
+    nickNameInput.focus();
+});
+
+
+
+
+</script>
+</body>
+</html>

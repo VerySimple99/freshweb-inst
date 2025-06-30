@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>기초 DOM 이벤트 - innerHTML vs textContent</title>
+</head>
+<body>
+
+<div id="divTest">div 영역입니다</div>
+<button type="button" id="divTestBtn">div 테스트</button>
+<br><br>
+
+<span id="spanTest1">span 1 영역입니다</span>
+<br><br>
+<button type="button" id="spanTestBtn">span 테스트</button>
+<br><br>
+<span id="spanTest2">span 2 영역입니다</span>
+
+<hr>
+
+<h3>innerHTML vs textContent 비교</h3>
+<div id="htmlTest">HTML 테스트 영역</div>
+<div id="textTest">텍스트 테스트 영역</div>
+<button type="button" id="compareBtn">innerHTML과 textContent 차이 보기</button>
+
+<script type="text/javascript">
+
+/* ===== querySelector + addEventListener 방식 (현대적 방법) ===== */
+
+// 1. DOM 요소 선택 - querySelector 사용
+// 구식: document.getElementById("divTest") 
+// 현대식: document.querySelector("#divTest")
+const divTestElement = document.querySelector("#divTest");
+const divTestButton = document.querySelector("#divTestBtn");
+const spanTest1Element = document.querySelector("#spanTest1");
+const spanTest2Element = document.querySelector("#spanTest2");
+const spanTestButton = document.querySelector("#spanTestBtn");
+const htmlTestElement = document.querySelector("#htmlTest");
+const textTestElement = document.querySelector("#textTest");
+const compareButton = document.querySelector("#compareBtn");
+
+// 2. div 내용 변경 함수 - 화살표 함수 사용 (리액트 스타일)
+const changeDivContent = () => {
+    // 현재 내용을 콘솔에 출력 (기존 alert 대신)
+    console.log('현재 div 내용:', divTestElement.innerHTML);
+    
+    // div 내용을 변경
+    divTestElement.innerHTML = "마지막 시간입니다";
+    
+    console.log('변경된 div 내용:', divTestElement.innerHTML);
+};
+
+// 3. span 내용 변경 함수
+const changeSpanContent = () => {
+    // 첫 번째 span: 텍스트 변경
+    spanTest1Element.innerHTML = "오늘 저녁메뉴는 참치회";
+    
+    // 두 번째 span: HTML 내용 추가 (이미지 대신 HTML 요소 사용)
+    spanTest2Element.innerHTML = "<strong>주종은 소주</strong>";
+    
+    console.log('span 내용 변경 완료');
+};
+
+// 4. innerHTML vs textContent 비교 함수
+const compareHTMLvsText = () => {
+    // 같은 HTML 태그가 포함된 내용을 설정
+    const content = "<h4>제목</h4><p>내용: <strong>중요한 정보</strong></p>";
+    
+    // innerHTML: HTML 태그가 실제 HTML로 해석됨
+    htmlTestElement.innerHTML = content;
+    
+    // textContent: HTML 태그가 그대로 텍스트로 표시됨
+    textTestElement.textContent = content;
+    
+    console.log('=== innerHTML vs textContent 비교 ===');
+    console.log('설정한 내용:', content);
+    console.log('innerHTML 결과:', htmlTestElement.innerHTML);
+    console.log('textContent 결과:', textTestElement.textContent);
+};
+
+// 5. addEventListener로 이벤트 등록 (현대적 방식)
+// 구식: <button onclick="functionName()"> (HTML에 직접 작성)
+// 현대식: addEventListener 사용 (HTML과 JavaScript 분리)
+divTestButton.addEventListener('click', changeDivContent);
+spanTestButton.addEventListener('click', changeSpanContent);
+compareButton.addEventListener('click', compareHTMLvsText);
+
+
+/* ===== 구식 방법과 현대적 방법 비교 ===== */
+
+/*
+1. DOM 요소 선택:
+   구식: document.getElementById("id이름")
+   현대식: document.querySelector("#id이름")
+   
+   - querySelector는 CSS 선택자를 사용하므로 더 유연함
+   - 다른 선택자들과 일관된 문법
+
+2. 이벤트 처리:
+   구식: <button onclick="함수이름()"> (HTML에 직접 작성)
+   현대식: addEventListener('click', 함수이름) (JavaScript에서 처리)
+   
+   - HTML과 JavaScript가 분리되어 유지보수 좋음
+   - 여러 개의 이벤트 핸들러 등록 가능
+
+3. 함수 정의:
+   구식: function 함수이름() { }
+   현대식: const 함수이름 = () => { }
+   
+   - 화살표 함수는 리액트에서 주로 사용하는 패턴
+
+4. innerHTML vs textContent:
+   - innerHTML: HTML 태그를 실제 HTML로 해석
+     예: "<strong>굵게</strong>" → 굵게 (실제로 굵은 글씨)
+   
+   - textContent: HTML 태그를 텍스트로만 표시
+     예: "<strong>굵게</strong>" → <strong>굵게</strong> (태그가 그대로 보임)
+
+5. 언제 무엇을 사용할까?
+   - innerHTML: HTML 요소를 동적으로 추가할 때 (예: 버튼, 이미지 등)
+   - textContent: 단순한 텍스트만 변경할 때 (보안상 더 안전)
+*/
+
+</script>
+</body>
+</html>

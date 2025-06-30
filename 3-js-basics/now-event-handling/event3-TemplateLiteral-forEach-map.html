@@ -1,0 +1,324 @@
+<!--
+1. 백틱 (Template Literal)
+
+기본 개념: ${} 문법으로 변수 삽입
+실생활 비유: "편지 양식에 이름 넣기"
+HTML 생성: 복잡한 문자열 연결을 간단하게
+
+2. forEach
+
+기본 개념: 배열의 각 요소에 대해 함수 실행
+실생활 비유: "학생 명단을 하나씩 호명하기"
+주의사항: 반환값 없음, 단순 반복용
+
+3. map
+
+기본 개념: 배열을 변환하여 새로운 배열 생성
+실생활 비유: "원본 사진들을 복사해서 필터 적용하기"
+핵심: return 필수, 데이터 변환용
+
+-->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>백틱, forEach, map 기초 학습</title>
+</head>
+<body>
+
+<h2>🎯 백틱, forEach, map 기초 학습</h2>
+
+<div id="output1"></div>
+<div id="output2"></div>
+<div id="output3"></div>
+
+<script type="text/javascript">
+
+/* ===== 1. 백틱(Template Literal) 기초 ===== */
+
+console.log('=== 1. 백틱(Template Literal) 학습 ===');
+
+// 기존 방식: 문자열 연결 (+ 연산자 사용)
+const userName = "김철수";
+const age = 25;
+const city = "서울";
+
+// 구식 방법: 문자열 연결이 복잡하고 가독성이 떨어짐
+const oldWay = "안녕하세요! 제 이름은 " + userName + "이고, " + age + "살입니다. " + city + "에 살고 있습니다.";
+console.log('구식 방법:', oldWay);
+
+// 현대적 방법: 백틱(`) 사용 - Template Literal
+// ${변수명} 형태로 변수를 문자열 안에 직접 삽입 가능
+const modernWay = `안녕하세요! 제 이름은 ${userName}이고, ${age}살입니다. ${city}에 살고 있습니다.`;
+console.log('현대적 방법:', modernWay);
+
+// 백틱의 추가 기능들
+// 1) 여러 줄 문자열 지원
+const multiLine = `
+    이것은 여러 줄로
+    작성된 문자열입니다.
+    줄바꿈이 그대로 유지됩니다.
+`;
+console.log('여러 줄 문자열:', multiLine);
+
+// 2) 표현식(계산) 지원
+const price = 1000;
+const quantity = 3;
+const total = `총 가격: ${price * quantity}원 (개당 ${price}원 × ${quantity}개)`;
+console.log('계산식 포함:', total);
+
+// 3) HTML 태그 생성 시 매우 유용
+const productName = "노트북";
+const productPrice = 1500000;
+const htmlContent = `
+    <div class="product">
+        <h3>${productName}</h3>
+        <p>가격: ${productPrice.toLocaleString()}원</p>
+        <button>구매하기</button>
+    </div>
+`;
+
+// 결과를 화면에 표시
+document.querySelector('#output1').innerHTML = `
+    <h3>📝 백틱 예제 결과</h3>
+    <p><strong>기존 방식:</strong> ${oldWay}</p>
+    <p><strong>백틱 방식:</strong> ${modernWay}</p>
+    <div style="border: 1px solid #ccc; padding: 10px; margin: 10px 0;">
+        <strong>HTML 생성 예제:</strong>
+        ${htmlContent}
+    </div>
+`;
+
+
+/* ===== 2. forEach 기초 ===== */
+
+console.log('=== 2. forEach 학습 ===');
+
+// 배열 준비
+const fruits = ['사과', '바나나', '오렌지', '포도', '딸기'];
+
+// 구식 방법: for 반복문
+console.log('구식 for 반복문:');
+for(let i = 0; i < fruits.length; i++) {
+    console.log(`${i + 1}번째 과일: ${fruits[i]}`);
+}
+
+// 현대적 방법: forEach 사용
+console.log('현대적 forEach:');
+fruits.forEach(function(fruit, index) {
+    // fruit: 현재 처리중인 배열 요소 (사과, 바나나, 오렌지...)
+    // index: 현재 요소의 순서 (0, 1, 2...)
+    console.log(`${index + 1}번째 과일: ${fruit}`);
+});
+
+// 화살표 함수로 더 간결하게 (리액트 스타일)
+console.log('화살표 함수 forEach:');
+fruits.forEach((fruit, index) => {
+    console.log(`🍎 ${index + 1}. ${fruit}`);
+});
+
+// forEach 실무 활용 예제: DOM 조작
+let fruitListHTML = '<h4>🍎 과일 목록</h4><ul>';
+fruits.forEach((fruit, index) => {
+    // 각 과일을 리스트 항목으로 변환
+    fruitListHTML += `<li>${index + 1}. ${fruit} (${fruit.length}글자)</li>`;
+});
+fruitListHTML += '</ul>';
+
+// 결과를 화면에 표시
+document.querySelector('#output2').innerHTML = `
+    <h3>🔄 forEach 예제 결과</h3>
+    ${fruitListHTML}
+    <p><em>※ 콘솔창을 확인하여 forEach 실행 과정을 보세요!</em></p>
+`;
+
+
+/* ===== 3. map 기초 ===== */
+
+console.log('=== 3. map 학습 ===');
+
+// 숫자 배열 준비
+const numbers = [1, 2, 3, 4, 5];
+
+// forEach vs map의 차이점
+console.log('원본 배열:', numbers);
+
+// forEach: 각 요소를 처리하지만 새로운 배열을 반환하지 않음
+let doubledWithForEach = [];
+numbers.forEach(function(number) {
+    doubledWithForEach.push(number * 2);
+});
+console.log('forEach로 2배 만들기:', doubledWithForEach);
+
+// map: 각 요소를 변환하여 새로운 배열을 반환 (권장)
+const doubledWithMap = numbers.map(function(number) {
+    return number * 2;  // return이 중요! 새로운 값을 반환
+});
+console.log('map으로 2배 만들기:', doubledWithMap);
+
+// 화살표 함수로 더 간결하게
+const tripled = numbers.map(number => number * 3);
+console.log('화살표 함수로 3배:', tripled);
+
+// map 실무 활용 예제 1: 배열을 HTML로 변환
+const students = ['김철수', '이영희', '박민수', '최지은'];
+
+const studentListHTML = students.map((student, index) => {
+    // 각 학생을 HTML 리스트 항목으로 변환
+    return `<li>👨‍🎓 ${index + 1}번 학생: ${student}</li>`;
+}).join('');  // join(''): 배열을 문자열로 연결
+
+console.log('학생 목록 HTML:', studentListHTML);
+
+// map 실무 활용 예제 2: 객체 배열 처리
+const products = [
+    {name: '노트북', price: 1500000},
+    {name: '마우스', price: 30000},
+    {name: '키보드', price: 80000}
+];
+
+// 각 상품을 카드 형태의 HTML로 변환
+const productCardsHTML = products.map((product, index) => {
+    return `
+        <div style="border: 1px solid #ddd; padding: 10px; margin: 5px; border-radius: 5px;">
+            <h4>${product.name}</h4>
+            <p>💰 가격: ${product.price.toLocaleString()}원</p>
+            <button>구매하기</button>
+        </div>
+    `;
+}).join('');
+
+// 가격만 추출하여 새로운 배열 만들기
+const prices = products.map(product => product.price);
+console.log('가격 배열:', prices);
+
+// 할인된 가격 계산 (10% 할인)
+const discountedPrices = products.map(product => {
+    const discountPrice = product.price * 0.9;
+    return {
+        name: product.name,
+        originalPrice: product.price,
+        discountPrice: Math.floor(discountPrice)  // 소수점 제거
+    };
+});
+console.log('할인 정보:', discountedPrices);
+
+// 결과를 화면에 표시
+document.querySelector('#output3').innerHTML = `
+    <h3>🔄 map 예제 결과</h3>
+    
+    <h4>📚 학생 목록 (map으로 생성)</h4>
+    <ul>${studentListHTML}</ul>
+    
+    <h4>🛒 상품 목록 (map으로 생성)</h4>
+    ${productCardsHTML}
+    
+    <h4>📊 가격 정보</h4>
+    <p><strong>원래 가격:</strong> ${prices.join(', ')}원</p>
+    <p><em>※ 콘솔창에서 할인 정보도 확인해보세요!</em></p>
+`;
+
+
+/* ===== 4. 세 가지 기술 조합 예제 ===== */
+
+console.log('=== 4. 백틱 + forEach + map 조합 예제 ===');
+
+// 학생 성적 데이터
+const studentGrades = [
+    {name: '김철수', korean: 85, english: 90, math: 78},
+    {name: '이영희', korean: 92, english: 88, math: 95},
+    {name: '박민수', korean: 78, english: 82, math: 85}
+];
+
+// map으로 각 학생의 평균 계산
+const studentsWithAverage = studentGrades.map(student => {
+    const total = student.korean + student.english + student.math;
+    const average = Math.round(total / 3);  // 평균 계산 후 반올림
+    
+    return {
+        name: student.name,
+        korean: student.korean,
+        english: student.english,
+        math: student.math,
+        average: average,
+        grade: average >= 90 ? 'A' : average >= 80 ? 'B' : 'C'  // 삼항 연산자로 등급 결정
+    };
+});
+
+console.log('평균 계산 결과:', studentsWithAverage);
+
+// 백틱과 map을 조합하여 성적표 HTML 생성
+const gradeReportHTML = `
+    <table border="1" style="border-collapse: collapse; width: 100%;">
+        <thead>
+            <tr style="background-color: #f0f0f0;">
+                <th>이름</th><th>국어</th><th>영어</th><th>수학</th><th>평균</th><th>등급</th>
+            </tr>
+        </thead>
+        <tbody>
+            ${studentsWithAverage.map(student => `
+                <tr>
+                    <td>${student.name}</td>
+                    <td>${student.korean}</td>
+                    <td>${student.english}</td>
+                    <td>${student.math}</td>
+                    <td><strong>${student.average}</strong></td>
+                    <td style="color: ${student.grade === 'A' ? 'green' : student.grade === 'B' ? 'blue' : 'red'};">
+                        ${student.grade}
+                    </td>
+                </tr>
+            `).join('')}
+        </tbody>
+    </table>
+`;
+
+// forEach로 각 학생의 상세 정보 출력
+console.log('=== 각 학생 상세 정보 ===');
+studentsWithAverage.forEach((student, index) => {
+    console.log(`${index + 1}번 학생: ${student.name} - 평균: ${student.average}점 (${student.grade}등급)`);
+});
+
+// 결과를 기존 output3에 추가
+document.querySelector('#output3').innerHTML += `
+    <h4>📊 성적표 (백틱 + map + forEach 조합)</h4>
+    ${gradeReportHTML}
+`;
+
+
+/* ===== 핵심 개념 정리 ===== */
+
+/*
+1. 백틱 (Template Literal) - ES6 문법
+   - 기호: ` (백틱, grave accent)
+   - 변수 삽입: ${변수명}
+   - 여러 줄 지원
+   - 표현식 계산 가능
+   - HTML 생성 시 매우 유용
+
+2. forEach - 배열 순회 메서드
+   - 각 요소에 대해 함수 실행
+   - 반환값 없음 (undefined)
+   - 원본 배열 변경하지 않음
+   - 단순 반복 작업에 적합
+
+3. map - 배열 변환 메서드
+   - 각 요소를 변환하여 새로운 배열 반환
+   - 반드시 return 필요
+   - 원본 배열 변경하지 않음
+   - 데이터 변환에 적합
+
+4. 언제 무엇을 사용할까?
+   - 단순 출력, DOM 조작: forEach
+   - 데이터 변환, HTML 생성: map
+   - 문자열 조합: 백틱
+   - 세 개 조합: 복잡한 데이터 처리
+
+5. 리액트 연계성:
+   - JSX에서 map 자주 사용: {items.map(item => <div>{item}</div>)}
+   - 백틱으로 동적 className: className={`btn ${isActive ? 'active' : ''}`}
+   - forEach는 리액트에서 잘 사용하지 않음 (map 선호)
+*/
+
+</script>
+</body>
+</html>

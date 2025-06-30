@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>DOM 이벤트 처리 방식 비교</title>
+  </head>
+  <body>
+    <h2>0. DOM 속성 방식</h2>
+    <input
+      type="text"
+      id="orgTxt"
+      onkeyup="enterKey(event)"
+      placeholder="이동된 텍스트가 여기에 표시"
+    />
+    <button type="button" onclick="moveTxt()">이동</button>
+    <input type="text" id="destTxt" />
+    <h2>1. DOM 속성 방식 (기본 개념 이해용)</h2>
+    <input
+      type="text"
+      id="orgTxt1"
+      placeholder="여기에 입력하고 엔터 또는 이동 버튼"
+    />
+    <button type="button" id="moveBtn1">이동</button>
+    <input
+      type="text"
+      id="destTxt1"
+      placeholder="이동된 텍스트가 여기에 표시"
+    />
+
+    <h2>2. addEventListener 방식 (권장 - 리액트 준비)</h2>
+    <input
+      type="text"
+      id="orgTxt2"
+      placeholder="여기에 입력하고 엔터 또는 이동 버튼"
+    />
+    <button type="button" id="moveBtn2">이동</button>
+    <input
+      type="text"
+      id="destTxt2"
+      placeholder="이동된 텍스트가 여기에 표시"
+    />
+
+    <script type="text/javascript">
+      /* ===== o. HTML 인라인 방식 (element.onclick, element.onkeyup) ===== */
+      function moveTxt() {
+        let orgTxtComp = document.getElementById("orgTxt");
+        let destTxtComp = document.getElementById("destTxt");
+        destTxtComp.value = orgTxtComp.value;
+        orgTxtComp.value = "";
+        orgTxtComp.focus();
+      }
+      // orgTxt 에 포커스를 준 상태에서 키보드 눌렀다 뗄 때는 이벤트 발생시 동작하는 함수
+      // 엔터키 이벤트 발생시 텍스트 이동하는 동작을 실행한다
+      function enterKey(event) {
+        //alert(event.keyCode);
+        if (event.keyCode == 13) {
+          // 엔터키 이벤트 코드
+          moveTxt();
+        }
+      }
+      /* ===== 1. DOM 속성 방식 (element.onclick, element.onkeyup) ===== */
+
+      // DOM 요소들을 선택하여 변수에 저장
+      const orgTxtComp1 = document.getElementById("orgTxt1");
+      const destTxtComp1 = document.getElementById("destTxt1");
+      const moveBtn1 = document.getElementById("moveBtn1");
+
+      // 텍스트 이동 함수 - DOM 속성 방식용
+      function moveTxtProperty() {
+        // 원본 입력란의 값을 목적지 입력란으로 복사
+        destTxtComp1.value = orgTxtComp1.value;
+
+        // 원본 입력란 비우기
+        orgTxtComp1.value = "";
+
+        // 다시 원본 입력란에 포커스 주기 (사용자 편의성)
+        orgTxtComp1.focus();
+      }
+
+      // DOM 속성으로 클릭 이벤트 등록
+      // 단점: 하나의 이벤트 핸들러만 등록 가능
+      moveBtn1.onclick = moveTxtProperty;
+
+      // DOM 속성으로 키보드 이벤트 등록
+      // onkeyup: 키를 눌렀다가 뗄 때 발생하는 이벤트
+      orgTxtComp1.onkeyup = function (event) {
+        // event 객체: 이벤트 발생 시 자동으로 전달되는 객체
+        // event.keyCode: 눌린 키의 고유 번호 (엔터키 = 13)
+        // 최신 방식은 event.key === 'Enter' 사용 권장
+
+        console.log(
+          "DOM 속성 방식 - 눌린 키:",
+          event.key,
+          "키코드:",
+          event.keyCode
+        );
+
+        //if (event.keyCode === 13) {
+        if (event.key === "Enter") {
+          // 엔터키 확인
+          moveTxtProperty(); // 텍스트 이동 함수 호출
+        }
+      };
+
+      /* ===== 2. addEventListener 방식 (권장 - 리액트와 유사한 패턴) ===== */
+
+      // DOM 요소들을 선택하여 변수에 저장
+      // querySelector 사용 (권장) - CSS 선택자로 더 유연하게 요소 선택 가능
+      const orgTxtComp2 = document.querySelector("#orgTxt2"); // ID 선택자
+      const destTxtComp2 = document.querySelector("#destTxt2"); // ID 선택자
+      const moveBtn2 = document.querySelector("#moveBtn2"); // ID 선택자
+
+      // 참고: getElementById vs querySelector 비교
+      // getElementById("orgTxt2")     <- 구식, ID만 선택 가능
+      // querySelector("#orgTxt2")     <- 현대적, CSS 선택자 모두 사용 가능
+      // querySelector(".className")   <- 클래스 선택자
+      // querySelector("button[type='button']")  <- 속성 선택자
+      // querySelector("input:first-child")      <- 가상 선택자
+
+      // 텍스트 이동 함수 - addEventListener 방식용
+      // 화살표 함수 사용 (리액트에서 주로 사용하는 패턴)
+      const moveTxtListener = () => {
+        // 원본 입력란의 값을 목적지 입력란으로 복사
+        destTxtComp2.value = orgTxtComp2.value;
+
+        // 원본 입력란 비우기
+        orgTxtComp2.value = "";
+
+        // 다시 원본 입력란에 포커스 주기
+        orgTxtComp2.focus();
+      };
+
+      // addEventListener로 클릭 이벤트 등록
+      // 장점: 여러 개의 이벤트 핸들러 등록 가능, 이벤트 옵션 설정 가능
+      moveBtn2.addEventListener("click", moveTxtListener);
+
+      // 추가 이벤트 핸들러도 등록 가능 (DOM 속성 방식으로는 불가능)
+      moveBtn2.addEventListener("click", function () {
+        console.log("addEventListener - 버튼이 클릭되었습니다!");
+      });
+
+      // 키보드 이벤트 핸들러 - 화살표 함수와 이벤트 객체 활용
+      const handleKeyUp = (event) => {
+        // event 객체에서 다양한 정보 활용 가능
+        console.log("addEventListener 방식 - 이벤트 정보:");
+        console.log("- 눌린 키:", event.key);
+        console.log("- 키코드:", event.keyCode);
+        console.log("- 이벤트 타입:", event.type);
+        console.log("- 이벤트가 발생한 요소:", event.target);
+
+        // 최신 방식: event.key 사용 (더 직관적)
+        if (event.key === "Enter") {
+          // 기본 동작 방지 (폼 제출 방지 등)
+          event.preventDefault();
+
+          moveTxtListener(); // 텍스트 이동 함수 호출
+
+          console.log("엔터키로 텍스트 이동 완료!");
+        }
+
+        // ESC 키로 입력란 비우기 기능 추가 (addEventListener의 유연성 활용)
+        if (event.key === "Escape") {
+          orgTxtComp2.value = "";
+          console.log("ESC 키로 입력란을 비웠습니다.");
+        }
+      };
+
+      // addEventListener로 키보드 이벤트 등록
+      orgTxtComp2.addEventListener("keyup", handleKeyUp);
+
+      // 추가 기능: 입력란에 포커스 들어올 때와 나갈 때 스타일 변경
+      orgTxtComp2.addEventListener("focus", function (event) {
+        event.target.style.backgroundColor = "#e6f3ff";
+        console.log("입력란에 포커스가 들어왔습니다.");
+      });
+
+      orgTxtComp2.addEventListener("blur", function (event) {
+        event.target.style.backgroundColor = "";
+        console.log("입력란에서 포커스가 나갔습니다.");
+      });
+
+      /* ===== 두 방식의 차이점 정리 ===== */
+
+      /*
+1. DOM 속성 방식 (element.onclick = function)
+   장점: 
+   - 간단하고 직관적
+   - 기본 개념 이해에 적합
+   
+   단점:
+   - 하나의 이벤트 핸들러만 등록 가능
+   - 이벤트 옵션 설정 불가
+   - 이벤트 제거가 복잡
+   
+2. addEventListener 방식 (권장)
+   장점:
+   - 여러 이벤트 핸들러 등록 가능
+   - 이벤트 옵션 설정 가능 (once, passive 등)
+   - removeEventListener로 이벤트 제거 가능
+   - 리액트의 onClick 패턴과 유사
+   - 더 많은 이벤트 정보 활용 가능
+   
+   단점:
+   - DOM 속성 방식보다 코드가 약간 길어짐
+
+3. 리액트와의 연관성:
+   addEventListener의 패턴이 리액트의 onClick={handleClick} 패턴과 매우 유사
+   이벤트 객체 활용법도 동일하게 사용됨
+*/
+    </script>
+  </body>
+</html>

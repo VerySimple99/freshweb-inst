@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>querySelector + addEventListener 예제</title>
+</head>
+<body>
+
+<h2>querySelector + addEventListener 조합 예제</h2>
+
+<!-- ID 선택자 예제 -->
+<div>
+    <label>이름: </label>
+    <input type="text" id="userName" placeholder="이름을 입력하세요">
+    <span id="nameResult"></span>
+</div>
+<br>
+
+<!-- 클래스 선택자 예제 -->
+<div>
+    <button class="colorBtn">빨강</button>
+    <button class="colorBtn">파랑</button>
+    <button class="colorBtn">초록</button>
+    <div class="colorDisplay">색상이 여기에 표시됩니다</div>
+</div>
+<br>
+
+<!-- 속성 선택자 예제 -->
+<form>
+    <input type="text" placeholder="사용자명">
+    <input type="password" placeholder="비밀번호">
+    <button type="submit">로그인</button>
+    <button type="reset">초기화</button>
+</form>
+<br>
+
+<div id="output">이벤트 결과가 여기에 표시됩니다</div>
+
+<script type="text/javascript">
+
+/* ===== 1. ID 선택자 (#id) 사용 예제 ===== */
+
+// getElementById vs querySelector 비교
+// const userNameInput = document.getElementById("userName");     // 구식 방법
+const userNameInput = document.querySelector("#userName");        // 현대적 방법 (권장)
+const nameResult = document.querySelector("#nameResult");         // ID 선택자 사용
+
+// 입력란에 텍스트 입력할 때마다 실시간으로 반응하는 이벤트
+// addEventListener의 첫 번째 매개변수: 이벤트 타입
+// addEventListener의 두 번째 매개변수: 이벤트 핸들러 함수
+userNameInput.addEventListener('input', function(event) {
+    // event.target: 이벤트가 발생한 DOM 요소 (여기서는 input 요소)
+    // event.target.value: 입력란에 입력된 현재 값
+    const inputValue = event.target.value;
+    
+    // 입력된 값의 길이에 따라 다른 메시지 표시
+    if (inputValue.length > 0) {
+        nameResult.textContent = ` 👋 안녕하세요, ${inputValue}님!`;
+        nameResult.style.color = 'blue';
+    } else {
+        nameResult.textContent = '';
+    }
+    
+    console.log('입력된 값:', inputValue);
+});
+
+// 포커스 이벤트 추가 (입력란 클릭 시)
+userNameInput.addEventListener('focus', function(event) {
+    event.target.style.backgroundColor = '#f0f8ff';
+    console.log('이름 입력란에 포커스');
+});
+
+// 블러 이벤트 추가 (입력란에서 포커스 잃을 시)
+userNameInput.addEventListener('blur', function(event) {
+    event.target.style.backgroundColor = '';
+    console.log('이름 입력란에서 포커스 해제');
+});
+
+
+/* ===== 2. 클래스 선택자 (.class) 사용 예제 ===== */
+
+// querySelectorAll: 같은 클래스를 가진 모든 요소를 선택
+// 결과는 NodeList (배열과 유사한 객체)로 반환됨
+const colorButtons = document.querySelectorAll(".colorBtn");      // 클래스 선택자
+const colorDisplay = document.querySelector(".colorDisplay");     // 클래스 선택자
+
+// forEach를 사용하여 각 버튼에 이벤트 리스너 등록
+// NodeList는 forEach 메서드를 지원함 (배열의 메서드와 동일)
+colorButtons.forEach(function(button, index) {
+    // button: 현재 처리중인 버튼 요소
+    // index: 배열에서의 순서 (0, 1, 2...)
+    
+    button.addEventListener('click', function(event) {
+        // event.target.textContent: 클릭된 버튼의 텍스트 내용
+        const colorName = event.target.textContent;
+        
+        // 색상명에 따라 배경색 변경
+        let backgroundColor = '';
+        switch(colorName) {
+            case '빨강':
+                backgroundColor = '#ffebee';
+                break;
+            case '파랑':
+                backgroundColor = '#e3f2fd';
+                break;
+            case '초록':
+                backgroundColor = '#e8f5e8';
+                break;
+        }
+        
+        // 선택된 색상을 화면에 표시
+        colorDisplay.textContent = `선택된 색상: ${colorName}`;
+        colorDisplay.style.backgroundColor = backgroundColor;
+        colorDisplay.style.padding = '10px';
+        colorDisplay.style.borderRadius = '5px';
+        
+        console.log(`${index + 1}번째 버튼 클릭됨: ${colorName}`);
+    });
+    
+    // 마우스 오버 이벤트 추가 (버튼에 마우스 올렸을 때)
+    button.addEventListener('mouseover', function(event) {
+        event.target.style.transform = 'scale(1.1)';
+        event.target.style.transition = 'transform 0.2s';
+    });
+    
+    // 마우스 아웃 이벤트 추가 (버튼에서 마우스 벗어났을 때)
+    button.addEventListener('mouseout', function(event) {
+        event.target.style.transform = 'scale(1)';
+    });
+});
+
+
+/* ===== 3. 속성 선택자 ([attribute]) 사용 예제 ===== */
+
+// 속성 선택자: 특정 속성값을 가진 요소를 선택
+// type="submit" 속성을 가진 button 요소 선택
+const submitButton = document.querySelector("button[type='submit']");   // 속성 선택자
+const resetButton = document.querySelector("button[type='reset']");     // 속성 선택자
+const formElement = document.querySelector("form");                     // 태그 선택자
+const outputDiv = document.querySelector("#output");                    // ID 선택자
+
+// 폼 제출 이벤트 처리
+submitButton.addEventListener('click', function(event) {
+    // event.preventDefault(): 기본 동작(폼 제출)을 막음
+    // 이를 통해 페이지 새로고침 없이 자바스크립트로 처리 가능
+    event.preventDefault();
+    
+    // 폼 내의 모든 input 요소 선택
+    // input[type="text"]: type이 text인 input만 선택
+    const textInputs = document.querySelectorAll("input[type='text']");
+    const passwordInputs = document.querySelectorAll("input[type='password']");
+    
+    // 입력값 수집
+    let formData = {};
+    textInputs.forEach(function(input, index) {
+        formData[`text${index}`] = input.value;
+    });
+    passwordInputs.forEach(function(input, index) {
+        formData[`password${index}`] = input.value;
+    });
+    
+    // 결과 표시
+    outputDiv.innerHTML = `
+        <h3>폼 제출 정보:</h3>
+        <p>사용자명: ${formData.text0 || '입력되지 않음'}</p>
+        <p>비밀번호: ${formData.password0 ? '***입력됨***' : '입력되지 않음'}</p>
+        <p>제출 시간: ${new Date().toLocaleString()}</p>
+    `;
+    outputDiv.style.backgroundColor = '#e8f5e8';
+    outputDiv.style.padding = '15px';
+    outputDiv.style.borderRadius = '5px';
+    
+    console.log('폼 제출 데이터:', formData);
+});
+
+// 초기화 버튼 이벤트 처리
+resetButton.addEventListener('click', function(event) {
+    // 초기화 버튼의 기본 동작은 유지 (폼 초기화)
+    // 단, 추가적인 작업 수행
+    
+    setTimeout(function() {
+        // setTimeout: 폼이 초기화된 후 실행되도록 약간의 지연
+        outputDiv.innerHTML = '폼이 초기화되었습니다.';
+        outputDiv.style.backgroundColor = '#fff3cd';
+        outputDiv.style.padding = '15px';
+        outputDiv.style.borderRadius = '5px';
+        
+        console.log('폼이 초기화되었습니다.');
+    }, 10);
+});
+
+
+/* ===== 4. 복합 선택자 활용 예제 ===== */
+
+// 첫 번째 input 요소에만 특별한 이벤트 추가
+const firstInput = document.querySelector("input:first-of-type");
+
+firstInput.addEventListener('keydown', function(event) {
+    // 특정 키 조합 감지 (Ctrl + Enter)
+    if (event.ctrlKey && event.key === 'Enter') {
+        event.preventDefault();
+        outputDiv.innerHTML = '🚀 Ctrl + Enter 단축키가 눌렸습니다!';
+        outputDiv.style.backgroundColor = '#d4edda';
+        outputDiv.style.padding = '15px';
+        outputDiv.style.borderRadius = '5px';
+        
+        console.log('Ctrl + Enter 단축키 감지');
+    }
+});
+
+
+/* ===== querySelector의 장점 정리 ===== */
+
+/*
+1. 통일된 선택자 문법:
+   - CSS 선택자와 동일한 문법 사용
+   - jQuery와 유사한 선택자 패턴
+   - 다양한 선택자 조합 가능
+
+2. 유연성:
+   - ID: document.querySelector("#myId")
+   - 클래스: document.querySelector(".myClass")
+   - 속성: document.querySelector("input[type='text']")
+   - 가상선택자: document.querySelector("div:first-child")
+   - 복합: document.querySelector("form input:not([type='hidden'])")
+
+3. 일관성:
+   - 모든 선택자를 querySelector/querySelectorAll로 통일
+   - 코드의 가독성과 유지보수성 향상
+
+4. 리액트 연계:
+   - CSS 모듈, styled-components와 유사한 선택자 패턴
+   - 컴포넌트 기반 개발에 적합한 사고방식
+
+5. 성능:
+   - getElementById보다 미세하게 느리지만 실무에서는 무시할 수준
+   - 유연성과 코드 통일성의 이익이 더 큼
+*/
+
+</script>
+</body>
+</html>
