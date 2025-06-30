@@ -1,24 +1,3 @@
-<!--
-  1. 현대적 DOM 선택
-javascript// 구식: document.getElementsByName("food")
-// 현대식: document.querySelectorAll("input[name='food']")
-
-CSS 속성 선택자로 더 명확하고 구체적인 선택
-다른 선택자들과 일관된 문법 사용
-
-2. addEventListener 패턴
-
-HTML에서 JavaScript 완전 분리
-여러 이벤트 핸들러 등록 가능
-이벤트 객체 완전 활용
-
-3. 리액트 준비 패턴들
-
-화살표 함수: const processOrder = (event) => {}
-forEach 활용: 함수형 프로그래밍 패러다임
-함수 분리: 재사용성과 가독성 증대
--->
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,7 +5,6 @@ forEach 활용: 함수형 프로그래밍 패러다임
 <title>체크박스 - 현대적 방식</title>
 </head>
 <body>
-<h2>체크박스 처리 - querySelector + addEventListener 방식</h2>
 
 <form action="MenuServlet">
 <input type="checkbox" name="food" value="햄버거">햄버거<br>
@@ -35,8 +13,6 @@ forEach 활용: 함수형 프로그래밍 패러다임
 <button type="button" id="orderBtn">주문</button>
 </form>
 
-<div id="result"></div>
-
 <script type="text/javascript">
 
 /* ===== querySelector + addEventListener 방식으로 체크박스 처리 ===== */
@@ -44,142 +20,28 @@ forEach 활용: 함수형 프로그래밍 패러다임
 // 1. DOM 요소 선택 - querySelector 사용
 // 구식: document.getElementsByName("food")  
 // 현대식: document.querySelectorAll("input[name='food']") (권장)
-const foodCheckboxes = document.querySelectorAll("input[name='food']");    // 속성 선택자로 체크박스들 선택
-const orderButton = document.querySelector("#orderBtn");                   // ID 선택자로 버튼 선택
-const resultDiv = document.querySelector("#result");                       // 결과 표시용 div
+const foodCheckboxes = document.querySelectorAll("input[name='food']");
+const orderButton = document.querySelector("#orderBtn");
 
 // 2. 주문 처리 함수 - 화살표 함수 사용 (리액트 스타일)
-const processOrder = (event) => {
-    // event.preventDefault(): 필요한 경우 기본 동작 방지
-    // 여기서는 type="button"이므로 폼 제출되지 않지만, 안전을 위해 추가 가능
-    
+const processOrder = () => {
     console.log('=== 주문 처리 시작 ===');
-    
-    // 선택된 메뉴들을 저장할 배열
-    const selectedMenus = [];
     
     // forEach를 사용하여 각 체크박스 상태 확인
     // NodeList는 forEach 메서드를 지원함
     foodCheckboxes.forEach(function(checkbox, index) {
-        // checkbox: 현재 처리중인 체크박스 DOM 요소
-        // index: 배열에서의 순서 (0, 1, 2...)
-        
         const menuName = checkbox.value;           // 체크박스의 value 속성값
         const isChecked = checkbox.checked;        // 체크 여부 (true/false)
         
         // 콘솔에 각 메뉴의 상태 출력 (기존 alert 대신)
         console.log(`${index + 1}번째 메뉴: ${menuName} - 선택됨: ${isChecked}`);
-        
-        // 체크된 메뉴만 배열에 추가
-        if (isChecked) {
-            selectedMenus.push(menuName);
-        }
     });
-    
-    // 3. 결과 화면에 표시
-    displayOrderResult(selectedMenus);
 };
 
-// 주문 결과를 화면에 표시하는 함수 (함수 분리로 재사용성 증대)
-const displayOrderResult = (selectedMenus) => {
-    let resultHTML = '';
-    
-    if (selectedMenus.length > 0) {
-        // 선택된 메뉴가 있는 경우
-        resultHTML = `
-            <h3>🍽️ 주문 내역</h3>
-            <ul>
-                ${selectedMenus.map(menu => `<li>${menu}</li>`).join('')}
-            </ul>
-            <p><strong>총 ${selectedMenus.length}개 메뉴 선택됨</strong></p>
-            <p>주문 시간: ${new Date().toLocaleString()}</p>
-        `;
-        resultDiv.style.backgroundColor = '#d4edda';
-        resultDiv.style.border = '1px solid #c3e6cb';
-    } else {
-        // 선택된 메뉴가 없는 경우
-        resultHTML = `
-            <h3>⚠️ 알림</h3>
-            <p>메뉴를 선택해주세요!</p>
-        `;
-        resultDiv.style.backgroundColor = '#f8d7da';
-        resultDiv.style.border = '1px solid #f5c6cb';
-    }
-    
-    resultDiv.innerHTML = resultHTML;
-    resultDiv.style.padding = '15px';
-    resultDiv.style.borderRadius = '5px';
-    resultDiv.style.marginTop = '20px';
-};
-
-// 4. addEventListener로 이벤트 등록
+// 3. addEventListener로 이벤트 등록
 // 구식: onclick="testCheckBox()" (HTML에 직접 작성)
 // 현대식: addEventListener 사용 (권장)
 orderButton.addEventListener('click', processOrder);
-
-// 5. 추가 기능: 체크박스 상태 변경 시 실시간 피드백
-foodCheckboxes.forEach(function(checkbox) {
-    // 각 체크박스에 change 이벤트 리스너 추가
-    checkbox.addEventListener('change', function(event) {
-        const menuName = event.target.value;
-        const isChecked = event.target.checked;
-        
-        console.log(`메뉴 선택 변경: ${menuName} - ${isChecked ? '선택함' : '선택 해제'}`);
-        
-        // 시각적 피드백 추가
-        if (isChecked) {
-            event.target.parentElement.style.fontWeight = 'bold';
-            event.target.parentElement.style.color = '#28a745';
-        } else {
-            event.target.parentElement.style.fontWeight = 'normal';
-            event.target.parentElement.style.color = 'black';
-        }
-    });
-});
-
-// 6. 추가 기능: 전체 선택/해제 기능
-const addSelectAllFeature = () => {
-    // 전체 선택 버튼 동적 생성
-    const selectAllBtn = document.createElement('button');
-    selectAllBtn.type = 'button';
-    selectAllBtn.textContent = '전체 선택';
-    selectAllBtn.style.marginLeft = '10px';
-    
-    const deselectAllBtn = document.createElement('button');
-    deselectAllBtn.type = 'button';
-    deselectAllBtn.textContent = '전체 해제';
-    deselectAllBtn.style.marginLeft = '10px';
-    
-    // 버튼들을 주문 버튼 옆에 추가
-    orderButton.parentElement.appendChild(selectAllBtn);
-    orderButton.parentElement.appendChild(deselectAllBtn);
-    
-    // 전체 선택 이벤트
-    selectAllBtn.addEventListener('click', function() {
-        foodCheckboxes.forEach(function(checkbox) {
-            checkbox.checked = true;
-            // change 이벤트 수동 발생으로 시각적 피드백 적용
-            checkbox.dispatchEvent(new Event('change'));
-        });
-        console.log('모든 메뉴 선택됨');
-    });
-    
-    // 전체 해제 이벤트
-    deselectAllBtn.addEventListener('click', function() {
-        foodCheckboxes.forEach(function(checkbox) {
-            checkbox.checked = false;
-            // change 이벤트 수동 발생으로 시각적 피드백 적용
-            checkbox.dispatchEvent(new Event('change'));
-        });
-        console.log('모든 메뉴 선택 해제됨');
-    });
-};
-
-// 페이지 로드 후 추가 기능 활성화
-document.addEventListener('DOMContentLoaded', function() {
-    addSelectAllFeature();
-    console.log('체크박스 기능 초기화 완료');
-});
 
 
 /* ===== 구식 방법과 현대적 방법 비교 ===== */
@@ -188,48 +50,18 @@ document.addEventListener('DOMContentLoaded', function() {
 1. DOM 요소 선택:
    구식: document.getElementsByName("food")
    현대식: document.querySelectorAll("input[name='food']")
-   
-   장점:
-   - CSS 선택자 문법으로 더 명확함
-   - 다른 선택자들과 일관된 문법
-   - 더 구체적인 선택 가능
 
 2. 이벤트 처리:
    구식: onclick="functionName()" (HTML에 직접)
    현대식: addEventListener('click', functionName)
-   
-   장점:
-   - HTML과 JavaScript 분리
-   - 여러 이벤트 핸들러 등록 가능
-   - 이벤트 객체 완전 활용
-   - removeEventListener로 제거 가능
 
 3. 배열 순회:
    구식: for(let i=0; i<array.length; i++)
    현대식: forEach(function(item, index))
-   
-   장점:
-   - 더 직관적이고 읽기 쉬움
-   - index 오류 방지
-   - 함수형 프로그래밍 패러다임
 
 4. 함수 정의:
    구식: function functionName() {}
    현대식: const functionName = () => {}
-   
-   장점:
-   - 리액트 컴포넌트 패턴과 일치
-   - this 바인딩 문제 해결
-   - 더 간결한 문법
-
-5. 결과 표시:
-   구식: alert() 사용
-   현대식: DOM 조작으로 화면에 표시
-   
-   장점:
-   - 사용자 경험 개선
-   - 더 많은 정보 표시 가능
-   - 스타일링 가능
 */
 
 </script>
